@@ -25,10 +25,11 @@ public class TLB {
         return quantidadeDeHit;
     }
 
-    public Integer mapearPagina(Integer page) throws Exception {
+    public Integer mapearPagina(Integer page) throws MissInterruption {
         try {
+            Integer result = this.algoritmo.mapearPagina(page);
             this.quantidadeDeHit++;
-            return this.algoritmo.mapearPagina(page);
+            return result;
         } catch (MissInterruption miss) {
             this.quantidadeDeMiss++;
             throw new MissInterruption();
