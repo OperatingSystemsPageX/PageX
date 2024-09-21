@@ -1,18 +1,18 @@
 package page.x.pagetable;
 
 public class PageTableEntry {
-    private int pageFrameId;
+    private Integer pageFrameId;
     private boolean mappedBit;
-    public PageTableEntry(int pageFrameId, boolean mappedBit) {
+    public PageTableEntry(Integer pageFrameId, boolean mappedBit) {
         this.pageFrameId = pageFrameId;
         this.mappedBit = mappedBit;
     }
 
-    public int getPageFrameId() {
+    public Integer getPageFrameId() {
         return pageFrameId;
     }
 
-    public void setPageFrameId(int pageFrameId) {
+    public void setPageFrameId(Integer pageFrameId) {
         this.pageFrameId = pageFrameId;
     }
 

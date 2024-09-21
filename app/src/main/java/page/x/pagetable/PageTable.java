@@ -6,17 +6,17 @@ import java.util.HashMap;
 
 public class PageTable {
     private HashMap<Integer, PageTableEntry> pageTable;
-    private int sizePte; // considering sizePte in bytes
+    private Integer tamanhoPte; // considering tamanhoPte in bytes
 
     public PageTable() {
         this.pageTable = new HashMap<>();
     }
 
-    public void addPage(int vpn, int pageFrameId) {
+    public void addPage(Integer vpn, Integer pageFrameId) {
         pageTable.put(vpn, new PageTableEntry(pageFrameId, true)); // vpn means virtual page number
     }
 
-    private boolean isPresent(int vpn) throws PageFaultInterruption {
+    private boolean isPresent(Integer vpn) throws PageFaultInterruption {
         PageTableEntry pte = pageTable.get(vpn);
         if (pte == null || !pte.isMapped()) {
             throw new PageFaultInterruption();
@@ -24,7 +24,7 @@ public class PageTable {
         return true;
     }
 
-    public PageTableEntry acessMemory(int vpn) throws PageFaultInterruption {
+    public PageTableEntry acessMemory(Integer vpn) throws PageFaultInterruption {
         if (isPresent(vpn)) {
             return pageTable.get(vpn);
         } else {
@@ -32,26 +32,31 @@ public class PageTable {
         }
     }
 
-    private int getFreePageFrame() {
+    // As funções abaixo serão movidas para o InterruptionHandler
+    private Integer getFreePageFrame() {
         // the idea is to get a free page frame in physical memory and return its id to the handler
         return 0;
     }
 
-    private PageTableEntry handlePageFault(int vpn) {
+    private PageTableEntry handlePageFault(Integer vpn) {
         addPage(vpn, getFreePageFrame());
         return pageTable.get(vpn);
     }
 
-    public int getSizePte() {
-        return sizePte;
+    public Integer getTamanhoPte() {
+        return tamanhoPte;
     }
 
-    private void sizePte(int bits) {
+    public Integer getTamanhoEmPaginas() {
+        return tamanhoPte;
+    }
+
+    public Integer getTamanho() {
+        return pageTable.size() * this.tamanhoPte;
+    }
+
+    @SuppressWarnings("unused")
+    private void tamanhoPte(Integer bits) {
         // implements
     }
-
-    public int size() {
-        return pageTable.size() * this.sizePte;
-    }
-
 }
