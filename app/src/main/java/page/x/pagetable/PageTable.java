@@ -42,6 +42,7 @@ public class PageTable {
         addPage(vpn, getFreePageFrame());
         return pageTable.get(vpn);
     }
+    //
 
     public Integer getTamanhoPte() {
         return tamanhoPte;
