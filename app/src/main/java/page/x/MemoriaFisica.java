@@ -2,6 +2,7 @@ package page.x;
 
 import java.util.HashMap;
 
+import page.x.interruptions.FullPhysicalMemoryInterruption;
 import page.x.pagetable.PageTable;
 import page.x.utils.MathUtils;
 
@@ -16,9 +17,9 @@ public class MemoriaFisica {
         this.memoriaFisica = new HashMap<>();
     }
 
-    public Integer alocarPageFrame () {
+    public Integer alocarPageFrame () throws FullPhysicalMemoryInterruption {
         if (getUtilizacaoMemoriaFisica() >= quantidadeDePageFrames) {
-            throw new IllegalStateException("Não é possível alocar mais PageFrames. Capacidade máxima atingida.");
+            throw new FullPhysicalMemoryInterruption();
         }
 
         Integer pageFrameAleatorio = MathUtils.PegarNumeroAleatorio(pageTable.getTamanhoEmPaginas() + 1, quantidadeDePageFrames);
