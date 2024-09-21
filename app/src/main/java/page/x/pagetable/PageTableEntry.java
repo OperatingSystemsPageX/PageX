@@ -3,9 +3,12 @@ package page.x.pagetable;
 public class PageTableEntry {
     private Integer pageFrameId;
     private boolean mappedBit;
-    public PageTableEntry(Integer pageFrameId, boolean mappedBit) {
+    private VirtualPage virtualPage;
+
+    public PageTableEntry(Integer pageFrameId, boolean mappedBit, VirtualPage virtualPage) {
         this.pageFrameId = pageFrameId;
         this.mappedBit = mappedBit;
+        this.virtualPage = virtualPage;
     }
 
     public Integer getPageFrameId() {
@@ -16,12 +19,16 @@ public class PageTableEntry {
         this.pageFrameId = pageFrameId;
     }
 
-    public boolean isMapped() {
+    public boolean estaMapeada() {
         return mappedBit;
     }
 
-    public void setMapped(boolean mappedBit) {
+    public void mapear(boolean mappedBit) {
         this.mappedBit = mappedBit;
+    }
+
+    public Integer getVirtualPageId() {
+        return this.virtualPage.getId();
     }
 
 }
