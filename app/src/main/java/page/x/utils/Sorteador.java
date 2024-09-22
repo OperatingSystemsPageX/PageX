@@ -2,6 +2,8 @@ package page.x.utils;
 
 import java.util.Random;
 
+import page.x.memoriafisica.PageFrame;
+
 import java.util.HashMap;
 
 public class Sorteador {
@@ -13,7 +15,7 @@ public class Sorteador {
         this.qtdBits = qtdBits;
     }
 
-    public Long sortearNumero(HashMap<Long, Long> sorteados) {
+    public Long sortearNumero(HashMap<Long, PageFrame> sorteados) {
         StringBuilder binaryString = new StringBuilder();
 
         for (int i = 0; i < qtdBits; i++) {
@@ -29,8 +31,6 @@ public class Sorteador {
         while (sorteados.containsKey(numeroAleatorio)) {
             numeroAleatorio = (numeroAleatorio + 1) & limite;
         }
-
-        sorteados.put(numeroAleatorio, numeroAleatorio);
 
         return numeroAleatorio;
     }

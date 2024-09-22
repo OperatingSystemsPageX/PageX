@@ -1,4 +1,4 @@
-package page.x;
+package page.x.memoriafisica;
 
 import java.util.HashMap;
 
@@ -7,9 +7,10 @@ import page.x.pagetable.PageTable;
 import page.x.utils.Sorteador;
 
 public class MemoriaFisica {
+    @SuppressWarnings("unused")
     private PageTable pageTable;
     private Long bitsParaRepresentarPageFrame;
-    private HashMap<Long, Long> memoriaFisica;
+    private HashMap<Long, PageFrame> memoriaFisica;
     private Sorteador sorteador;
 
     public MemoriaFisica (Long qtdBits, Long tamanhoPaginaEmBits) {
@@ -26,7 +27,8 @@ public class MemoriaFisica {
 
         Long pageFrameAleatorio = sorteador.sortearNumero(memoriaFisica);
 
-        memoriaFisica.put(pageFrameAleatorio, 0L);
+        memoriaFisica.put(pageFrameAleatorio, new PageFrame(pageFrameAleatorio));
+
         return pageFrameAleatorio;
     }
 
