@@ -3,19 +3,19 @@ import page.x.interruptions.PageFaultInterruption;
 import java.util.HashMap;
 
 public class PageTable {
-    private HashMap<Integer, PageTableEntry> pageTable; // a key, no caso, integer é o vpn = id da page = indice da pte
-    private Integer tamanhoPte; // considerar o tamanhoPte em bytes
+    private HashMap<Long, PageTableEntry> pageTable; // a key, no caso, Long é o vpn = id da page = indice da pte
+    private Long tamanhoPte; // considerar o tamanhoPte em bytes
 
-    public PageTable() {
+    public PageTable(Long qtdBits, Long tamanhoPaginaEmBits) {
         this.pageTable = new HashMap<>();
     }
 
-    public void addPage(VirtualPage virtualPage, Integer pageFrameId) {
-        Integer vpn = virtualPage.getId();
+    public void addPage(VirtualPage virtualPage, Long pageFrameId) {
+        Long vpn = virtualPage.getId();
         pageTable.put(vpn, new PageTableEntry(pageFrameId, true, virtualPage)); // vpn = virtual page number
     }
 
-    private boolean estaPresenteNaPT(Integer vpn) throws PageFaultInterruption {
+    private boolean estaPresenteNaPT(Long vpn) throws PageFaultInterruption {
         PageTableEntry pte = pageTable.get(vpn);
         if (pte == null || !pte.estaMapeada()) {
             throw new PageFaultInterruption();
@@ -23,7 +23,7 @@ public class PageTable {
         return true;
     }
 
-    public PageTableEntry acessarMemoria(Integer vpn) throws PageFaultInterruption {
+    public PageTableEntry acessarMemoria(Long vpn) throws PageFaultInterruption {
         if (estaPresenteNaPT(vpn)) {
             return pageTable.get(vpn);
         } else {
@@ -32,32 +32,32 @@ public class PageTable {
     }
 
     // As funções abaixo serão movidas para o InterruptionHandler
-    private Integer getPageFrameLivre() {
+    private Long getPageFrameLivre() {
         // a ideia é pegar um page frame livre na memoria fisica e retornar para o handler
-        return 0;
+        return 0L;
     }
 
-    private PageTableEntry handlePageFault(Integer vpn) {
+    private PageTableEntry handlePageFault(Long vpn) {
         VirtualPage page = new VirtualPage(vpn);
         addPage(page, getPageFrameLivre());
         return pageTable.get(vpn);
     }
     //
 
-    public Integer getTamanhoPte() {
+    public Long getTamanhoPte() {
         return tamanhoPte;
     }
 
-    public Integer getQtdDePaginas() {
-        return pageTable.size();
+    public Long getQtdDePaginas() {
+        return 10L;
     }
 
-    public Integer getTamanho() {
+    public Long getTamanho() {
         return pageTable.size() * this.tamanhoPte;
     }
 
     @SuppressWarnings("unused")
-    private void tamanhoPte(Integer bits) {
+    private void tamanhoPte(Long bits) {
         // implements
     }
 }

@@ -1,21 +1,21 @@
 package page.x.pagetable;
 
 public class PageTableEntry {
-    private Integer pageFrameId;
+    private Long pageFrameId;
     private boolean mappedBit;
     private VirtualPage virtualPage;
 
-    public PageTableEntry(Integer pageFrameId, boolean mappedBit, VirtualPage virtualPage) {
+    public PageTableEntry(Long pageFrameId, boolean mappedBit, VirtualPage virtualPage) {
         this.pageFrameId = pageFrameId;
         this.mappedBit = mappedBit;
         this.virtualPage = virtualPage;
     }
 
-    public Integer getPageFrameId() {
+    public Long getPageFrameId() {
         return pageFrameId;
     }
 
-    public void setPageFrameId(Integer pageFrameId) {
+    public void setPageFrameId(Long pageFrameId) {
         this.pageFrameId = pageFrameId;
     }
 
@@ -27,7 +27,7 @@ public class PageTableEntry {
         this.mappedBit = mappedBit;
     }
 
-    public Integer getVirtualPageId() {
+    public Long getVirtualPageId() {
         return this.virtualPage.getId();
     }
 

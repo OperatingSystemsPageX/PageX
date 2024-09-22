@@ -1,13 +1,13 @@
 package page.x.pagetable;
 
 public class VirtualPage {
-    private Integer id;
+    private Long id;
 
-    public VirtualPage(Integer id) {
+    public VirtualPage(Long id) {
         this.id = id;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
