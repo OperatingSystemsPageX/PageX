@@ -1,45 +1,39 @@
-package page.x.algoritmos.substituicao;
-
-import java.util.LinkedList;
+package page.x.TLB.algoritmos.substituicao;
 
 import page.x.TlbEntry;
 import page.x.interruptions.MissInterruption;
 
-public class LRU implements AlgoritmoSubstituicaoI {
-    
+import java.util.LinkedList;
+import java.util.Queue;
+
+public class FIFO implements AlgoritmoSubstituicaoI {
+
     private int quantidadeEntries;
-    
-    private LinkedList<TlbEntry> entries;
 
+    private Queue<TlbEntry> entries;
 
-    public LRU(int quantidadeEntries) {
+    public FIFO(int quantidadeEntries) {
         this.quantidadeEntries = quantidadeEntries;
         this.entries = new LinkedList<>();
     }
 
     @Override
     public Integer mapearPagina(Integer vpn) throws MissInterruption {
-        for (TlbEntry entryAtual : this.entries) {
+        for (TlbEntry entryAtual : entries) {
             if (entryAtual.getVirtualPageNumber().equals(vpn)) {
-                this.execucaoAlgoritmo(entryAtual);
                 return entryAtual.getPageFrameNumber();
             }
         }
         throw new MissInterruption();
     }
 
-    private void execucaoAlgoritmo(TlbEntry entry) {
-        this.entries.remove(entry);
-        this.entries.addLast(entry);
-    }    
-
     @Override
     public void addPaginaMapeada(Integer vpn, Integer pfn) {
         TlbEntry tlbEntry = new TlbEntry(vpn, pfn);
         if (quantidadeEntries == this.entries.size()) {
-            this.entries.removeFirst();
-        } 
-        this.entries.addLast(tlbEntry);
+            this.entries.remove();
+        }
+        this.entries.add(tlbEntry);
     }
 
 }

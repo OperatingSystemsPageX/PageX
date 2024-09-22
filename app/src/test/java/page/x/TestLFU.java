@@ -2,7 +2,8 @@ package page.x;
 
 import org.junit.jupiter.api.Test;
 
-import page.x.algoritmos.substituicao.LFU;
+import page.x.TLB.TLB;
+import page.x.TLB.algoritmos.substituicao.LFU;
 import page.x.interruptions.MissInterruption;
 
 import static org.junit.jupiter.api.Assertions.*;

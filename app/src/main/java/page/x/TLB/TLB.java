@@ -1,6 +1,6 @@
-package page.x;
+package page.x.TLB;
 
-import page.x.algoritmos.substituicao.AlgoritmoSubstituicaoI;
+import page.x.TLB.algoritmos.substituicao.AlgoritmoSubstituicaoI;
 import page.x.interruptions.MissInterruption;
 
 public class TLB {

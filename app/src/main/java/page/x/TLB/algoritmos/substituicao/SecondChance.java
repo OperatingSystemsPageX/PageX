@@ -1,4 +1,4 @@
-package page.x.algoritmos.substituicao;
+package page.x.TLB.algoritmos.substituicao;
 
 import java.util.Queue;
 import java.util.LinkedList;

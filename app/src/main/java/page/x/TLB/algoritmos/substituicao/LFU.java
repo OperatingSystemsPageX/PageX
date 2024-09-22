@@ -1,4 +1,4 @@
-package page.x.algoritmos.substituicao;
+package page.x.TLB.algoritmos.substituicao;
 
 import page.x.interruptions.MissInterruption;
 
