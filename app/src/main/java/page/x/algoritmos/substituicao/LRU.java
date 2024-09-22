@@ -2,42 +2,44 @@ package page.x.algoritmos.substituicao;
 
 import java.util.LinkedList;
 
+import page.x.TlbEntry;
 import page.x.interruptions.MissInterruption;
-import page.x.utils.Pair;
 
 public class LRU implements AlgoritmoSubstituicaoI {
     
-    private LinkedList<Pair<Integer, Integer>> paginas;
+    private int quantidadeEntries;
+    
+    private LinkedList<TlbEntry> entries;
 
-    private int capacidade;
 
-    public LRU(int capacidade) {
-        this.capacidade = capacidade;
-        this.paginas = new LinkedList<Pair<Integer, Integer>>();
+    public LRU(int quantidadeEntries) {
+        this.quantidadeEntries = quantidadeEntries;
+        this.entries = new LinkedList<>();
     }
 
     @Override
-    public Integer mapearPagina(Integer page) throws MissInterruption {
-        for (Pair<Integer, Integer> pageAtual : this.paginas) {
-            if (pageAtual.getPair1().equals(page)) {
-                this.execucaoAlgoritmo(pageAtual);
-                return pageAtual.getPair2();
+    public Integer mapearPagina(Integer vpn) throws MissInterruption {
+        for (TlbEntry entryAtual : this.entries) {
+            if (entryAtual.getVirtualPageNumber().equals(vpn)) {
+                this.execucaoAlgoritmo(entryAtual);
+                return entryAtual.getPageFrameNumber();
             }
         }
         throw new MissInterruption();
     }
 
-    private void execucaoAlgoritmo(Pair<Integer, Integer> substituir) {
-        this.paginas.remove(substituir);
-        this.paginas.addLast(substituir);
+    private void execucaoAlgoritmo(TlbEntry entry) {
+        this.entries.remove(entry);
+        this.entries.addLast(entry);
     }    
 
     @Override
-    public void addPaginaMapeada(Pair<Integer, Integer> page) {
-        if (capacidade == this.paginas.size()) {
-            this.paginas.removeFirst();
+    public void addPaginaMapeada(Integer vpn, Integer pfn) {
+        TlbEntry tlbEntry = new TlbEntry(vpn, pfn);
+        if (quantidadeEntries == this.entries.size()) {
+            this.entries.removeFirst();
         } 
-        this.paginas.addLast(page);
+        this.entries.addLast(tlbEntry);
     }
 
 }
