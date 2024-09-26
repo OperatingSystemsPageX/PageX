@@ -1,8 +1,7 @@
-package page.x;
+package page.x.TLB;
 
-import page.x.algoritmos.substituicao.AlgoritmoSubstituicaoI;
+import page.x.TLB.algoritmos.substituicao.AlgoritmoSubstituicaoI;
 import page.x.interruptions.MissInterruption;
-import page.x.utils.Pair;
 
 public class TLB {
     private AlgoritmoSubstituicaoI algoritmo;
@@ -36,7 +35,7 @@ public class TLB {
         }
     }
 
-    public void addPaginaMapeada(Pair<Integer, Integer> paginaMapina) {
-        this.algoritmo.addPaginaMapeada(paginaMapina);
+    public void addPaginaMapeada(Integer vpn, Integer pfn) {
+        this.algoritmo.addPaginaMapeada(vpn, pfn);
     }
 }
