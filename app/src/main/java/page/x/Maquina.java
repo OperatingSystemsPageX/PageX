@@ -4,7 +4,7 @@ import page.x.estados.SepararBitsState;
 import page.x.estados.TraducaoState;
 
 public class Maquina {
-    TraducaoState traducaoState;
+    private TraducaoState traducaoState;
 
     public Maquina () {
         this.traducaoState = new SepararBitsState(this);

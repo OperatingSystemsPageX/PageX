@@ -3,12 +3,12 @@ package page.x.pagetable;
 public class PageTableEntry {
     private Long pageFrameId;
     private boolean mappedBit;
-    private VirtualPage virtualPage;
+    private VirtualPageContent virtualPageContent;
 
-    public PageTableEntry(Long pageFrameId, boolean mappedBit, VirtualPage virtualPage) {
+    public PageTableEntry(Long pageFrameId, boolean mappedBit, VirtualPageContent virtualPageContent) {
         this.pageFrameId = pageFrameId;
         this.mappedBit = mappedBit;
-        this.virtualPage = virtualPage;
+        this.virtualPageContent = virtualPageContent;
     }
 
     public Long getPageFrameId() {
@@ -25,10 +25,6 @@ public class PageTableEntry {
 
     public void mapear(boolean mappedBit) {
         this.mappedBit = mappedBit;
-    }
-
-    public Long getVirtualPageId() {
-        return this.virtualPage.getId();
     }
 
 }

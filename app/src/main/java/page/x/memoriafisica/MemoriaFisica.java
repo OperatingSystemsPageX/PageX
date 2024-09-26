@@ -10,7 +10,7 @@ public class MemoriaFisica {
     @SuppressWarnings("unused")
     private PageTable pageTable;
     private Long bitsParaRepresentarPageFrame;
-    private HashMap<Long, PageFrame> memoriaFisica;
+    private HashMap<Long, PageFrameContent> memoriaFisica;
     private Sorteador sorteador;
 
     public MemoriaFisica (Long qtdBits, Long tamanhoPaginaEmBits) {
@@ -27,7 +27,7 @@ public class MemoriaFisica {
 
         Long pageFrameAleatorio = sorteador.sortearNumero(memoriaFisica);
 
-        memoriaFisica.put(pageFrameAleatorio, new PageFrame(pageFrameAleatorio));
+        memoriaFisica.put(pageFrameAleatorio, new PageFrameContent());
 
         return pageFrameAleatorio;
     }

@@ -2,7 +2,7 @@ package page.x.utils;
 
 import java.util.Random;
 
-import page.x.memoriafisica.PageFrame;
+import page.x.memoriafisica.PageFrameContent;
 
 import java.util.HashMap;
 
@@ -15,7 +15,7 @@ public class Sorteador {
         this.qtdBits = qtdBits;
     }
 
-    public Long sortearNumero(HashMap<Long, PageFrame> sorteados) {
+    public Long sortearNumero(HashMap<Long, PageFrameContent> sorteados) {
         StringBuilder binaryString = new StringBuilder();
 
         for (int i = 0; i < qtdBits; i++) {
