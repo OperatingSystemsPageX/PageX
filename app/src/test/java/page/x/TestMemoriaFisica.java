@@ -12,13 +12,13 @@ import page.x.memoriafisica.MemoriaFisica;
 class TestMemoriaFisica {
 
     private MemoriaFisica memoriaFisica;
-    private final static Long TAMANHO_DA_MAQUINA_EM_BITS = 8L; // Exemplo: 256 bytes de memória
-    private final static Long TAMANHO_DA_PAGE_EM_BITS = 4L;    // Exemplo: 16 bytes por página
-    private final static Long QUANTIDADE_DE_PAGE_FRAMES = (1L << (TAMANHO_DA_MAQUINA_EM_BITS - TAMANHO_DA_PAGE_EM_BITS)); // Número máximo de frames
+    private final static Long TAMANHO_DA_MAQUINA_EM_BITS = 14L;
+    private final static Long TAMANHO_DA_PAGE_EM_KBS = 4L;
+    private final static Long QUANTIDADE_DE_PAGE_FRAMES = 4L;
 
     @BeforeEach
     void setup() {
-        this.memoriaFisica = new MemoriaFisica(TAMANHO_DA_MAQUINA_EM_BITS, TAMANHO_DA_PAGE_EM_BITS);
+        this.memoriaFisica = new MemoriaFisica(TAMANHO_DA_MAQUINA_EM_BITS, TAMANHO_DA_PAGE_EM_KBS);
     }
 
     @Test

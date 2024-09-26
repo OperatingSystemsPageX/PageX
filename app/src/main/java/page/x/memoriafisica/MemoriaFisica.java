@@ -13,9 +13,9 @@ public class MemoriaFisica {
     private HashMap<Long, PageFrameContent> memoriaFisica;
     private Sorteador sorteador;
 
-    public MemoriaFisica (Long qtdBits, Long tamanhoPaginaEmBits) {
-        this.bitsParaRepresentarPageFrame = bitsParaRepresentarPageFrame(qtdBits, tamanhoPaginaEmBits);
-        this.pageTable = new PageTable(qtdBits, tamanhoPaginaEmBits);
+    public MemoriaFisica (Long qtdBits, Long tamanhoPaginaEmKB) {
+        this.bitsParaRepresentarPageFrame = bitsParaRepresentarPageFrame(qtdBits, tamanhoPaginaEmKB);
+        this.pageTable = new PageTable(qtdBits, tamanhoPaginaEmKB);
         this.memoriaFisica = new HashMap<>();
         this.sorteador = new Sorteador(bitsParaRepresentarPageFrame);
     }
@@ -36,7 +36,8 @@ public class MemoriaFisica {
         return memoriaFisica.size();
     }
 
-    private Long bitsParaRepresentarPageFrame(Long qtdBits, Long tamanhoPaginaEmBits) {
+    private Long bitsParaRepresentarPageFrame(Long qtdBits, Long tamanhoPaginaEmKB) {
+        int tamanhoPaginaEmBits = 10 + (int)(Math.log(tamanhoPaginaEmKB) / Math.log(2));
         return qtdBits - tamanhoPaginaEmBits;
     }
 }
