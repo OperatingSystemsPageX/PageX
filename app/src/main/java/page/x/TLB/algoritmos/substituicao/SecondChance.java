@@ -3,7 +3,7 @@ package page.x.TLB.algoritmos.substituicao;
 import java.util.Queue;
 import java.util.LinkedList;
 
-import page.x.TlbEntry;
+import page.x.TLB.TlbEntry;
 import page.x.interruptions.MissInterruption;
 import page.x.utils.Pair;
 
@@ -50,5 +50,8 @@ public class SecondChance implements AlgoritmoSubstituicaoI {
         }
     }
 
-    
+    @Override
+    public String nomeToString() {
+        return "Second Chance";
+    }
 }

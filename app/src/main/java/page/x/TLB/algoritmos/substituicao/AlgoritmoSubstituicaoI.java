@@ -6,4 +6,6 @@ public interface AlgoritmoSubstituicaoI {
     public Integer mapearPagina(Integer vpn) throws MissInterruption;
 
     public void addPaginaMapeada(Integer vpn, Integer pfn);
+
+    public String nomeToString();
 }

@@ -2,7 +2,7 @@ package page.x.TLB.algoritmos.substituicao;
 
 import page.x.interruptions.MissInterruption;
 
-import page.x.TlbEntry;
+import page.x.TLB.TlbEntry;
 import page.x.utils.Pair;
 
 import java.util.ArrayList;
@@ -54,5 +54,10 @@ public class LFU implements AlgoritmoSubstituicaoI {
             }
         }
         entries.remove(menorAcesso);
+    }
+
+    @Override
+    public String nomeToString() {
+        return "LFU";
     }
 }

@@ -3,17 +3,22 @@ package page.x.TLB;
 import page.x.TLB.algoritmos.substituicao.AlgoritmoSubstituicaoI;
 import page.x.interruptions.MissInterruption;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 public class TLB {
     private AlgoritmoSubstituicaoI algoritmo;
-
+    private  TlbEntry[] tlbEntries;
     private int quantidadeDeMiss;
-
+    private int qtdEntries;
     private int quantidadeDeHit;
 
-    public TLB(AlgoritmoSubstituicaoI algoritmo) {
+    public TLB(AlgoritmoSubstituicaoI algoritmo, int qtdEntries) {
         this.algoritmo = algoritmo;
         this.quantidadeDeMiss = 0;
         this.quantidadeDeHit = 0;
+        this.qtdEntries = qtdEntries;
+        this.tlbEntries = new TlbEntry[qtdEntries];
     }
 
     public int getMiss() {
@@ -34,8 +39,15 @@ public class TLB {
             throw new MissInterruption();
         }
     }
-
     public void addPaginaMapeada(Integer vpn, Integer pfn) {
         this.algoritmo.addPaginaMapeada(vpn, pfn);
+    }
+
+    public String nomeAlgoritmo() {
+        return this.algoritmo.nomeToString();
+    }
+
+    public int getQtdEntries() {
+        return qtdEntries;
     }
 }

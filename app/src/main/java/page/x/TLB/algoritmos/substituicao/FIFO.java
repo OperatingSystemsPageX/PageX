@@ -1,6 +1,6 @@
 package page.x.TLB.algoritmos.substituicao;
 
-import page.x.TlbEntry;
+import page.x.TLB.TlbEntry;
 import page.x.interruptions.MissInterruption;
 
 import java.util.LinkedList;
@@ -34,6 +34,11 @@ public class FIFO implements AlgoritmoSubstituicaoI {
             this.entries.remove();
         }
         this.entries.add(tlbEntry);
+    }
+
+    @Override
+    public String nomeToString() {
+        return "FIFO";
     }
 
 }

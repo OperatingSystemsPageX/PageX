@@ -2,7 +2,7 @@ package page.x.TLB.algoritmos.substituicao;
 
 import java.util.LinkedList;
 
-import page.x.TlbEntry;
+import page.x.TLB.TlbEntry;
 import page.x.interruptions.MissInterruption;
 
 public class LRU implements AlgoritmoSubstituicaoI {
@@ -42,4 +42,8 @@ public class LRU implements AlgoritmoSubstituicaoI {
         this.entries.addLast(tlbEntry);
     }
 
+    @Override
+    public String nomeToString() {
+        return "LRU";
+    }
 }

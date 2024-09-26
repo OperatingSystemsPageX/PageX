@@ -3,6 +3,7 @@ package page.x;
 import org.junit.jupiter.api.Test;
 
 import page.x.TLB.TLB;
+import page.x.TLB.TlbEntry;
 import page.x.TLB.algoritmos.substituicao.SecondChance;
 import page.x.interruptions.MissInterruption;
 
@@ -28,7 +29,7 @@ class TestSecondChance {
     @BeforeEach
     void setup() {
         this.sc1 = new SecondChance(SIZE_SC);
-        this.tlb1 = new TLB(sc1);
+        this.tlb1 = new TLB(sc1, SIZE_SC);
         this.entries = new TlbEntry[QTD_PAIR];
         for (int i = 0; i < QTD_PAIR; i++) {
             this.entries[i] = new TlbEntry(i, i*2);
