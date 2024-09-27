@@ -10,6 +10,7 @@ public class ModoSimulador {
     private Scanner sc = new Scanner(System.in);
     private Maquina maquina;
     private TLB tlb;
+    private AlgoritmoSubstituicaoI algoritmo;
 
     public void maquinaSetUp() {
         System.out.println("Escolha a quantidade de bits de endereçamento para sua máquina (no máximo 64):" + "\n");
@@ -20,7 +21,6 @@ public class ModoSimulador {
     }
 
     public void tlbSetUp() {
-        AlgoritmoSubstituicaoI algoritmo = null;
 
         System.out.println("Defina a quantidade de entradas da sua TLB (no máximo 64):" + "\n");
         int qtdEntry = sc.nextInt();
