@@ -1,4 +1,6 @@
-package page.x;
+package page.x.utils;
+
+import page.x.Maquina;
 
 public class InterruptHandler {
     

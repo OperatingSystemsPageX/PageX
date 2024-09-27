@@ -17,6 +17,7 @@ public class ModoSimulador {
     private Scanner sc = new Scanner(System.in);
     private Maquina maquina;
     private TLB tlb;
+    private AlgoritmoSubstituicaoI algoritmo;
 
     public void maquinaSetUp() {
         System.out.println("\n===============================");
@@ -33,7 +34,6 @@ public class ModoSimulador {
     }
 
     public void tlbSetUp() {
-        AlgoritmoSubstituicaoI algoritmo = null;
 
         System.out.println("\nDefina a quantidade de entradas da sua TLB (máx 64):");
         int qtdEntry = Integer.parseInt(sc.nextLine());
