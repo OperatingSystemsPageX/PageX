@@ -1,8 +1,4 @@
-/* Acessar o endereço físico correspondente ao endereço virtual:
-    - Encontrar o endereço do page frame
-    - Somar o deslocamento
-    - Atualizar a TLB com a virtual page e o page frame
-*/
+
 package page.x.estados;
 
 import page.x.Maquina;
@@ -20,8 +16,17 @@ public class AcessarEnderecoFisicoState implements TraducaoState {
     
     @Override
     public void efetuarOperacao() {
-        System.out.println("Passei pelo acesso ao endereço fisico TLB");
-        TraducaoState proximoEstado = new AtualizarTLBState(maquina, enderecoVirtual);
+        Long offset = enderecoVirtual.getOffset();
+        Long enderecoFisico = (this.PFN * maquina.getTamanhoDaPaginaEmBytes()) + offset;
+
+        System.out.println("\n=============================");
+        System.out.println("        ENDEREÇO FÍSICO:        ");
+        System.out.println("==============================\n");
+
+        System.out.println(enderecoFisico);
+        TraducaoState proximoEstado = new AtualizarTLBState(maquina, enderecoVirtual.getVPN() , this.PFN);
         maquina.setTraducaoState(proximoEstado);
     }
 }
+
+

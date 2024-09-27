@@ -21,7 +21,7 @@ public class AguardarTraducao implements TraducaoState {
         System.out.println("   TRADUÇÃO DE ENDEREÇO   ");
         System.out.println("=========================\n");
 
-        System.out.print("Digite o endereço virtual que deseja traduzir (em formato numérico): ");
+        System.out.print("Digite o endereço virtual que deseja traduzir (em formato numérico decimal): ");
         Long enderecoVirtualCompleto = Long.parseLong(sc.nextLine());
         
         System.out.println("\nEndereço recebido com sucesso!\n");

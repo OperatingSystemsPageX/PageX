@@ -45,4 +45,8 @@ public class PageTable {
         long bitsParaRepresentarPage = (int) (Math.log(tamanhoPaginaEmKB) / Math.log(2));
         this.tamanhoPte = ((bitsParaRepresentarPage + 7) / 8) + 1;
     }
+
+    public Long getPageEmBytes() {
+        return tamanhoPaginaEmKB * 1024;
+    }
 }

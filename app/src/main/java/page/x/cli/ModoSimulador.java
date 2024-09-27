@@ -1,9 +1,11 @@
 package page.x.cli;
 
 import page.x.Maquina;
+import page.x.PageX;
 import page.x.TLB.TLB;
 import page.x.TLB.algoritmos.substituicao.*;
 import page.x.estados.AcessarPageTableState;
+import page.x.estados.AtualizarTLBState;
 import page.x.estados.RecuperarVirtualPageDoDisco;
 import page.x.interruptions.MissInterruption;
 import page.x.interruptions.PageFaultInterruption;
@@ -11,6 +13,7 @@ import page.x.interruptions.PageFaultInterruption;
 import java.util.Scanner;
 
 public class ModoSimulador {
+    private PageX pagex;
     private Scanner sc = new Scanner(System.in);
     private Maquina maquina;
     private TLB tlb;
@@ -113,5 +116,30 @@ public class ModoSimulador {
 
     public void terminarSimulacao() {
         System.out.println("\n✅ Simulação finalizada. Até breve!\n");
+    }
+
+    private void reiniciarTraducao() {
+        System.out.println("\nQual sua próxima ação?\n");
+
+        System.out.println("[1] Traduzir novo endereço");
+        System.out.println("[2] Voltar ao menu inicial");
+        System.out.println("[3] Sair");
+        int option = Integer.parseInt(sc.nextLine());
+
+        switch (option) {
+            case 1:
+                iniciarSimulacao();
+                break;
+            case 2:
+                pagex.menuInicial();
+                return;
+            case 3:
+                System.out.println("\n👋 Obrigado por usar o PageX! Até mais!\n");
+                System.exit(0);
+                break;
+            default:
+                System.out.println("\nOpção inválida. Tente novamente.\n");
+                reiniciarTraducao();
+        }
     }
 }
