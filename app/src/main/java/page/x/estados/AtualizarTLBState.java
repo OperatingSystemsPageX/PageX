@@ -18,8 +18,8 @@ public class AtualizarTLBState implements TraducaoState {
     
     @Override
     public void efetuarOperacao() {
-        TraducaoState proximoEstado = new SepararBitsState(maquina);
+        System.out.println("Passei pela atualizacao da TLB");
+        TraducaoState proximoEstado = new AguardarTraducao(maquina);
         maquina.setTraducaoState(proximoEstado);
-        // Não executa o próximo estado, permite voltar pro main
     }
 }

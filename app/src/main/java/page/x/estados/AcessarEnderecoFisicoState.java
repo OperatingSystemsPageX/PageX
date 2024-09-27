@@ -10,16 +10,18 @@ import page.x.Maquina;
 public class AcessarEnderecoFisicoState implements TraducaoState {
     private Maquina maquina;
     private EnderecoVirtual enderecoVirtual;
+    private Long PFN;
 
-    public AcessarEnderecoFisicoState(Maquina maquina, EnderecoVirtual enderecoVirtual) {
+    public AcessarEnderecoFisicoState(Maquina maquina, Long PFN, EnderecoVirtual enderecoVirtual) {
         this.maquina = maquina;
         this.enderecoVirtual = enderecoVirtual;
+        this.PFN = PFN;
     }
     
     @Override
     public void efetuarOperacao() {
+        System.out.println("Passei pelo acesso ao endereço fisico TLB");
         TraducaoState proximoEstado = new AtualizarTLBState(maquina, enderecoVirtual);
         maquina.setTraducaoState(proximoEstado);
-        maquina.avancarEstado();
     }
 }

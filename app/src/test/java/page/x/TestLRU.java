@@ -32,7 +32,7 @@ class TestLRU {
         this.tlb1 = new TLB(lru1) ;
         this.entries = new TlbEntry[QTD_PAIR];
         for (int i = 0; i < QTD_PAIR; i++) {
-            this.entries[i] = new TlbEntry(i, i*2);
+            this.entries[i] = new TlbEntry((long) i, (long) i*2);
         }
     }
     
@@ -41,7 +41,7 @@ class TestLRU {
     void preenchendoTLBeVerificandoHIT() throws MissInterruption {
         this.preencheTLB(this.tlb1, this.entries, SIZE_LRU);
         for (int i = 0; i < SIZE_LRU; i++) {
-            this.tlb1.mapearPagina(i);
+            this.tlb1.mapearPagina((long) i);
         }
         assertAll(
             () -> assertEquals(0, tlb1.getMiss()),
@@ -55,7 +55,7 @@ class TestLRU {
         this.preencheTLB(this.tlb1, this.entries, SIZE_LRU);
         for (int i = 0; i < QTD_PAIR; i++) {
             try {
-                this.tlb1.mapearPagina(i);
+                this.tlb1.mapearPagina((long) i);
             } catch (MissInterruption msg) {}
         }
         assertAll(
@@ -68,14 +68,14 @@ class TestLRU {
     @DisplayName("Verificando a lógica da LRU-01")
     void preenchendoTLBeVerificandoLRU01() throws MissInterruption {
         this.preencheTLB(this.tlb1, this.entries, SIZE_LRU);
-        this.tlb1.mapearPagina(0);
-        this.tlb1.mapearPagina(4);
+        this.tlb1.mapearPagina(0L);
+        this.tlb1.mapearPagina(4L);
 
-        assertThrows(MissInterruption.class, () -> tlb1.mapearPagina(10000));
+        assertThrows(MissInterruption.class, () -> tlb1.mapearPagina(10000L));
     
-        this.tlb1.addPaginaMapeada(10000, 10001);
+        this.tlb1.addPaginaMapeada(10000L, 10001L);
             
-        assertThrows(MissInterruption.class, () -> tlb1.mapearPagina(1));
+        assertThrows(MissInterruption.class, () -> tlb1.mapearPagina(1L));
         
         assertAll(
             () -> assertEquals(2, tlb1.getMiss()),
@@ -90,14 +90,14 @@ class TestLRU {
         for (int i = SIZE_LRU; i < QTD_PAIR-1; i++) {
             this.tlb1.addPaginaMapeada(entries[i].getVirtualPageNumber(), entries[i].getPageFrameNumber());
         }
-        this.tlb1.mapearPagina(5);
+        this.tlb1.mapearPagina(5L);
         assertAll(
             () -> assertEquals(0, tlb1.getMiss()),
             () -> assertEquals(1, tlb1.getHit())
         );
         this.tlb1.addPaginaMapeada(entries[5].getVirtualPageNumber(), entries[5].getVirtualPageNumber());
         try {
-            this.tlb1.mapearPagina(1);
+            this.tlb1.mapearPagina(1L);
         } catch (Exception e) {}
         assertAll(
             () -> assertEquals(1, tlb1.getMiss()),
@@ -108,7 +108,7 @@ class TestLRU {
     @Test
     @DisplayName("Tentando mapear com TLB Vazia")
     void tentandoMapearComTLBVazia() throws MissInterruption {
-        assertThrows(MissInterruption.class, () -> tlb1.mapearPagina(1));
+        assertThrows(MissInterruption.class, () -> tlb1.mapearPagina(1L));
         assertAll(
             () -> assertEquals(1, tlb1.getMiss()),
             () -> assertEquals(0, tlb1.getHit())

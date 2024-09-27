@@ -24,9 +24,9 @@ public class TLB {
         return quantidadeDeHit;
     }
 
-    public Integer mapearPagina(Integer page) throws MissInterruption {
+    public Long mapearPagina(Long page) throws MissInterruption {
         try {
-            Integer result = this.algoritmo.mapearPagina(page);
+            Long result = this.algoritmo.mapearPagina(page);
             this.quantidadeDeHit++;
             return result;
         } catch (MissInterruption miss) {
@@ -34,7 +34,8 @@ public class TLB {
             throw new MissInterruption();
         }
     }
-    public void addPaginaMapeada(Integer vpn, Integer pfn) {
+
+    public void addPaginaMapeada(Long vpn, Long pfn) {
         this.algoritmo.addPaginaMapeada(vpn, pfn);
     }
 

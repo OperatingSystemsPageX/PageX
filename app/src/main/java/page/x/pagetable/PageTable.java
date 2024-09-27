@@ -1,5 +1,4 @@
 package page.x.pagetable;
-import page.x.interruptions.PageFaultInterruption;
 import java.util.HashMap;
 
 public class PageTable {
@@ -15,16 +14,18 @@ public class PageTable {
     }
 
     public void addPage(Long virtualPageNumber, Long pageFrameId) {
-        VirtualPageContent virtualPageContent = new VirtualPageContent();
-        pageTable.put(virtualPageNumber, new PageTableEntry(pageFrameId, true, virtualPageContent)); // vpn = virtual page number
+        pageTable.put(virtualPageNumber, new PageTableEntry(pageFrameId, true)); // vpn = virtual page number
     }
 
-    private boolean estaPresenteNaPT(Long vpn) throws PageFaultInterruption {
-        PageTableEntry pte = pageTable.get(vpn);
-        if (pte == null || !pte.estaMapeada()) {
-            throw new PageFaultInterruption();
+    public PageTableEntry mapearPagina(Long vpn) {
+        PageTableEntry pageTableEntryExistente = pageTable.get(vpn);
+        if (pageTableEntryExistente == null) {
+            // Simula o estado de uma PTE quando o VPN nunca foi utilizado antes
+            PageTableEntry pageTableEntryNova = new PageTableEntry(0L, false);
+            pageTable.put(vpn, pageTableEntryNova);
+            return pageTableEntryNova;
         }
-        return true;
+        return pageTableEntryExistente;
     }
 
     public Long getTamanhoPte() {

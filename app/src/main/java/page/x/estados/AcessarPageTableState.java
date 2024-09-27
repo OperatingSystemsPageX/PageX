@@ -1,11 +1,8 @@
-/* Acessar a page table:
-    - Olhar o valor do registrador PTBR, e informar que a page table está em tal posição da memória(por default será no final)
-    - Verifica se o PFN já foi alocado por meio do bit de validade(que no nosso contexto, significa estar ou não no HashMap da Page Table)
-    - Ir para o estado que verifica o bit valido(será que precisa mesmo ter esse estado?)
-*/
 package page.x.estados;
 
 import page.x.Maquina;
+import page.x.pagetable.PageTable;
+import page.x.pagetable.PageTableEntry;
 
 public class AcessarPageTableState implements TraducaoState {
     private Maquina maquina;
@@ -18,8 +15,18 @@ public class AcessarPageTableState implements TraducaoState {
     
     @Override
     public void efetuarOperacao() {
-        TraducaoState proximoEstado = new VerificarBitValidoState(maquina, enderecoVirtual);
+        System.out.println("\n============================");
+        System.out.println("  ACESSO À PAGE TABLE ");
+        System.out.println("============================\n");
+
+        System.out.println("Registrador PTBR aponta para o final da memória.\n");
+
+        PageTable pageTable = maquina.getPageTable();
+        PageTableEntry pageTableEntry = pageTable.mapearPagina(enderecoVirtual.getVPN());
+
+        System.out.println("Verificando se a página já foi alocada...\n");
+
+        TraducaoState proximoEstado = new VerificarBitValidoState(maquina, pageTableEntry, enderecoVirtual);
         maquina.setTraducaoState(proximoEstado);
-        maquina.avancarEstado();
     }
 }

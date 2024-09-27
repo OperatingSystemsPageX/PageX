@@ -1,7 +1,7 @@
 package page.x;
 
 import page.x.TLB.TLB;
-import page.x.estados.SepararBitsState;
+import page.x.estados.AguardarTraducao;
 import page.x.estados.TraducaoState;
 import page.x.memoriafisica.MemoriaFisica;
 import page.x.pagetable.PageTable;
@@ -15,32 +15,41 @@ public class Maquina {
 
     public Maquina (Long qtdBits, Long tamanhoDaPaginaEmKB, TLB tlb) {
         this.qtdBits = qtdBits;
-        this.traducaoState = new SepararBitsState(this);
+        this.traducaoState = new AguardarTraducao(this);
         this.tamanhoDaPaginaEmKB = tamanhoDaPaginaEmKB;
         this.tlb = tlb;
     }
+
     public void setTraducaoState(TraducaoState traducaoState) {
         this.traducaoState = traducaoState;
     }
-    public void avancarEstado() {
+
+    public void executarEstadoAtual() throws Exception {
         this.traducaoState.efetuarOperacao();
     }
+
     public TraducaoState getEstado() {
         return this.traducaoState;
     }
 
-    public void setMemoriaFisica() {
+    public void criarMemoriaFisica() {
         this.memoriaFisica = new MemoriaFisica(this.qtdBits, this.tamanhoDaPaginaEmKB);
     }
 
     public Long getQtdBits() {
         return qtdBits;
     }
+
     public Long getTamanhoDaPaginaEmKB() {
         return tamanhoDaPaginaEmKB;
     }
+
     public TLB getTlb() {
         return tlb;
+    }
+
+    public MemoriaFisica getMemoriaFisica() {
+        return memoriaFisica;
     }
 
     public PageTable getPageTable() {

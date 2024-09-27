@@ -1,24 +1,35 @@
-/* Separador de bits:
-    - pega os bits da maquina e realiza as devidas operações para dividir em offset e pfn
-    - cria o objeto EnderecoVirtual
-    - Avança para o estado de verificação da TLB
-*/
 package page.x.estados;
 
 import page.x.Maquina;
 
-public class SepararBitsState  implements TraducaoState {
+public class SepararBitsState implements TraducaoState {
     private Maquina maquina;
+    private Long enderecoVirtualCompleto;
 
-    public SepararBitsState(Maquina maquina) {
+    public SepararBitsState(Maquina maquina, Long enderecoVirtualCompleto) {
         this.maquina = maquina;
+        this.enderecoVirtualCompleto = enderecoVirtualCompleto;
     }
     
     @Override
     public void efetuarOperacao() {
-        EnderecoVirtual enderecoVirtual = new EnderecoVirtual(0, 0);
+        EnderecoVirtual enderecoVirtual = criarEnderecoVirtual(enderecoVirtualCompleto);
         TraducaoState proximoEstado = new VerificarTLBState(maquina, enderecoVirtual);
         maquina.setTraducaoState(proximoEstado);
-        maquina.avancarEstado();
+    }
+
+    private EnderecoVirtual criarEnderecoVirtual(Long enderecoVirtualCompleto) {
+        Long tamanhoPagina = maquina.getTamanhoDaPaginaEmKB() * 1024L;
+        Long VPN = enderecoVirtualCompleto / tamanhoPagina;
+        Long offset = enderecoVirtualCompleto % tamanhoPagina;
+        
+        System.out.println("\n=========================");
+        System.out.println(" SEPARAÇÃO DOS BITS ");
+        System.out.println("=========================\n");
+        System.out.println("Endereço Virtual Completo: " + enderecoVirtualCompleto);
+        System.out.println("VPN: " + VPN);
+        System.out.println("Offset: " + offset);
+        
+        return new EnderecoVirtual(VPN, offset);
     }
 }

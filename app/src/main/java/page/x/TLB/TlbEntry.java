@@ -2,20 +2,20 @@ package page.x.TLB;
 
 public class TlbEntry {
 
-    private Integer virtualPageNumber;
+    private Long virtualPageNumber;
 
-    private Integer pageFrameNumber;
+    private Long pageFrameNumber;
 
-    public TlbEntry(Integer virtualPageNumber, Integer pageFrameNumber) {
+    public TlbEntry(Long virtualPageNumber, Long pageFrameNumber) {
         this.virtualPageNumber = virtualPageNumber;
         this.pageFrameNumber = pageFrameNumber;
     }
 
-    public Integer getVirtualPageNumber() {
+    public Long getVirtualPageNumber() {
         return virtualPageNumber;
     }
 
-    public Integer getPageFrameNumber() {
+    public Long getPageFrameNumber() {
         return pageFrameNumber;
     }
     

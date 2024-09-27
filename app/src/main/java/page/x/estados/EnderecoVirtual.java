@@ -1,19 +1,19 @@
 package page.x.estados;
 
 public class EnderecoVirtual {
-    private int PFN;
-    private int offset;
+    private Long VPN;
+    private Long deslocamento;
 
-    public EnderecoVirtual(int PFN, int offset) {
-        this.PFN = PFN;
-        this.offset = offset;
+    public EnderecoVirtual(Long VPN, Long deslocamento) {
+        this.VPN = VPN;
+        this.deslocamento = deslocamento;
     }
 
-    public int getPFN() {
-        return PFN;
+    public Long getVPN() {
+        return VPN;
     }
 
-    public int getOffset() {
-        return offset;
+    public Long getOffset() {
+        return deslocamento;
     }
 }
