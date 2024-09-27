@@ -13,10 +13,11 @@ public class Maquina {
     private TLB tlb;
     private MemoriaFisica memoriaFisica;
 
-    public Maquina (Long qtdBits, Long tamanhoDaPaginaEmKB) {
+    public Maquina (Long qtdBits, Long tamanhoDaPaginaEmKB, TLB tlb) {
         this.qtdBits = qtdBits;
         this.traducaoState = new SepararBitsState(this);
         this.tamanhoDaPaginaEmKB = tamanhoDaPaginaEmKB;
+        this.tlb = tlb;
     }
     public void setTraducaoState(TraducaoState traducaoState) {
         this.traducaoState = traducaoState;
@@ -32,9 +33,6 @@ public class Maquina {
         this.memoriaFisica = new MemoriaFisica(this.qtdBits, this.tamanhoDaPaginaEmKB);
     }
 
-    public void setTlb(TLB tlb) {
-        this.tlb = tlb;
-    }
     public Long getQtdBits() {
         return qtdBits;
     }

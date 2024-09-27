@@ -6,18 +6,19 @@ import page.x.cli.ModoSimulador;
 import java.util.Scanner;
 
 public class PageX {
-
-    private static ModoAprendizado modoAprendizado;
-    private static ModoSimulador modoSimulador = new ModoSimulador();
-    private static Scanner sc = new Scanner(System.in);
     public static void main(String[] args) {
+        PageX pageX = new PageX();
         System.out.println("---------------------------" + "\n" +
                             " Olá! Bem vindo ao PageX! " + "\n" +
                             "---------------------------" + "\n");
-        menuInicial();
+        pageX.menuInicial();
     }
 
-    public static void menuInicial() {
+    private ModoAprendizado modoAprendizado;
+    private ModoSimulador modoSimulador = new ModoSimulador();
+    private Scanner sc = new Scanner(System.in);
+
+    public void menuInicial() {
         System.out.println("[1] Simular tradução");
         System.out.println("[2] Aprender sobre trade-offs");
         System.out.println("[3] Sair");
@@ -44,7 +45,7 @@ public class PageX {
 
     }
 
-    private static void iniciarModoSimulador() {
+    private void iniciarModoSimulador() {
         modoSimulador.maquinaSetUp();
         modoSimulador.tlbSetUp();
         modoSimulador.imprimeMaquina();

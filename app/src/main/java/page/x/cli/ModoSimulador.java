@@ -58,8 +58,7 @@ public class ModoSimulador {
 
 
     private void montaMaquina(int bits, int pageSize) {
-        this.maquina = new Maquina((long) bits, (long) pageSize);
-        maquina.setTlb(this.tlb);
+        this.maquina = new Maquina((long) bits, (long) pageSize, tlb);
         maquina.setMemoriaFisica();
     }
     public void imprimeMaquina() {
