@@ -44,6 +44,10 @@ public class Maquina {
         return tamanhoDaPaginaEmKB;
     }
 
+    public Long getTamanhoDaPaginaEmBytes() {
+        return this.memoriaFisica.getPageTable().getPageEmBytes();
+    }
+
     public TLB getTlb() {
         return tlb;
     }
