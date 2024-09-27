@@ -8,4 +8,6 @@ public interface AlgoritmoSubstituicaoI {
     public void addPaginaMapeada(Integer vpn, Integer pfn);
 
     public String nomeToString();
+
+    public int getQtdEntries();
 }

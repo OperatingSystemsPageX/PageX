@@ -3,22 +3,17 @@ package page.x.TLB;
 import page.x.TLB.algoritmos.substituicao.AlgoritmoSubstituicaoI;
 import page.x.interruptions.MissInterruption;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-
 public class TLB {
     private AlgoritmoSubstituicaoI algoritmo;
-    private  TlbEntry[] tlbEntries;
+
     private int quantidadeDeMiss;
-    private int qtdEntries;
+
     private int quantidadeDeHit;
 
-    public TLB(AlgoritmoSubstituicaoI algoritmo, int qtdEntries) {
+    public TLB(AlgoritmoSubstituicaoI algoritmo) {
         this.algoritmo = algoritmo;
         this.quantidadeDeMiss = 0;
         this.quantidadeDeHit = 0;
-        this.qtdEntries = qtdEntries;
-        this.tlbEntries = new TlbEntry[qtdEntries];
     }
 
     public int getMiss() {
@@ -48,6 +43,6 @@ public class TLB {
     }
 
     public int getQtdEntries() {
-        return qtdEntries;
+        return this.algoritmo.getQtdEntries();
     }
 }

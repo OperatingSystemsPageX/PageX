@@ -60,4 +60,9 @@ public class LFU implements AlgoritmoSubstituicaoI {
     public String nomeToString() {
         return "LFU";
     }
+
+    @Override
+    public int getQtdEntries() {
+        return this.quantidadeEntries;
+    }
 }

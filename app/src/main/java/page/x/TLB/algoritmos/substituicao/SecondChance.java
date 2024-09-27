@@ -52,6 +52,11 @@ public class SecondChance implements AlgoritmoSubstituicaoI {
 
     @Override
     public String nomeToString() {
-        return "Second Chance";
+        return "SecondChance";
+    }
+
+    @Override
+    public int getQtdEntries() {
+        return this.quantidadeEntries;
     }
 }

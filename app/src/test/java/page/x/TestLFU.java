@@ -29,7 +29,7 @@ class TestLFU {
     @BeforeEach
     void setup() {
         this.lfu1 = new LFU(SIZE_LFU);
-        this.tlb1 = new TLB(lfu1, SIZE_LFU);
+        this.tlb1 = new TLB(lfu1);
         this.entries = new TlbEntry[QTD_PAIR];
         for (int i = 0; i < QTD_PAIR; i++) {
             this.entries[i] = new TlbEntry(i, i*2);

@@ -53,7 +53,7 @@ public class ModoSimulador {
     }
 
     private void montaTLB(int qtdEntry, AlgoritmoSubstituicaoI algoritmo) {
-        this.tlb = new TLB(algoritmo, qtdEntry);
+        this.tlb = new TLB(algoritmo);
     }
 
 

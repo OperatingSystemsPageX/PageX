@@ -46,4 +46,9 @@ public class LRU implements AlgoritmoSubstituicaoI {
     public String nomeToString() {
         return "LRU";
     }
+
+    @Override
+    public int getQtdEntries() {
+        return this.quantidadeEntries;
+    }
 }

@@ -41,4 +41,8 @@ public class FIFO implements AlgoritmoSubstituicaoI {
         return "FIFO";
     }
 
+    @Override
+    public int getQtdEntries() {
+        return this.quantidadeEntries;
+    }
 }

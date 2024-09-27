@@ -29,7 +29,7 @@ class TestSecondChance {
     @BeforeEach
     void setup() {
         this.sc1 = new SecondChance(SIZE_SC);
-        this.tlb1 = new TLB(sc1, SIZE_SC);
+        this.tlb1 = new TLB(sc1);
         this.entries = new TlbEntry[QTD_PAIR];
         for (int i = 0; i < QTD_PAIR; i++) {
             this.entries[i] = new TlbEntry(i, i*2);
