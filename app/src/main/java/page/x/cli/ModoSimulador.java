@@ -4,11 +4,7 @@ import page.x.Maquina;
 import page.x.PageX;
 import page.x.TLB.TLB;
 import page.x.TLB.algoritmos.substituicao.*;
-import page.x.estados.AcessarPageTableState;
-import page.x.estados.AtualizarTLBState;
-import page.x.estados.RecuperarVirtualPageDoDisco;
-import page.x.interruptions.MissInterruption;
-import page.x.interruptions.PageFaultInterruption;
+import page.x.interruptions.Interruption;
 
 import java.util.Scanner;
 
@@ -18,6 +14,10 @@ public class ModoSimulador {
     private Maquina maquina;
     private TLB tlb;
     private AlgoritmoSubstituicaoI algoritmo;
+
+    public ModoSimulador(PageX pagex) {
+        this.pagex = pagex;
+    }
 
     public void maquinaSetUp() {
         System.out.println("\n===============================");
@@ -71,7 +71,6 @@ public class ModoSimulador {
 
     private void montaMaquina(int bits, int pageSize) {
         this.maquina = new Maquina((long) bits, (long) pageSize, tlb);
-        maquina.criarMemoriaFisica();
     }
 
     public void imprimeMaquina() {
@@ -86,17 +85,18 @@ public class ModoSimulador {
         System.out.println("Quantidade de Pages/PageFrames: " + maquina.qtdPages() + "\n");
     }
 
-    public void iniciarSimulacao() {
+    public void iniciarSimulacao() throws Interruption {
         System.out.println(
-                "\n🔄 Iniciando a simulação de traduções de endereço!\n" 
-                + "Ao longo da simulação, você receberá uma pergunta como abaixo\n" 
-                + "=> Qual Endereço Virtual gostaria de traduzir?\n");
+                "\n🔄 Iniciando a simulação de traduções de endereço!\n"
+                        + "Ao longo da simulação, você receberá uma pergunta como abaixo\n"
+                        + "=> Qual Endereço Virtual gostaria de traduzir?\n");
 
         Long traducaoInicial = Long.parseLong(sc.nextLine());
         maquina.iniciarTraducaoDeEndereco(traducaoInicial);
-        while (true) {
-            System.out.println("Digite '.' para continuar a tradução ou '!' para parar:");
-            String option = sc.nextLine();
+
+        System.out.println("Digite '.' para continuar a tradução ou '!' para parar:");
+        String option = sc.nextLine();
+        while (option != "!" && maquina.getEmOperacao()) {
             switch (option) {
                 case ".":
                     maquina.executarEstadoAtual();
@@ -106,17 +106,18 @@ public class ModoSimulador {
                 default:
                     System.out.println("\nOpção inválida. Tente novamente.\n");
             }
-
+            System.out.println("Digite '.' para continuar a tradução ou '!' para parar:");
+            option = sc.nextLine();
         }
+        this.reiniciarTraducao();
     }
 
     public void terminarSimulacao() {
         System.out.println("\n✅ Simulação finalizada. Até breve!\n");
     }
 
-    private void reiniciarTraducao() {
+    private void reiniciarTraducao() throws Interruption {
         System.out.println("\nQual sua próxima ação?\n");
-
         System.out.println("[1] Traduzir novo endereço");
         System.out.println("[2] Voltar ao menu inicial");
         System.out.println("[3] Sair");

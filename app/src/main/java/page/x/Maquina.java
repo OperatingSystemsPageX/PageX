@@ -11,6 +11,7 @@ import page.x.pagetable.PageTable;
 
 public class Maquina {
     private TraducaoState traducaoState;
+    private boolean emOperacao;
     private Long qtdBits;
     private Long tamanhoDaPaginaEmKB;
     private TLB tlb;
@@ -23,6 +24,7 @@ public class Maquina {
         this.tlb = tlb;
         this.traducaoState = new AguardarTraducao(this);
         this.interruptHandler = new InterruptHandler(this);
+        this.memoriaFisica = new MemoriaFisica(this.qtdBits, this.tamanhoDaPaginaEmKB);
     }
 
     public void setTraducaoState(TraducaoState traducaoState) {
@@ -37,7 +39,8 @@ public class Maquina {
         }
     }
 
-    public void iniciarTraducaoDeEndereco(Long enderecoVirtual) {
+    public void iniciarTraducaoDeEndereco(Long enderecoVirtual) throws Interruption {
+        this.traducaoState.efetuarOperacao();
         TraducaoState separarBits = new SepararBitsState(this, enderecoVirtual);
         this.traducaoState = separarBits;
 
@@ -45,10 +48,6 @@ public class Maquina {
 
     public TraducaoState getEstado() {
         return this.traducaoState;
-    }
-
-    public void criarMemoriaFisica() {
-        this.memoriaFisica = new MemoriaFisica(this.qtdBits, this.tamanhoDaPaginaEmKB);
     }
 
     public Long getQtdBits() {
@@ -85,6 +84,14 @@ public class Maquina {
 
     public Long getTamanhoPTE() {
         return this.memoriaFisica.getPageTable().getTamanhoPte();
+    }
+
+    public void setEmOperacao(boolean emOperacao) {
+        this.emOperacao = emOperacao;
+    }
+
+    public boolean getEmOperacao() {
+        return emOperacao;
     }
 
     public void reset() {

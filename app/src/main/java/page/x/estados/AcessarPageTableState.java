@@ -16,23 +16,23 @@ public class AcessarPageTableState implements TraducaoState {
     
     @Override
     public void efetuarOperacao() {
-        System.out.println("\n============================");
-        System.out.println("  ACESSO À PAGE TABLE ");
-        System.out.println("============================\n");
-
-        System.out.println("Registrador PTBR aponta para o final da memória.\n");
-
+        this.toStringState();
         PageTable pageTable = maquina.getPageTable();
         this.pageTableEntry = pageTable.mapearPagina(enderecoVirtual.getVPN());
-
-        System.out.println("Verificando se a página já foi alocada...\n");
         this.avancaEstado();
     }
     
     @Override
     public void avancaEstado() {
         TraducaoState proximoEstado = new VerificarBitValidoState(maquina, pageTableEntry, enderecoVirtual);
-        maquina.setTraducaoState(proximoEstado);
-        
+        this.maquina.setTraducaoState(proximoEstado);
+    }
+    
+    private void toStringState() {
+        System.out.println("\n============================");
+        System.out.println("  ACESSO À PAGE TABLE ");
+        System.out.println("============================\n");
+        System.out.println("Registrador PTBR aponta para o final da memória.\n");
+        System.out.println("Verificando se a página já foi alocada...\n");
     }
 }

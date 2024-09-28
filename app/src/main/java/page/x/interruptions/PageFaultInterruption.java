@@ -1,8 +1,6 @@
 package page.x.interruptions;
 
 import page.x.Maquina;
-import page.x.estados.EnderecoVirtual;
-import page.x.pagetable.PageTableEntry;
 
 public class PageFaultInterruption extends Interruption {
 

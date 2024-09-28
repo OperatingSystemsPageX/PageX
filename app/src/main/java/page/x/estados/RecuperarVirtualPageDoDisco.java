@@ -18,21 +18,32 @@ public class RecuperarVirtualPageDoDisco implements TraducaoState {
     
     @Override
     public void efetuarOperacao() throws Interruption {
-        System.out.println("\n===============================");
-        System.out.println(" RECUPERANDO PÁGINA DO DISCO ");
-        System.out.println("===============================\n");
-
+        this.toStringState();
+        this.logicaRecuperarDisco();
+        this.toStringMapeamento();
+        this.avancaEstado();
+    }
+    
+    private void logicaRecuperarDisco() throws Interruption {
         MemoriaFisica memoriaFisica = maquina.getMemoriaFisica();
         Long PFN = memoriaFisica.alocarPageFrame();
         pageTableEntry.setPageFrameNumber(PFN);
-        
-        System.out.println("Página alocada em Page Frame Number: " + PFN + "\n");
-        this.avancaEstado();
     }
     
     @Override
     public void avancaEstado() {
         TraducaoState proximoEstado = new AtualizarBitValido(maquina, pageTableEntry, enderecoVirtual);
-        maquina.setTraducaoState(proximoEstado);
+        this.maquina.setTraducaoState(proximoEstado);
     }
+    
+    private void toStringState() {
+        System.out.println("\n===============================");
+        System.out.println(" RECUPERANDO PÁGINA DO DISCO ");
+        System.out.println("===============================\n");
+    }
+    
+    private void toStringMapeamento() {
+        System.out.println("Página alocada em Page Frame Number: " + pageTableEntry.getPageFrameNumber() + "\n");
+    }
+
 }

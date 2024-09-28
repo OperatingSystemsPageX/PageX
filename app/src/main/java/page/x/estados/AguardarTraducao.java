@@ -6,22 +6,17 @@ package page.x.estados;
 import page.x.Maquina;
 
 public class AguardarTraducao implements TraducaoState {
+    
     private Maquina maquina;
 
     public AguardarTraducao(Maquina maquina) {
         this.maquina = maquina;
+        this.maquina.setEmOperacao(false);
     }
-    
+
     @Override
     public void efetuarOperacao() {
-        System.out.println("\n=========================");
-        System.out.println("   TRADUÇÃO DE ENDEREÇO   ");
-        System.out.println("=========================\n");
-
-        System.out.print("Digite o endereço virtual que deseja traduzir (em formato numérico decimal): ");
-        
-        System.out.println("\nEndereço recebido com sucesso!\n");
-        
+        this.maquina.setEmOperacao(true);
     }
     
     @Override

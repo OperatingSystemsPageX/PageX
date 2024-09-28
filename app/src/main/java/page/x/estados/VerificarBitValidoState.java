@@ -18,10 +18,7 @@ public class VerificarBitValidoState implements TraducaoState {
     
     @Override
     public void efetuarOperacao() throws Interruption {
-        System.out.println("\n==============================");
-        System.out.println("  VERIFICAÇÃO DO BIT VÁLIDO  ");
-        System.out.println("==============================\n");
-
+        this.toStringState();
         this.verificarBitValido(pageTableEntry);
     }
     
@@ -36,14 +33,19 @@ public class VerificarBitValidoState implements TraducaoState {
     private void avancaEstadoValido() {
         System.out.println("Página válida! Acessando o endereço físico...\n");
         TraducaoState proximoEstado = new AcessarEnderecoFisicoState(maquina, pageTableEntry.getPageFrameNumber(), enderecoVirtual);
-        maquina.setTraducaoState(proximoEstado);
-        
+        this.maquina.setTraducaoState(proximoEstado);
     }
-
+    
     @Override
     public void avancaEstado() {
         TraducaoState proximoEstado = new RecuperarVirtualPageDoDisco(maquina, pageTableEntry, enderecoVirtual);
-        maquina.setTraducaoState(proximoEstado);
+        this.maquina.setTraducaoState(proximoEstado);
+    }
+    
+    private void toStringState() {
+        System.out.println("\n==============================");
+        System.out.println("  VERIFICAÇÃO DO BIT VÁLIDO  ");
+        System.out.println("==============================\n");
     }
 
 }

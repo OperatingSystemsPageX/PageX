@@ -24,6 +24,11 @@ public class TLB {
         return quantidadeDeHit;
     }
 
+    public double getHitRatio() {
+        double result = ( this.quantidadeDeHit / (this.quantidadeDeHit + this.quantidadeDeMiss) );
+        return result * 100;
+    }
+
     public Long mapearPagina(Long page) throws MissInterruption {
         try {
             Long result = this.algoritmo.mapearPagina(page);

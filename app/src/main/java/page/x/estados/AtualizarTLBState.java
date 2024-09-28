@@ -1,4 +1,3 @@
-
 package page.x.estados;
 
 import page.x.Maquina;
@@ -15,19 +14,21 @@ public class AtualizarTLBState implements TraducaoState {
     
     @Override
     public void efetuarOperacao() {
-
-        System.out.println("\n=============================");
-        System.out.println("        ATUALIZANDO TLB        ");
-        System.out.println("==============================\n");
-
-        System.out.println("seu processo de tradução chegou ao fim!");
+        this.toStringState();
         this.maquina.getTlb().addPaginaMapeada(VPN, PFN);
         this.avancaEstado();
     }
     
     @Override
     public void avancaEstado() {        
-        TraducaoState proximoEstado = new AguardarTraducao(this.maquina);
-        maquina.setTraducaoState(proximoEstado);
+        TraducaoState proximoEstado = new AguardarTraducao(maquina);
+        this.maquina.setTraducaoState(proximoEstado);
+    }
+    
+    private void toStringState() {        
+        System.out.println("\n=============================");
+        System.out.println("        ATUALIZANDO TLB        ");
+        System.out.println("==============================\n");
+        System.out.println("Seu processo de tradução chegou ao fim!");
     }
 }
