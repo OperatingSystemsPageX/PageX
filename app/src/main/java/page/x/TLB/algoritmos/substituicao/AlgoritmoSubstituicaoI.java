@@ -3,7 +3,13 @@ package page.x.TLB.algoritmos.substituicao;
 import page.x.interruptions.MissInterruption;
 
 public interface AlgoritmoSubstituicaoI {
-    public Integer mapearPagina(Integer vpn) throws MissInterruption;
+    public Long mapearPagina(Long vpn) throws MissInterruption;
 
-    public void addPaginaMapeada(Integer vpn, Integer pfn);
+    public void addPaginaMapeada(Long vpn, Long pfn);
+
+    public String nomeToString();
+
+    public int getQtdEntries();
+
+    public void reset();
 }

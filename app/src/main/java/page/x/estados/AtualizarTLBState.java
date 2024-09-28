@@ -1,25 +1,34 @@
-/* Atualizar a TLB:
-    - Chama a função do algoritmo de substituição para efetuar as mudanças na TLB
-    - Muda o estado para o primeiro de todos(SepararBitsState) e não o invoca.
-*/
 package page.x.estados;
 
 import page.x.Maquina;
 
 public class AtualizarTLBState implements TraducaoState {
     private Maquina maquina;
-    @SuppressWarnings("unused")
-    private EnderecoVirtual enderecoVirtual;
+    private Long VPN, PFN;
 
-    public AtualizarTLBState(Maquina maquina, EnderecoVirtual enderecoVirtual) {
+    public AtualizarTLBState(Maquina maquina, Long VPN, Long PFN) {
         this.maquina = maquina;
-        this.enderecoVirtual = enderecoVirtual;
+        this.VPN = VPN;
+        this.PFN = PFN;
     }
     
     @Override
     public void efetuarOperacao() {
-        TraducaoState proximoEstado = new SepararBitsState(maquina);
-        maquina.setTraducaoState(proximoEstado);
-        // Não executa o próximo estado, permite voltar pro main
+        this.toStringState();
+        this.maquina.getTlb().addPaginaMapeada(VPN, PFN);
+        this.avancaEstado();
+    }
+    
+    @Override
+    public void avancaEstado() {        
+        TraducaoState proximoEstado = new AguardarTraducao(maquina);
+        this.maquina.setTraducaoState(proximoEstado);
+    }
+    
+    private void toStringState() {        
+        System.out.println("\n=============================");
+        System.out.println("        ATUALIZANDO TLB        ");
+        System.out.println("==============================\n");
+        System.out.println("Seu processo de tradução chegou ao fim!");
     }
 }

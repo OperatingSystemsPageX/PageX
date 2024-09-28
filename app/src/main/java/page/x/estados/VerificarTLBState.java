@@ -1,13 +1,10 @@
-/* Verificar a TLB:
-    - Varre toda a TLB em busca do PFN
-    - Se encontrar, avança para o calculo do deslocamento do endereço físico no page frame
-    - Se não encontrar, lança uma interrupção(TLB Miss) que vai mudar o estado da Maquina para AcessarPageTableState
-*/
 package page.x.estados;
 
 import page.x.Maquina;
+import page.x.TLB.TLB;
+import page.x.interruptions.MissInterruption;
 
-public class VerificarTLBState  implements TraducaoState {
+public class VerificarTLBState implements TraducaoState {
     private Maquina maquina;
     private EnderecoVirtual enderecoVirtual;
 
@@ -17,9 +14,33 @@ public class VerificarTLBState  implements TraducaoState {
     }
     
     @Override
-    public void efetuarOperacao() {
-        TraducaoState proximoEstado = new AcessarEnderecoFisicoState(maquina, enderecoVirtual);
+    public void efetuarOperacao() throws MissInterruption {
+        this.toStringState();
+        TLB tlb = maquina.getTlb();
+        Long PFN = tlb.mapearPagina(enderecoVirtual.getVPN());
+        this.toStringHit(PFN);
+        this.avancaEstadoHit(PFN);
+    }
+    
+    @Override
+    public void avancaEstado() {
+        TraducaoState proximoEstado = new AcessarPageTableState(maquina, enderecoVirtual);
         maquina.setTraducaoState(proximoEstado);
-        maquina.avancarEstado();
+    }
+    
+    private void avancaEstadoHit(Long PFN) {
+        TraducaoState proximoEstado = new AcessarEnderecoFisicoState(maquina, PFN, enderecoVirtual);
+        maquina.setTraducaoState(proximoEstado);
+    }
+    
+    private void toStringState() {
+        System.out.println("\n==========================");
+        System.out.println("  VERIFICAÇÃO DA TLB  ");
+        System.out.println("==========================\n");
+    }
+
+    private void toStringHit(Long PFN) {
+        System.out.println("Página encontrada na TLB! PFN: " + PFN + "\n");
+        System.out.println("Hit Ratio Atual: " + maquina.getTlb().getHitRatio() + "%");
     }
 }

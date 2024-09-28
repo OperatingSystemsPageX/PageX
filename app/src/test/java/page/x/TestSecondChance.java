@@ -3,6 +3,7 @@ package page.x;
 import org.junit.jupiter.api.Test;
 
 import page.x.TLB.TLB;
+import page.x.TLB.TlbEntry;
 import page.x.TLB.algoritmos.substituicao.SecondChance;
 import page.x.interruptions.MissInterruption;
 
@@ -31,7 +32,7 @@ class TestSecondChance {
         this.tlb1 = new TLB(sc1);
         this.entries = new TlbEntry[QTD_PAIR];
         for (int i = 0; i < QTD_PAIR; i++) {
-            this.entries[i] = new TlbEntry(i, i*2);
+            this.entries[i] = new TlbEntry((long) i, (long) i*2);
         }
     }
 
@@ -40,18 +41,18 @@ class TestSecondChance {
     void testandoLogicaDaSecondChance() throws MissInterruption {
         this.preencheTLB(tlb1, entries, SIZE_SC);
         for (int i = 0; i < 3; i++) {
-            this.tlb1.mapearPagina(i);
-            this.tlb1.mapearPagina(i + 1);
+            this.tlb1.mapearPagina((long) i);
+            this.tlb1.mapearPagina((long) (i + 1));
         }
-        this.tlb1.addPaginaMapeada(50, 100);
+        this.tlb1.addPaginaMapeada(50L, 100L);
         assertAll(
-            () -> assertThrows(MissInterruption.class, () -> this.tlb1.mapearPagina(4)),
+            () -> assertThrows(MissInterruption.class, () -> this.tlb1.mapearPagina(4L)),
             () -> assertEquals(6, tlb1.getHit()),
             () -> assertEquals(1, tlb1.getMiss())
         );
-        this.tlb1.addPaginaMapeada(51, 101);
+        this.tlb1.addPaginaMapeada(51L, 101L);
         assertAll(
-            () -> assertThrows(MissInterruption.class, () -> this.tlb1.mapearPagina(0)),
+            () -> assertThrows(MissInterruption.class, () -> this.tlb1.mapearPagina(0L)),
             () -> assertEquals(6, tlb1.getHit()),
             () -> assertEquals(2, tlb1.getMiss())
         );

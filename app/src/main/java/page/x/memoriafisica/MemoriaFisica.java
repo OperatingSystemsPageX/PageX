@@ -7,6 +7,7 @@ import page.x.pagetable.PageTable;
 import page.x.utils.Sorteador;
 
 public class MemoriaFisica {
+
     @SuppressWarnings("unused")
     private PageTable pageTable;
     private Long bitsParaRepresentarPageFrame;
@@ -26,9 +27,7 @@ public class MemoriaFisica {
         }
 
         Long pageFrameAleatorio = sorteador.sortearNumero(memoriaFisica);
-
         memoriaFisica.put(pageFrameAleatorio, new PageFrameContent());
-
         return pageFrameAleatorio;
     }
 
@@ -39,5 +38,9 @@ public class MemoriaFisica {
     private Long bitsParaRepresentarPageFrame(Long qtdBits, Long tamanhoPaginaEmKB) {
         int tamanhoPaginaEmBits = 10 + (int)(Math.log(tamanhoPaginaEmKB) / Math.log(2));
         return qtdBits - tamanhoPaginaEmBits;
+    }
+
+    public PageTable getPageTable() {
+        return pageTable;
     }
 }

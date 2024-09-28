@@ -2,7 +2,7 @@ package page.x.TLB.algoritmos.substituicao;
 
 import java.util.LinkedList;
 
-import page.x.TlbEntry;
+import page.x.TLB.TlbEntry;
 import page.x.interruptions.MissInterruption;
 
 public class LRU implements AlgoritmoSubstituicaoI {
@@ -18,7 +18,7 @@ public class LRU implements AlgoritmoSubstituicaoI {
     }
 
     @Override
-    public Integer mapearPagina(Integer vpn) throws MissInterruption {
+    public Long mapearPagina(Long vpn) throws MissInterruption {
         for (TlbEntry entryAtual : this.entries) {
             if (entryAtual.getVirtualPageNumber().equals(vpn)) {
                 this.execucaoAlgoritmo(entryAtual);
@@ -34,7 +34,7 @@ public class LRU implements AlgoritmoSubstituicaoI {
     }    
 
     @Override
-    public void addPaginaMapeada(Integer vpn, Integer pfn) {
+    public void addPaginaMapeada(Long vpn, Long pfn) {
         TlbEntry tlbEntry = new TlbEntry(vpn, pfn);
         if (quantidadeEntries == this.entries.size()) {
             this.entries.removeFirst();
@@ -42,4 +42,18 @@ public class LRU implements AlgoritmoSubstituicaoI {
         this.entries.addLast(tlbEntry);
     }
 
+    @Override
+    public String nomeToString() {
+        return "LRU";
+    }
+
+    @Override
+    public int getQtdEntries() {
+        return this.quantidadeEntries;
+    }
+
+    @Override
+    public void reset() {
+        this.entries = new LinkedList<>();
+    }
 }

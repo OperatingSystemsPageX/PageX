@@ -3,6 +3,7 @@ package page.x;
 import org.junit.jupiter.api.Test;
 
 import page.x.TLB.TLB;
+import page.x.TLB.TlbEntry;
 import page.x.TLB.algoritmos.substituicao.FIFO;
 import page.x.interruptions.MissInterruption;
 
@@ -31,7 +32,7 @@ class TestFifo {
         this.tlb1 = new TLB(fifo1);
         this.entries = new TlbEntry[QTD_PAIR];
         for (int i = 0; i < QTD_PAIR; i++) {
-            this.entries[i] = new TlbEntry(i, i*2);
+            this.entries[i] = new TlbEntry((long) i, (long) i*2);
         }
     }
 
@@ -39,14 +40,14 @@ class TestFifo {
     @Test
     void testandoLogicaDaFifo() throws MissInterruption {
         this.preencheTLB(tlb1, entries, SIZE_FIFO);
-        this.tlb1.mapearPagina(0);
-        this.tlb1.addPaginaMapeada(1000, 2000);
-        assertThrows(MissInterruption.class, () -> this.tlb1.mapearPagina(0));
-        this.tlb1.mapearPagina(1);
-        this.tlb1.mapearPagina(1000);
-        this.tlb1.addPaginaMapeada(2000, 3000);
+        this.tlb1.mapearPagina(0L);
+        this.tlb1.addPaginaMapeada(1000L, 2000L);
+        assertThrows(MissInterruption.class, () -> this.tlb1.mapearPagina(0L));
+        this.tlb1.mapearPagina(1L);
+        this.tlb1.mapearPagina(1000L);
+        this.tlb1.addPaginaMapeada(2000L, 3000L);
         assertAll(
-            () -> assertThrows(MissInterruption.class, () -> this.tlb1.mapearPagina(1)),
+            () -> assertThrows(MissInterruption.class, () -> this.tlb1.mapearPagina(1L)),
             () -> assertEquals(3, tlb1.getHit()),
             () -> assertEquals(2, tlb1.getMiss())
         );

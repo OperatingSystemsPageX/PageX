@@ -1,5 +1,9 @@
 package page.x.estados;
 
+import page.x.interruptions.Interruption;
+
 public interface TraducaoState {
-    public void efetuarOperacao();
+    public void efetuarOperacao() throws Interruption;
+
+    public void avancaEstado(); 
 }

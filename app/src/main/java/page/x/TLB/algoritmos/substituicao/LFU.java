@@ -2,7 +2,7 @@ package page.x.TLB.algoritmos.substituicao;
 
 import page.x.interruptions.MissInterruption;
 
-import page.x.TlbEntry;
+import page.x.TLB.TlbEntry;
 import page.x.utils.Pair;
 
 import java.util.ArrayList;
@@ -20,7 +20,7 @@ public class LFU implements AlgoritmoSubstituicaoI {
     }
 
     @Override
-    public Integer mapearPagina(Integer vpn) throws MissInterruption {
+    public Long mapearPagina(Long vpn) throws MissInterruption {
         for (Pair<Integer, TlbEntry> pairAtual : entries) {
             TlbEntry entryAtual = pairAtual.getPair2();
             if (entryAtual.getVirtualPageNumber().equals(vpn)) {
@@ -37,7 +37,7 @@ public class LFU implements AlgoritmoSubstituicaoI {
     }
 
     @Override
-    public void addPaginaMapeada(Integer vpn, Integer pfn) {
+    public void addPaginaMapeada(Long vpn, Long pfn) {
         TlbEntry tlbEntry = new TlbEntry(vpn, pfn);
         Pair<Integer, TlbEntry> tlbEntryPair = new Pair<Integer,TlbEntry>(1, tlbEntry);
         if (quantidadeEntries == entries.size()) {
@@ -54,5 +54,20 @@ public class LFU implements AlgoritmoSubstituicaoI {
             }
         }
         entries.remove(menorAcesso);
+    }
+
+    @Override
+    public String nomeToString() {
+        return "LFU";
+    }
+
+    @Override
+    public int getQtdEntries() {
+        return this.quantidadeEntries;
+    }
+
+    @Override
+    public void reset() {
+        this.entries = new ArrayList<>();
     }
 }

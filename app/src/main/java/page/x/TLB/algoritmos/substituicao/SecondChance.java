@@ -3,7 +3,7 @@ package page.x.TLB.algoritmos.substituicao;
 import java.util.Queue;
 import java.util.LinkedList;
 
-import page.x.TlbEntry;
+import page.x.TLB.TlbEntry;
 import page.x.interruptions.MissInterruption;
 import page.x.utils.Pair;
 
@@ -19,7 +19,7 @@ public class SecondChance implements AlgoritmoSubstituicaoI {
     }
 
     @Override
-    public Integer mapearPagina(Integer vpn) throws MissInterruption {
+    public Long mapearPagina(Long vpn) throws MissInterruption {
         for (Pair<Boolean, TlbEntry> pairAtual : entries) {
             TlbEntry entryAtual = pairAtual.getPair2();
             if (entryAtual.getVirtualPageNumber().equals(vpn)) {
@@ -31,7 +31,7 @@ public class SecondChance implements AlgoritmoSubstituicaoI {
     }
 
     @Override
-    public void addPaginaMapeada(Integer vpn, Integer pfn) {
+    public void addPaginaMapeada(Long vpn, Long pfn) {
         TlbEntry tlbEntry = new TlbEntry(vpn, pfn);
         Pair<Boolean, TlbEntry> tlbEntryPair = new Pair<Boolean,TlbEntry>(false, tlbEntry);
         if (entries.size() == quantidadeEntries) {
@@ -50,5 +50,18 @@ public class SecondChance implements AlgoritmoSubstituicaoI {
         }
     }
 
-    
+    @Override
+    public String nomeToString() {
+        return "SecondChance";
+    }
+
+    @Override
+    public int getQtdEntries() {
+        return this.quantidadeEntries;
+    }
+
+    @Override
+    public void reset() {
+        this.entries = new LinkedList<>();
+    }
 }
