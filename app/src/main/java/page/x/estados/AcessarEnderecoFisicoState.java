@@ -18,14 +18,21 @@ public class AcessarEnderecoFisicoState implements TraducaoState {
     public void efetuarOperacao() {
         Long offset = enderecoVirtual.getOffset();
         Long enderecoFisico = (this.PFN * maquina.getTamanhoDaPaginaEmBytes()) + offset;
-
+        this.toStringState(enderecoFisico);
+        this.avancaEstado();
+    }
+    
+    @Override
+    public void avancaEstado() {
+        TraducaoState proximoEstado = new AtualizarTLBState(maquina, enderecoVirtual.getVPN() , this.PFN);
+        this.maquina.setTraducaoState(proximoEstado);
+    }
+    
+    private void toStringState(Long enderecoFisico) {        
         System.out.println("\n=============================");
         System.out.println("        ENDEREÇO FÍSICO:        ");
         System.out.println("==============================\n");
-
         System.out.println(enderecoFisico);
-        TraducaoState proximoEstado = new AtualizarTLBState(maquina, enderecoVirtual.getVPN() , this.PFN);
-        maquina.setTraducaoState(proximoEstado);
     }
 }
 

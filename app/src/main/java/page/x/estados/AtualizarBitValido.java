@@ -16,14 +16,25 @@ public class AtualizarBitValido implements TraducaoState {
     
     @Override
     public void efetuarOperacao() {
+        this.toStringState();
+        this.pageTableEntry.mapear(true);
+        this.toStringMapeamento();
+        this.avancaEstado();
+    }
+    
+    @Override
+    public void avancaEstado() {
+        TraducaoState proximoEstado = new VerificarBitValidoState(maquina, pageTableEntry, enderecoVirtual);
+        this.maquina.setTraducaoState(proximoEstado);
+    }
+    
+    private void toStringState() {        
         System.out.println("\n=============================");
         System.out.println("  ATUALIZANDO BIT VÁLIDO ");
         System.out.println("=============================\n");
+    }
 
-        pageTableEntry.mapear(true);
+    private void toStringMapeamento() {        
         System.out.println("Bit de validade atualizado para 'válido'.\n");
-
-        TraducaoState proximoEstado = new VerificarBitValidoState(maquina, pageTableEntry, enderecoVirtual);
-        maquina.setTraducaoState(proximoEstado);
     }
 }

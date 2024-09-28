@@ -1,6 +1,7 @@
 package page.x.estados;
 
 import page.x.Maquina;
+import page.x.interruptions.Interruption;
 import page.x.interruptions.PageFaultInterruption;
 import page.x.pagetable.PageTableEntry;
 
@@ -16,22 +17,35 @@ public class VerificarBitValidoState implements TraducaoState {
     }
     
     @Override
-    public void efetuarOperacao() throws Exception {
+    public void efetuarOperacao() throws Interruption {
+        this.toStringState();
+        this.verificarBitValido(pageTableEntry);
+    }
+    
+    private void verificarBitValido(PageTableEntry pageTableEntry) throws PageFaultInterruption {
+        if (!pageTableEntry.estaMapeada()) {
+            throw new PageFaultInterruption();
+        } else {
+            this.avancaEstadoValido();
+        }
+    }
+    
+    private void avancaEstadoValido() {
+        System.out.println("Página válida! Acessando o endereço físico...\n");
+        TraducaoState proximoEstado = new AcessarEnderecoFisicoState(maquina, pageTableEntry.getPageFrameNumber(), enderecoVirtual);
+        this.maquina.setTraducaoState(proximoEstado);
+    }
+    
+    @Override
+    public void avancaEstado() {
+        TraducaoState proximoEstado = new RecuperarVirtualPageDoDisco(maquina, pageTableEntry, enderecoVirtual);
+        this.maquina.setTraducaoState(proximoEstado);
+    }
+    
+    private void toStringState() {
         System.out.println("\n==============================");
         System.out.println("  VERIFICAÇÃO DO BIT VÁLIDO  ");
         System.out.println("==============================\n");
-
-        verificarBitValido(pageTableEntry);
-
-        System.out.println("Página válida! Acessando o endereço físico...\n");
-
-        TraducaoState proximoEstado = new AcessarEnderecoFisicoState(maquina, pageTableEntry.getPageFrameNumber(), enderecoVirtual);
-        maquina.setTraducaoState(proximoEstado);
     }
 
-    public void verificarBitValido(PageTableEntry pageTableEntry) throws PageFaultInterruption {
-        if (!pageTableEntry.estaMapeada()) {
-            throw new PageFaultInterruption(pageTableEntry, enderecoVirtual);
-        }
-    }
 }

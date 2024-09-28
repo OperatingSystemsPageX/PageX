@@ -10,4 +10,6 @@ public interface AlgoritmoSubstituicaoI {
     public String nomeToString();
 
     public int getQtdEntries();
+
+    public void reset();
 }

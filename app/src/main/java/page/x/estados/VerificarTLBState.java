@@ -14,20 +14,33 @@ public class VerificarTLBState implements TraducaoState {
     }
     
     @Override
-    public void efetuarOperacao() throws Exception {
+    public void efetuarOperacao() throws MissInterruption {
+        this.toStringState();
+        TLB tlb = maquina.getTlb();
+        Long PFN = tlb.mapearPagina(enderecoVirtual.getVPN());
+        this.toStringHit(PFN);
+        this.avancaEstadoHit(PFN);
+    }
+    
+    @Override
+    public void avancaEstado() {
+        TraducaoState proximoEstado = new AcessarPageTableState(maquina, enderecoVirtual);
+        maquina.setTraducaoState(proximoEstado);
+    }
+    
+    private void avancaEstadoHit(Long PFN) {
+        TraducaoState proximoEstado = new AcessarEnderecoFisicoState(maquina, PFN, enderecoVirtual);
+        maquina.setTraducaoState(proximoEstado);
+    }
+    
+    private void toStringState() {
         System.out.println("\n==========================");
         System.out.println("  VERIFICAÇÃO DA TLB  ");
         System.out.println("==========================\n");
+    }
 
-        try {
-            TLB tlb = maquina.getTlb();
-            Long PFN = tlb.mapearPagina(enderecoVirtual.getVPN());
-            System.out.println("Página encontrada na TLB! PFN: " + PFN + "\n");
-
-            TraducaoState proximoEstado = new AcessarEnderecoFisicoState(maquina, PFN, enderecoVirtual);
-            maquina.setTraducaoState(proximoEstado);
-        } catch (Exception e) {
-            throw new MissInterruption(enderecoVirtual);
-        }
+    private void toStringHit(Long PFN) {
+        System.out.println("Página encontrada na TLB! PFN: " + PFN + "\n");
+        System.out.println("Hit Ratio Atual: " + maquina.getTlb().getHitRatio() + "%");
     }
 }

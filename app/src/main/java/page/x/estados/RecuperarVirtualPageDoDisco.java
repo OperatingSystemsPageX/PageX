@@ -1,6 +1,7 @@
 package page.x.estados;
 
 import page.x.Maquina;
+import page.x.interruptions.Interruption;
 import page.x.memoriafisica.MemoriaFisica;
 import page.x.pagetable.PageTableEntry;
 
@@ -16,19 +17,33 @@ public class RecuperarVirtualPageDoDisco implements TraducaoState {
     }
     
     @Override
-    public void efetuarOperacao() throws Exception {
+    public void efetuarOperacao() throws Interruption {
+        this.toStringState();
+        this.logicaRecuperarDisco();
+        this.toStringMapeamento();
+        this.avancaEstado();
+    }
+    
+    private void logicaRecuperarDisco() throws Interruption {
+        MemoriaFisica memoriaFisica = maquina.getMemoriaFisica();
+        Long PFN = memoriaFisica.alocarPageFrame();
+        pageTableEntry.setPageFrameNumber(PFN);
+    }
+    
+    @Override
+    public void avancaEstado() {
+        TraducaoState proximoEstado = new AtualizarBitValido(maquina, pageTableEntry, enderecoVirtual);
+        this.maquina.setTraducaoState(proximoEstado);
+    }
+    
+    private void toStringState() {
         System.out.println("\n===============================");
         System.out.println(" RECUPERANDO PÁGINA DO DISCO ");
         System.out.println("===============================\n");
-
-        MemoriaFisica memoriaFisica = maquina.getMemoriaFisica();
-        Long PFN = memoriaFisica.alocarPageFrame();
-        
-        System.out.println("Página alocada em Page Frame Number: " + PFN + "\n");
-
-        pageTableEntry.setPageFrameNumber(PFN);
-
-        TraducaoState proximoEstado = new AtualizarBitValido(maquina, pageTableEntry, enderecoVirtual);
-        maquina.setTraducaoState(proximoEstado);
     }
+    
+    private void toStringMapeamento() {
+        System.out.println("Página alocada em Page Frame Number: " + pageTableEntry.getPageFrameNumber() + "\n");
+    }
+
 }

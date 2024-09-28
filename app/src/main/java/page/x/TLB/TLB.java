@@ -24,6 +24,11 @@ public class TLB {
         return quantidadeDeHit;
     }
 
+    public double getHitRatio() {
+        double result = ( (double) this.quantidadeDeHit / (this.quantidadeDeHit + this.quantidadeDeMiss) );
+        return result * 100;
+    }
+
     public Long mapearPagina(Long page) throws MissInterruption {
         try {
             Long result = this.algoritmo.mapearPagina(page);
@@ -45,5 +50,11 @@ public class TLB {
 
     public int getQtdEntries() {
         return this.algoritmo.getQtdEntries();
+    }
+
+    public void reset() {
+        this.quantidadeDeHit = 0;
+        this.quantidadeDeMiss = 0;
+        this.algoritmo.reset();
     }
 }

@@ -1,23 +1,17 @@
 package page.x.interruptions;
 
-import page.x.estados.EnderecoVirtual;
+import page.x.Maquina;
 
-public class MissInterruption extends Exception {
+public class MissInterruption extends Interruption {
     
-    private EnderecoVirtual enderecoVirtual;
-
     public MissInterruption() {
         super("MISS");
-        this.enderecoVirtual = null;
     }
 
-    public MissInterruption(EnderecoVirtual enderecoVirtual) {
-        super("MISS");
-        this.enderecoVirtual = enderecoVirtual;
-    }
-
-    public EnderecoVirtual getEnderecoVirtual() {
-        return this.enderecoVirtual;
+    @Override
+    public void processar(Maquina maquina) {
+        System.out.println("UM MISS FOI GERADO");
+        maquina.getEstado().avancaEstado();
     }
 
 }
