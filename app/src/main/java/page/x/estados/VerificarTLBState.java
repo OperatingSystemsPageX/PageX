@@ -42,6 +42,5 @@ public class VerificarTLBState implements TraducaoState {
     private void toStringHit(Long PFN) {
         System.out.println("Página encontrada na TLB! PFN: " + PFN + "\n");
         System.out.println("Hit Ratio Atual: " + maquina.getTlb().getHitRatio() + "%");
-        System.out.println(maquina.getTlb().getHit());
     }
 }

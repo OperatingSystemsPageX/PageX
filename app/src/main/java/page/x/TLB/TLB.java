@@ -25,7 +25,7 @@ public class TLB {
     }
 
     public double getHitRatio() {
-        double result = ( this.quantidadeDeHit / (this.quantidadeDeHit + this.quantidadeDeMiss) );
+        double result = ( (double) this.quantidadeDeHit / (this.quantidadeDeHit + this.quantidadeDeMiss) );
         return result * 100;
     }
 
