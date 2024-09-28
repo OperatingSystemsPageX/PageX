@@ -22,7 +22,11 @@ public class AtualizarBitValido implements TraducaoState {
 
         pageTableEntry.mapear(true);
         System.out.println("Bit de validade atualizado para 'válido'.\n");
-
+        this.avancaEstado();
+    }
+    
+    @Override
+    public void avancaEstado() {
         TraducaoState proximoEstado = new VerificarBitValidoState(maquina, pageTableEntry, enderecoVirtual);
         maquina.setTraducaoState(proximoEstado);
     }

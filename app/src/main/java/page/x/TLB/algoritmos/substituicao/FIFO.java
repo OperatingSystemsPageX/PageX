@@ -45,4 +45,9 @@ public class FIFO implements AlgoritmoSubstituicaoI {
     public int getQtdEntries() {
         return this.quantidadeEntries;
     }
+
+    @Override
+    public void reset() {
+        this.entries = new LinkedList<>();
+    }
 }

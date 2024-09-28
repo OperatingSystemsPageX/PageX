@@ -22,8 +22,12 @@ public class AcessarEnderecoFisicoState implements TraducaoState {
         System.out.println("\n=============================");
         System.out.println("        ENDEREÇO FÍSICO:        ");
         System.out.println("==============================\n");
-
         System.out.println(enderecoFisico);
+        this.avancaEstado();
+    }
+    
+    @Override
+    public void avancaEstado() {
         TraducaoState proximoEstado = new AtualizarTLBState(maquina, enderecoVirtual.getVPN() , this.PFN);
         maquina.setTraducaoState(proximoEstado);
     }

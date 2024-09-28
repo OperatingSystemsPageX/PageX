@@ -47,8 +47,8 @@ public class PageX {
     }
 
     private void iniciarModoSimulador() {
-        modoSimulador.maquinaSetUp();
         modoSimulador.tlbSetUp();
+        modoSimulador.maquinaSetUp();
         modoSimulador.imprimeMaquina();
         modoSimulador.iniciarSimulacao();
         modoSimulador.terminarSimulacao();

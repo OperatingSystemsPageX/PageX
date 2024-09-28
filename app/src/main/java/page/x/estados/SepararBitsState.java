@@ -5,6 +5,7 @@ import page.x.Maquina;
 public class SepararBitsState implements TraducaoState {
     private Maquina maquina;
     private Long enderecoVirtualCompleto;
+    private EnderecoVirtual enderecoVirtual;
 
     public SepararBitsState(Maquina maquina, Long enderecoVirtualCompleto) {
         this.maquina = maquina;
@@ -13,9 +14,8 @@ public class SepararBitsState implements TraducaoState {
     
     @Override
     public void efetuarOperacao() {
-        EnderecoVirtual enderecoVirtual = criarEnderecoVirtual(enderecoVirtualCompleto);
-        TraducaoState proximoEstado = new VerificarTLBState(maquina, enderecoVirtual);
-        maquina.setTraducaoState(proximoEstado);
+        this.enderecoVirtual = criarEnderecoVirtual(enderecoVirtualCompleto);
+        this.avancaEstado();
     }
 
     private EnderecoVirtual criarEnderecoVirtual(Long enderecoVirtualCompleto) {
@@ -32,4 +32,11 @@ public class SepararBitsState implements TraducaoState {
         
         return new EnderecoVirtual(VPN, offset);
     }
+
+    @Override
+    public void avancaEstado() {
+        TraducaoState proximoEstado = new VerificarTLBState(maquina, enderecoVirtual);
+        maquina.setTraducaoState(proximoEstado);
+    }
+    
 }
