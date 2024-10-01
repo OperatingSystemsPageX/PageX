@@ -8,13 +8,14 @@ import page.x.utils.Sorteador;
 
 public class MemoriaFisica {
 
-    @SuppressWarnings("unused")
     private PageTable pageTable;
     private Long bitsParaRepresentarPageFrame;
     private HashMap<Long, PageFrameContent> memoriaFisica;
     private Sorteador sorteador;
+    private Long tamanhoPaginaEmKB;
 
     public MemoriaFisica (Long qtdBits, Long tamanhoPaginaEmKB) {
+        this.tamanhoPaginaEmKB = tamanhoPaginaEmKB;
         this.bitsParaRepresentarPageFrame = bitsParaRepresentarPageFrame(qtdBits, tamanhoPaginaEmKB);
         this.pageTable = new PageTable(qtdBits, tamanhoPaginaEmKB);
         this.memoriaFisica = new HashMap<>();
@@ -25,9 +26,8 @@ public class MemoriaFisica {
         if (getUtilizacaoMemoriaFisica() >= Math.pow(2, bitsParaRepresentarPageFrame)) {
             throw new FullPhysicalMemoryInterruption();
         }
-
         Long pageFrameAleatorio = sorteador.sortearNumero(memoriaFisica);
-        memoriaFisica.put(pageFrameAleatorio, new PageFrameContent());
+        memoriaFisica.put(pageFrameAleatorio, new PageFrameContent(this.tamanhoPaginaEmKB));
         return pageFrameAleatorio;
     }
 
@@ -38,6 +38,11 @@ public class MemoriaFisica {
     private Long bitsParaRepresentarPageFrame(Long qtdBits, Long tamanhoPaginaEmKB) {
         int tamanhoPaginaEmBits = 10 + (int)(Math.log(tamanhoPaginaEmKB) / Math.log(2));
         return qtdBits - tamanhoPaginaEmBits;
+    }
+
+    public void acessarEndereco(Long PFN, Long offset) {
+        this.memoriaFisica.get(PFN).acessarEndereco(offset);
+        System.out.printf("%.5f", this.memoriaFisica.get(PFN).getPercentualDeUso());
     }
 
     public PageTable getPageTable() {
