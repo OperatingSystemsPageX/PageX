@@ -60,7 +60,7 @@ Para rodar o simulador sem definir configurações iniciais, use o comando:
 make run
 ```
 
-Essa execução utilizará as configurações padrão do simulador.
+Essa execução solicitará que você insira as informações da máquina e da TLB para poder utilizar o simulador.
 
 #### Execução com configuração personalizada
 
