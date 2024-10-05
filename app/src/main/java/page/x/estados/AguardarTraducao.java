@@ -21,4 +21,9 @@ public class AguardarTraducao implements TraducaoState {
     
     @Override
     public void avancaEstado() {}
+
+    @Override
+    public String explicacao() { return ""; }
+
+
 }

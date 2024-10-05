@@ -27,7 +27,13 @@ public class AtualizarBitValido implements TraducaoState {
         TraducaoState proximoEstado = new VerificarBitValidoState(maquina, pageTableEntry, enderecoVirtual);
         this.maquina.setTraducaoState(proximoEstado);
     }
-    
+
+    @Override
+    public String explicacao() {
+        return "Após o tratamento do Page Fault para a ausência da página em questão na memória, mudamos o bit de validade\n" +
+               "(ou de mapeamento) para indicar na PTE que a página já está alocada e pode ser acessada.";
+    }
+
     private void toStringState() {        
         System.out.println("\n=============================");
         System.out.println("  ATUALIZANDO BIT VÁLIDO ");

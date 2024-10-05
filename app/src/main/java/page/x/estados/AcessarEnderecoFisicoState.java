@@ -27,7 +27,14 @@ public class AcessarEnderecoFisicoState implements TraducaoState {
         TraducaoState proximoEstado = new AtualizarTLBState(maquina, enderecoVirtual.getVPN() , this.PFN);
         this.maquina.setTraducaoState(proximoEstado);
     }
-    
+
+    @Override
+    public String explicacao() {
+        return "Soma-se o valor do offset (deslocamento) ao endereço de início do Page Frame em que nosso\n" +
+        "endereço está. Essa soma resulta no endereço físico.";
+    }
+
+
     private void toStringState(Long enderecoFisico) {        
         System.out.println("\n=============================");
         System.out.println("        ENDEREÇO FÍSICO:        ");
