@@ -1,16 +1,15 @@
 package page.x.TLB.algoritmos.substituicao;
 
-import page.x.TLB.TlbEntry;
 import page.x.interruptions.MissInterruption;
 
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class FIFO implements AlgoritmoSubstituicaoI {
+public class FIFO<T> implements AlgoritmoSubstituicaoI<T> {
 
     private int quantidadeEntries;
 
-    private Queue<TlbEntry> entries;
+    private Queue<T> entries;
 
     public FIFO(int quantidadeEntries) {
         this.quantidadeEntries = quantidadeEntries;
@@ -18,22 +17,21 @@ public class FIFO implements AlgoritmoSubstituicaoI {
     }
 
     @Override
-    public Long mapearPagina(Long vpn) throws MissInterruption {
-        for (TlbEntry entryAtual : entries) {
-            if (entryAtual.getVirtualPageNumber().equals(vpn)) {
-                return entryAtual.getPageFrameNumber();
+    public T acessEntry(Long accessID) throws MissInterruption {
+        for (T entryAtual : entries) {
+            if (entryAtual.equals(accessID)) {
+                return entryAtual;
             }
         }
         throw new MissInterruption();
     }
 
     @Override
-    public void addPaginaMapeada(Long vpn, Long pfn) {
-        TlbEntry tlbEntry = new TlbEntry(vpn, pfn);
+    public void addEntry(T entry) {
         if (quantidadeEntries == this.entries.size()) {
             this.entries.remove();
         }
-        this.entries.add(tlbEntry);
+        this.entries.add(entry);
     }
 
     @Override

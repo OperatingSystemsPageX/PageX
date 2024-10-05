@@ -3,7 +3,7 @@ package page.x;
 import org.junit.jupiter.api.Test;
 
 import page.x.TLB.TLB;
-import page.x.TLB.TlbEntry;
+import page.x.entry.TlbEntry;
 import page.x.TLB.algoritmos.substituicao.LFU;
 import page.x.interruptions.MissInterruption;
 
@@ -16,7 +16,7 @@ class TestLFU {
 
     private final static int SIZE_LFU = 5;
     private final static int QTD_PAIR = 10;
-    private LFU lfu1;
+    private LFU<TlbEntry> lfu1;
     private TLB tlb1;
     private TlbEntry[] entries;
     
@@ -28,7 +28,7 @@ class TestLFU {
 
     @BeforeEach
     void setup() {
-        this.lfu1 = new LFU(SIZE_LFU);
+        this.lfu1 = new LFU<TlbEntry>(SIZE_LFU);
         this.tlb1 = new TLB(lfu1);
         this.entries = new TlbEntry[QTD_PAIR];
         for (int i = 0; i < QTD_PAIR; i++) {

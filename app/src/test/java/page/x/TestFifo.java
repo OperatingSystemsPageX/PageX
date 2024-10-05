@@ -3,7 +3,7 @@ package page.x;
 import org.junit.jupiter.api.Test;
 
 import page.x.TLB.TLB;
-import page.x.TLB.TlbEntry;
+import page.x.entry.TlbEntry;
 import page.x.TLB.algoritmos.substituicao.FIFO;
 import page.x.interruptions.MissInterruption;
 
@@ -16,7 +16,7 @@ class TestFifo {
 
     private final static int SIZE_FIFO = 5;
     private final static int QTD_PAIR = 10;
-    private FIFO fifo1;
+    private FIFO<TlbEntry> fifo1;
     private TLB tlb1;
     private TlbEntry[] entries;
     
@@ -28,7 +28,7 @@ class TestFifo {
 
     @BeforeEach
     void setup() {
-        this.fifo1 = new FIFO(SIZE_FIFO);
+        this.fifo1 = new FIFO<TlbEntry>(SIZE_FIFO);
         this.tlb1 = new TLB(fifo1);
         this.entries = new TlbEntry[QTD_PAIR];
         for (int i = 0; i < QTD_PAIR; i++) {

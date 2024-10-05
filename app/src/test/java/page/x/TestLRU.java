@@ -3,7 +3,7 @@ package page.x;
 import org.junit.jupiter.api.Test;
 
 import page.x.TLB.TLB;
-import page.x.TLB.TlbEntry;
+import page.x.entry.TlbEntry;
 import page.x.TLB.algoritmos.substituicao.LRU;
 import page.x.interruptions.MissInterruption;
 
@@ -16,7 +16,7 @@ class TestLRU {
 
     private final static int SIZE_LRU = 5;
     private final static int QTD_PAIR = 10;
-    private LRU lru1;
+    private LRU<TlbEntry> lru1;
     private TLB tlb1;
     private TlbEntry[] entries;
     
@@ -28,7 +28,7 @@ class TestLRU {
 
     @BeforeEach
     void setup() {
-        this.lru1 = new LRU(SIZE_LRU);
+        this.lru1 = new LRU<TlbEntry>(SIZE_LRU);
         this.tlb1 = new TLB(lru1) ;
         this.entries = new TlbEntry[QTD_PAIR];
         for (int i = 0; i < QTD_PAIR; i++) {

@@ -3,15 +3,14 @@ package page.x.TLB.algoritmos.substituicao;
 import java.util.Queue;
 import java.util.LinkedList;
 
-import page.x.TLB.TlbEntry;
 import page.x.interruptions.MissInterruption;
 import page.x.utils.Pair;
 
-public class SecondChance implements AlgoritmoSubstituicaoI {
+public class SecondChance<T> implements AlgoritmoSubstituicaoI<T> {
 
     private int quantidadeEntries;
 
-    private Queue<Pair<Boolean, TlbEntry>> entries;
+    private Queue<Pair<Boolean, T>> entries;
 
     public SecondChance(int quantidadeEntries) {
         this.quantidadeEntries = quantidadeEntries;
@@ -19,21 +18,20 @@ public class SecondChance implements AlgoritmoSubstituicaoI {
     }
 
     @Override
-    public Long mapearPagina(Long vpn) throws MissInterruption {
-        for (Pair<Boolean, TlbEntry> pairAtual : entries) {
-            TlbEntry entryAtual = pairAtual.getPair2();
-            if (entryAtual.getVirtualPageNumber().equals(vpn)) {
+    public T acessEntry(Long accessID) throws MissInterruption {
+        for (Pair<Boolean, T> pairAtual : entries) {
+            T entryAtual = pairAtual.getPair2();
+            if (entryAtual.equals(accessID)) {
                 pairAtual.setPair1(true);
-                return entryAtual.getPageFrameNumber();
+                return entryAtual;
             }
         }
         throw new MissInterruption();
     }
 
     @Override
-    public void addPaginaMapeada(Long vpn, Long pfn) {
-        TlbEntry tlbEntry = new TlbEntry(vpn, pfn);
-        Pair<Boolean, TlbEntry> tlbEntryPair = new Pair<Boolean,TlbEntry>(false, tlbEntry);
+    public void addEntry(T entry) {
+        Pair<Boolean, T> tlbEntryPair = new Pair<Boolean,T>(false, entry);
         if (entries.size() == quantidadeEntries) {
             this.removePagina();
         }
@@ -42,11 +40,11 @@ public class SecondChance implements AlgoritmoSubstituicaoI {
     }
 
     private void removePagina() {
-        Pair<Boolean, TlbEntry> tlbEntryPair = this.entries.poll();
-        while(tlbEntryPair.getPair1()) {
-            tlbEntryPair.setPair1(false);
-            this.entries.add(tlbEntryPair);
-            tlbEntryPair = this.entries.remove();
+        Pair<Boolean, T> entryPair = this.entries.poll();
+        while(entryPair.getPair1()) {
+            entryPair.setPair1(false);
+            this.entries.add(entryPair);
+            entryPair = this.entries.remove();
         }
     }
 
