@@ -1,14 +1,28 @@
 package page.x.memoriafisica;
-import java.util.ArrayList;
+import java.util.Map;
+import java.util.HashMap;
 
 public class PageFrameContent {
-    private ArrayList<String> enderecos;
+    private Map<Long, String> enderecos;
 
-    public PageFrameContent () {
-        this.enderecos = new ArrayList<>();
+    private Long tamanhoPaginaEmKB;
+
+    public PageFrameContent (Long tamanhoPaginaEmKB) {
+        this.tamanhoPaginaEmKB = tamanhoPaginaEmKB;
+        this.enderecos = new HashMap<>();
     }
 
-    public ArrayList<String> getEnderecos() {
-        return enderecos;
+    public void acessarEndereco(Long offset) {
+        this.enderecos.put(offset, "CONTENT");
+    }
+
+    public double getPercentualDeUso() {
+        double tamanhoPaginaBytes = (double) tamanhoPaginaEmKB * 1024;
+        double percentual = ( (double) enderecos.size() / tamanhoPaginaBytes);
+        return percentual * 100;
+    }
+
+    public Map<Long, String> getEnderecos() {
+        return this.enderecos;
     }
 }
