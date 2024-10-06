@@ -12,13 +12,13 @@ import java.util.Scanner;
 public class PageX {
 
     @Option(names = "--page-size", description = "Tamanho da página", defaultValue = Option.NULL_VALUE)
-    private Integer pageSize;
+    private Long pageSize;
 
     @Option(names = "--maquina", description = "Número de bits da máquina", defaultValue = Option.NULL_VALUE)
-    private Integer maquinaBits;
+    private Long maquinaBits;
 
     @Option(names = "--tlb-entry", description = "Número de entradas da TLB", defaultValue = "10")
-    private Integer tlbEntries;
+    private Long tlbEntries;
 
     @Option(names = "--tlb-alg", description = "Algoritmo da TLB", defaultValue = "lru")
     private String tlbAlg;
@@ -62,8 +62,8 @@ public class PageX {
             modoSimulador.tlbSetUp();
             modoSimulador.maquinaSetUp();
         } else {
-            modoSimulador.montaTlb(tlbEntries, tlbAlg);
-            modoSimulador.montaMaquina(maquinaBits, pageSize);
+            modoSimulador.tlbSetUp(tlbEntries, tlbAlg);
+            modoSimulador.maquinaSetUp(maquinaBits, pageSize);
         }
         modoSimulador.imprimeMaquina();
         modoSimulador.iniciarSimulacao();

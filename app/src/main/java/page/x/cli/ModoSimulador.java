@@ -26,49 +26,71 @@ public class ModoSimulador {
         System.out.println("\n===============================");
         System.out.println(" CONFIGURAÇÃO DA MÁQUINA INICIADA");
         System.out.println("===============================\n");
-
+    
         System.out.println("Escolha a quantidade de bits de endereçamento para sua máquina (máx 64):");
         Long bits = Long.parseLong(sc.nextLine());
-
+    
         System.out.println("\nEscolha o tamanho de uma página em KB:");
         Long pageSize = Long.parseLong(sc.nextLine());
-        
+    
+        configurarMaquina(bits, pageSize);
+    }
+    
+    public void maquinaSetUp(Long maquinaBits, Long pageSize) {
+        configurarMaquina(maquinaBits, pageSize);
+    }
+    
+    private void configurarMaquina(Long bits, Long pageSize) {
         montaMemoriaFisicaDefault(bits, pageSize);
         montaMaquina(bits, pageSize);
-    }
+    }    
 
     public void tlbSetUp() {
-
         System.out.println("\nDefina a quantidade de entradas da sua TLB (máx 64):");
         Long qtdEntry = Long.parseLong(sc.nextLine());
-
+    
         System.out.println("\nSelecione o algoritmo de substituição da TLB:");
         System.out.println("[1] FIFO");
         System.out.println("[2] LFU");
         System.out.println("[3] LRU");
         System.out.println("[4] Second Chance");
-        int option = Integer.parseInt(sc.nextLine());
+        String option = sc.nextLine();
+    
+        configurarTLB(qtdEntry, option);
+    }
+    
+    public void tlbSetUp(Long qtdEntry, String tlbAlg) {
+        configurarTLB(qtdEntry, tlbAlg);
+    }
+    
+    private void configurarTLB(Long qtdEntry, String tlbAlg) {
+        criarAlgoritmoSubstuicao(qtdEntry, tlbAlg);
+        this.montaTLB(algoritmo);
+    }    
 
-        switch (option) {
-            case 1:
-                algoritmo = new FIFO<>(qtdEntry);
+    private void criarAlgoritmoSubstuicao(Long tlbEntries, String tlbAlg) {
+        switch (tlbAlg) {
+            case "1":
+            case "fifo":
+                algoritmo = new FIFO<>(tlbEntries);
                 break;
-            case 2:
-                algoritmo = new LFU<>(qtdEntry);
+            case "2":
+            case "lfu":
+                algoritmo = new LFU<>(tlbEntries);
                 break;
-            case 3:
-                algoritmo = new LRU<>(qtdEntry);
+            case "3":
+            case "lru":
+                algoritmo = new LRU<>(tlbEntries);
                 break;
-            case 4:
-                algoritmo = new SecondChance<>(qtdEntry);
+            case "4":
+            case "secondchance":
+                algoritmo = new SecondChance<>(tlbEntries);
                 break;
             default:
                 System.out.println("\nOpção inválida. Tente novamente.\n");
                 this.tlbSetUp();
                 break;
         }
-
-        this.montaTLB(algoritmo);
     }
 
     private void montaTLB(AlgoritmoSubstituicaoI<TlbEntry> algoritmo) {
