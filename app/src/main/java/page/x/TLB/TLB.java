@@ -1,7 +1,6 @@
 package page.x.TLB;
 
 import page.x.TLB.algoritmos.substituicao.AlgoritmoSubstituicaoI;
-import page.x.entry.TlbEntry;
 import page.x.interruptions.MissInterruption;
 
 public class TLB {
@@ -50,7 +49,7 @@ public class TLB {
         return this.algoritmo.nomeToString();
     }
 
-    public int getQtdEntries() {
+    public Long getQtdEntries() {
         return this.algoritmo.getQtdEntries();
     }
 

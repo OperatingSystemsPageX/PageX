@@ -3,7 +3,7 @@ package page.x;
 import org.junit.jupiter.api.Test;
 
 import page.x.TLB.TLB;
-import page.x.entry.TlbEntry;
+import page.x.TLB.TlbEntry;
 import page.x.TLB.algoritmos.substituicao.SecondChance;
 import page.x.interruptions.MissInterruption;
 
@@ -14,13 +14,13 @@ import org.junit.jupiter.api.DisplayName;
 
 class TestSecondChance {
 
-    private final static int SIZE_SC = 5;
+    private final static Long SIZE_SC = 5L;
     private final static int QTD_PAIR = 10;
     private SecondChance<TlbEntry> sc1;
     private TLB tlb1;
     private TlbEntry[] entries;
     
-    void preencheTLB(TLB tlb, TlbEntry[] entries, Integer size) throws MissInterruption{
+    void preencheTLB(TLB tlb, TlbEntry[] entries, Long size) throws MissInterruption{
         for (int i = 0; i < size; i++) {
             tlb.addPaginaMapeada(entries[i].getVirtualPageNumber(), entries[i].getPageFrameNumber());
         }

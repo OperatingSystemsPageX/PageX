@@ -5,11 +5,11 @@ import page.x.interruptions.MissInterruption;
 public interface AlgoritmoSubstituicaoI<T> {
     public T acessEntry(Long accessID) throws MissInterruption;
 
-    public void addEntry(T entry);
+    public T addEntry(T entry);
 
     public String nomeToString();
 
-    public int getQtdEntries();
+    public Long getQtdEntries();
 
     public void reset();
 }

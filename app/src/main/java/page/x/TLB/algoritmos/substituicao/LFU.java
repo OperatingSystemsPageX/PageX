@@ -9,11 +9,11 @@ import java.util.List;
 
 public class LFU<T> implements AlgoritmoSubstituicaoI<T> {
     
-    private int quantidadeEntries;
+    private Long quantidadeEntries;
 
     private List<Pair<Integer, T>> entries;
 
-    public LFU(int quantidadeEntries) {
+    public LFU(Long quantidadeEntries) {
         this.quantidadeEntries = quantidadeEntries;
         this.entries = new ArrayList<>();
     }
@@ -36,15 +36,17 @@ public class LFU<T> implements AlgoritmoSubstituicaoI<T> {
     }
 
     @Override
-    public void addEntry(T entry) {
+    public T addEntry(T entry) {
+        T result = null;
         Pair<Integer, T> entryPair = new Pair<Integer,T>(1, entry);
         if (quantidadeEntries == entries.size()) {
-            this.removeMenosAcesso();
+            result = this.removeMenosAcesso().getPair2();
         }
-        entries.add(entryPair);  
+        entries.add(entryPair); 
+        return result; 
     }
 
-    private void removeMenosAcesso() {
+    private Pair<Integer, T> removeMenosAcesso() {
         Pair<Integer, T> menorAcesso = entries.getFirst();
         for (Pair<Integer, T> i : entries) {
             if (i.getPair1() < menorAcesso.getPair1()) {
@@ -52,6 +54,7 @@ public class LFU<T> implements AlgoritmoSubstituicaoI<T> {
             }
         }
         entries.remove(menorAcesso);
+        return menorAcesso;
     }
 
     @Override
@@ -60,7 +63,7 @@ public class LFU<T> implements AlgoritmoSubstituicaoI<T> {
     }
 
     @Override
-    public int getQtdEntries() {
+    public Long getQtdEntries() {
         return this.quantidadeEntries;
     }
 

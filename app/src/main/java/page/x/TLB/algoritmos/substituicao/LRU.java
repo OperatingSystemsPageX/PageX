@@ -6,11 +6,11 @@ import page.x.interruptions.MissInterruption;
 
 public class LRU<T> implements AlgoritmoSubstituicaoI<T> {
     
-    private int quantidadeEntries;
+    private Long quantidadeEntries;
     
     private LinkedList<T> entries;
 
-    public LRU(int quantidadeEntries) {
+    public LRU(Long quantidadeEntries) {
         this.quantidadeEntries = quantidadeEntries;
         this.entries = new LinkedList<>();
     }
@@ -32,11 +32,13 @@ public class LRU<T> implements AlgoritmoSubstituicaoI<T> {
     }    
 
     @Override
-    public void addEntry(T entry) {
+    public T addEntry(T entry) {
+        T result = null;
         if (quantidadeEntries == this.entries.size()) {
-            this.entries.removeFirst();
+            result = this.entries.removeFirst();
         } 
         this.entries.addLast(entry);
+        return result;
     }
 
     @Override
@@ -45,7 +47,7 @@ public class LRU<T> implements AlgoritmoSubstituicaoI<T> {
     }
 
     @Override
-    public int getQtdEntries() {
+    public Long getQtdEntries() {
         return this.quantidadeEntries;
     }
 

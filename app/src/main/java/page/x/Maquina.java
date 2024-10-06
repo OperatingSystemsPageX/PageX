@@ -1,6 +1,7 @@
 package page.x;
 
 import page.x.TLB.TLB;
+import page.x.TLB.algoritmos.substituicao.FIFO;
 import page.x.estados.AguardarTraducao;
 import page.x.estados.SepararBitsState;
 import page.x.estados.TraducaoState;
@@ -24,7 +25,7 @@ public class Maquina {
         this.tlb = tlb;
         this.traducaoState = new AguardarTraducao(this);
         this.interruptHandler = new InterruptHandler(this);
-        this.memoriaFisica = new MemoriaFisica(this.qtdBits, this.tamanhoDaPaginaEmKB);
+        this.memoriaFisica = new MemoriaFisica(this.qtdBits, this.tamanhoDaPaginaEmKB, new FIFO<Long>(10000L));
     }
 
     public void setTraducaoState(TraducaoState traducaoState) {
@@ -95,7 +96,7 @@ public class Maquina {
     }
 
     public void reset() {
-        this.memoriaFisica = new MemoriaFisica(this.qtdBits, this.tamanhoDaPaginaEmKB);
+        this.memoriaFisica = new MemoriaFisica(this.qtdBits, this.tamanhoDaPaginaEmKB, new FIFO<Long>(100000L));
         this.traducaoState = new AguardarTraducao(this);
         this.interruptHandler = new InterruptHandler(this);
         this.tlb.reset();

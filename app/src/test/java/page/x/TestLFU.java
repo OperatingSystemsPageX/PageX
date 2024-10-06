@@ -3,7 +3,7 @@ package page.x;
 import org.junit.jupiter.api.Test;
 
 import page.x.TLB.TLB;
-import page.x.entry.TlbEntry;
+import page.x.TLB.TlbEntry;
 import page.x.TLB.algoritmos.substituicao.LFU;
 import page.x.interruptions.MissInterruption;
 
@@ -14,13 +14,13 @@ import org.junit.jupiter.api.DisplayName;
 
 class TestLFU {
 
-    private final static int SIZE_LFU = 5;
+    private final static Long SIZE_LFU = 5L;
     private final static int QTD_PAIR = 10;
     private LFU<TlbEntry> lfu1;
     private TLB tlb1;
     private TlbEntry[] entries;
     
-    void preencheTLB(TLB tlb, TlbEntry[] entries, Integer size) throws MissInterruption{
+    void preencheTLB(TLB tlb, TlbEntry[] entries, Long size) throws MissInterruption{
         for (int i = 0; i < size; i++) {
             tlb.addPaginaMapeada(entries[i].getVirtualPageNumber(), entries[i].getPageFrameNumber());
         }

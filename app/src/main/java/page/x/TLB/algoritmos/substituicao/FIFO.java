@@ -7,11 +7,11 @@ import java.util.Queue;
 
 public class FIFO<T> implements AlgoritmoSubstituicaoI<T> {
 
-    private int quantidadeEntries;
+    private Long quantidadeEntries;
 
     private Queue<T> entries;
 
-    public FIFO(int quantidadeEntries) {
+    public FIFO(Long quantidadeEntries) {
         this.quantidadeEntries = quantidadeEntries;
         this.entries = new LinkedList<>();
     }
@@ -27,11 +27,13 @@ public class FIFO<T> implements AlgoritmoSubstituicaoI<T> {
     }
 
     @Override
-    public void addEntry(T entry) {
+    public T addEntry(T entry) {
+        T result = null;
         if (quantidadeEntries == this.entries.size()) {
-            this.entries.remove();
+            result = this.entries.remove();
         }
         this.entries.add(entry);
+        return result;
     }
 
     @Override
@@ -40,7 +42,7 @@ public class FIFO<T> implements AlgoritmoSubstituicaoI<T> {
     }
 
     @Override
-    public int getQtdEntries() {
+    public Long getQtdEntries() {
         return this.quantidadeEntries;
     }
 

@@ -8,11 +8,11 @@ import page.x.utils.Pair;
 
 public class SecondChance<T> implements AlgoritmoSubstituicaoI<T> {
 
-    private int quantidadeEntries;
+    private Long quantidadeEntries;
 
     private Queue<Pair<Boolean, T>> entries;
 
-    public SecondChance(int quantidadeEntries) {
+    public SecondChance(Long quantidadeEntries) {
         this.quantidadeEntries = quantidadeEntries;
         this.entries = new LinkedList<>();
     }
@@ -30,22 +30,24 @@ public class SecondChance<T> implements AlgoritmoSubstituicaoI<T> {
     }
 
     @Override
-    public void addEntry(T entry) {
+    public T addEntry(T entry) {
+        T result = null;
         Pair<Boolean, T> tlbEntryPair = new Pair<Boolean,T>(false, entry);
         if (entries.size() == quantidadeEntries) {
-            this.removePagina();
+            result = this.removePagina().getPair2();
         }
         this.entries.add(tlbEntryPair);
-        
+        return result;
     }
 
-    private void removePagina() {
+    private Pair<Boolean, T> removePagina() {
         Pair<Boolean, T> entryPair = this.entries.poll();
         while(entryPair.getPair1()) {
             entryPair.setPair1(false);
             this.entries.add(entryPair);
             entryPair = this.entries.remove();
         }
+        return entryPair;
     }
 
     @Override
@@ -54,7 +56,7 @@ public class SecondChance<T> implements AlgoritmoSubstituicaoI<T> {
     }
 
     @Override
-    public int getQtdEntries() {
+    public Long getQtdEntries() {
         return this.quantidadeEntries;
     }
 

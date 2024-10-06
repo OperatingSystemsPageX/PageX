@@ -1,4 +1,4 @@
-package page.x.entry;
+package page.x.TLB;
 
 public class TlbEntry {
 

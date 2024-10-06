@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import page.x.TLB.algoritmos.substituicao.FIFO;
 import page.x.interruptions.FullPhysicalMemoryInterruption;
 import page.x.memoriafisica.MemoriaFisica;
 
@@ -18,7 +19,7 @@ class TestMemoriaFisica {
 
     @BeforeEach
     void setup() {
-        this.memoriaFisica = new MemoriaFisica(TAMANHO_DA_MAQUINA_EM_BITS, TAMANHO_DA_PAGE_EM_KBS);
+        this.memoriaFisica = new MemoriaFisica(TAMANHO_DA_MAQUINA_EM_BITS, TAMANHO_DA_PAGE_EM_KBS, new FIFO<Long>(QUANTIDADE_DE_PAGE_FRAMES));
     }
 
     @Test

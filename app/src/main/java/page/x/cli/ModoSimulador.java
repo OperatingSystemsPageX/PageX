@@ -3,6 +3,7 @@ package page.x.cli;
 import page.x.Maquina;
 import page.x.PageX;
 import page.x.TLB.TLB;
+import page.x.TLB.TlbEntry;
 import page.x.TLB.algoritmos.substituicao.*;
 import page.x.interruptions.Interruption;
 
@@ -13,7 +14,7 @@ public class ModoSimulador {
     private Scanner sc = new Scanner(System.in);
     private Maquina maquina;
     private TLB tlb;
-    private AlgoritmoSubstituicaoI algoritmo;
+    private AlgoritmoSubstituicaoI<TlbEntry> algoritmo;
 
     public ModoSimulador(PageX pagex) {
         this.pagex = pagex;
@@ -36,7 +37,7 @@ public class ModoSimulador {
     public void tlbSetUp() {
 
         System.out.println("\nDefina a quantidade de entradas da sua TLB (máx 64):");
-        int qtdEntry = Integer.parseInt(sc.nextLine());
+        Long qtdEntry = Long.parseLong(sc.nextLine());
 
         System.out.println("\nSelecione o algoritmo de substituição da TLB:");
         System.out.println("[1] FIFO");
@@ -47,16 +48,16 @@ public class ModoSimulador {
 
         switch (option) {
             case 1:
-                algoritmo = new FIFO(qtdEntry);
+                algoritmo = new FIFO<>(qtdEntry);
                 break;
             case 2:
-                algoritmo = new LFU(qtdEntry);
+                algoritmo = new LFU<>(qtdEntry);
                 break;
             case 3:
-                algoritmo = new LRU(qtdEntry);
+                algoritmo = new LRU<>(qtdEntry);
                 break;
             case 4:
-                algoritmo = new SecondChance(qtdEntry);
+                algoritmo = new SecondChance<>(qtdEntry);
                 break;
             default:
                 System.out.println("\nOpção inválida. Tente novamente.\n");
@@ -65,7 +66,7 @@ public class ModoSimulador {
         this.montaTLB(algoritmo);
     }
 
-    private void montaTLB(AlgoritmoSubstituicaoI algoritmo) {
+    private void montaTLB(AlgoritmoSubstituicaoI<TlbEntry> algoritmo) {
         this.tlb = new TLB(algoritmo);
     }
 
