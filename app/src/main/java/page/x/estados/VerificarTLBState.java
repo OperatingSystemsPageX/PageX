@@ -29,7 +29,7 @@ public class VerificarTLBState implements TraducaoState {
     }
     
     private void avancaEstadoHit(Long PFN) {
-        TraducaoState proximoEstado = new AcessarEnderecoFisicoState(maquina, PFN, enderecoVirtual);
+        TraducaoState proximoEstado = new AcessarEnderecoFisicoState(maquina, PFN, enderecoVirtual, true);
         maquina.setTraducaoState(proximoEstado);
     }
     

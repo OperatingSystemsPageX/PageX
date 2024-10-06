@@ -64,6 +64,8 @@ public class ModoSimulador {
                 break;
             default:
                 System.out.println("\nOpção inválida. Tente novamente.\n");
+                this.tlbSetUp();
+                break;
         }
 
         this.montaTLB(algoritmo);
