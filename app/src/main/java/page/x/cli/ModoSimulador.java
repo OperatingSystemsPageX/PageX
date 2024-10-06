@@ -6,6 +6,7 @@ import page.x.TLB.TLB;
 import page.x.TLB.TlbEntry;
 import page.x.TLB.algoritmos.substituicao.*;
 import page.x.interruptions.Interruption;
+import page.x.memoriafisica.MemoriaFisica;
 
 import java.util.Scanner;
 
@@ -14,6 +15,7 @@ public class ModoSimulador {
     private Scanner sc = new Scanner(System.in);
     private Maquina maquina;
     private TLB tlb;
+    private MemoriaFisica memoriaFisica;
     private AlgoritmoSubstituicaoI<TlbEntry> algoritmo;
 
     public ModoSimulador(PageX pagex) {
@@ -26,11 +28,12 @@ public class ModoSimulador {
         System.out.println("===============================\n");
 
         System.out.println("Escolha a quantidade de bits de endereçamento para sua máquina (máx 64):");
-        int bits = Integer.parseInt(sc.nextLine());
+        Long bits = Long.parseLong(sc.nextLine());
 
         System.out.println("\nEscolha o tamanho de uma página em KB:");
-        int pageSize = Integer.parseInt(sc.nextLine());
-
+        Long pageSize = Long.parseLong(sc.nextLine());
+        
+        montaMemoriaFisicaDefault(bits, pageSize);
         montaMaquina(bits, pageSize);
     }
 
@@ -70,8 +73,13 @@ public class ModoSimulador {
         this.tlb = new TLB(algoritmo);
     }
 
-    private void montaMaquina(int bits, int pageSize) {
-        this.maquina = new Maquina((long) bits, (long) pageSize, tlb);
+    private void montaMaquina(Long bits, Long pageSize) {
+        this.maquina = new Maquina(bits, pageSize, tlb, memoriaFisica);
+    }
+
+    private void montaMemoriaFisicaDefault(Long bits, Long pageSize) {
+        Long qtdPages = (long) Math.pow(2, bits) / (pageSize * 1024);
+        this.memoriaFisica = new MemoriaFisica(bits, pageSize, new FIFO<>(qtdPages));
     }
 
     public void imprimeMaquina() {

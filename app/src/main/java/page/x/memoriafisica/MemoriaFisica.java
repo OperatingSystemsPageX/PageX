@@ -3,7 +3,6 @@ package page.x.memoriafisica;
 import java.util.HashMap;
 
 import page.x.TLB.algoritmos.substituicao.AlgoritmoSubstituicaoI;
-import page.x.interruptions.FullPhysicalMemoryInterruption;
 import page.x.interruptions.Interruption;
 import page.x.pagetable.PageTable;
 import page.x.utils.Sorteador;
@@ -19,17 +18,14 @@ public class MemoriaFisica {
 
     public MemoriaFisica (Long qtdBits, Long tamanhoPaginaEmKB, AlgoritmoSubstituicaoI<Long> algoritmoSubstituicao) {
         this.tamanhoPaginaEmKB = tamanhoPaginaEmKB;
-        this.bitsParaRepresentarPageFrame = bitsParaRepresentarPageFrame(qtdBits, tamanhoPaginaEmKB);
+        this.algoritmoSubstituicao = algoritmoSubstituicao;
+        this.bitsParaRepresentarPageFrame = this.bitsParaRepresentarPageFrame(qtdBits, tamanhoPaginaEmKB);
         this.pageTable = new PageTable(qtdBits, tamanhoPaginaEmKB);
         this.memoriaFisica = new HashMap<>();
-        this.algoritmoSubstituicao = algoritmoSubstituicao;
         this.sorteador = new Sorteador(bitsParaRepresentarPageFrame);
     }
 
-    public Long alocarPageFrame () throws FullPhysicalMemoryInterruption {
-        if (getUtilizacaoMemoriaFisica() >= Math.pow(2, bitsParaRepresentarPageFrame)) {
-            throw new FullPhysicalMemoryInterruption();
-        }
+    public Long alocarPageFrame () {
         Long pageFrameAleatorio = sorteador.sortearNumero(memoriaFisica);
         memoriaFisica.put(pageFrameAleatorio, new PageFrameContent(this.tamanhoPaginaEmKB));
         Long removedPage = algoritmoSubstituicao.addEntry(pageFrameAleatorio);
