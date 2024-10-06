@@ -16,7 +16,6 @@ public class ModoSimulador {
     private Maquina maquina;
     private TLB tlb;
     private MemoriaFisica memoriaFisica;
-    private AlgoritmoSubstituicaoI<TlbEntry> algoritmo;
 
     public ModoSimulador(PageX pagex) {
         this.pagex = pagex;
@@ -32,31 +31,42 @@ public class ModoSimulador {
     
         System.out.println("\nEscolha o tamanho de uma página em B:");
         Long pageSize = Long.parseLong(sc.nextLine());
+
+        System.out.println("\nDefina o tamanho da sua memória física em B:");
+        Long tamanhoMemoriaFisicaB = Long.parseLong(sc.nextLine());
     
-        configurarMaquina(bits, pageSize);
+        configurarMaquina(bits, pageSize, tamanhoMemoriaFisicaB, null);
     }
     
-    public void maquinaSetUp(Long maquinaBits, Long pageSize) {
-        configurarMaquina(maquinaBits, pageSize);
+    public void maquinaSetUp(Long maquinaBits, Long pageSize, Long tamanhoMemoriaFisicaB, String memoriaFisicaAlg) {
+        if (tamanhoMemoriaFisicaB == null) {
+            tamanhoMemoriaFisicaB = (long) Math.pow(2, maquinaBits);
+        }
+        configurarMaquina(maquinaBits, pageSize, tamanhoMemoriaFisicaB, memoriaFisicaAlg);
     }
     
-    private void configurarMaquina(Long bits, Long pageSize) {
-        montaMemoriaFisicaDefault(bits, pageSize);
+    private void configurarMaquina(Long bits, Long pageSize, Long tamanhoMemoriaFisicaB, String memoriaFisicaAlg) {
+        montaMemoriaFisica(bits, pageSize, tamanhoMemoriaFisicaB, memoriaFisicaAlg);
         montaMaquina(bits, pageSize);
-    }    
+    }
+
+    private void montaMemoriaFisica(Long bits, Long pageSize, Long tamanhoMemoriaFisicaB, String memoriaFisicaAlg) {
+        Long qtdPages = (long) Math.pow(2, bits) / pageSize;
+    
+        AlgoritmoSubstituicaoI<Long> algoritmoMemoriaFisica = criarAlgoritmoSubstituicao(qtdPages, "Memória Física", memoriaFisicaAlg);
+    
+        this.memoriaFisica = new MemoriaFisica(bits, pageSize, algoritmoMemoriaFisica);
+    }
+
+    private void montaMaquina(Long bits, Long pageSize) {
+        this.maquina = new Maquina(bits, pageSize, tlb, memoriaFisica);
+    }
 
     public void tlbSetUp() {
         System.out.println("\nDefina a quantidade de entradas da sua TLB (máx 64):");
         Long qtdEntry = Long.parseLong(sc.nextLine());
     
-        System.out.println("\nSelecione o algoritmo de substituição da TLB:");
-        System.out.println("[1] FIFO");
-        System.out.println("[2] LFU");
-        System.out.println("[3] LRU");
-        System.out.println("[4] Second Chance");
-        String option = sc.nextLine();
-    
-        configurarTLB(qtdEntry, option);
+        configurarTLB(qtdEntry, null);
     }
     
     public void tlbSetUp(Long qtdEntry, String tlbAlg) {
@@ -64,12 +74,28 @@ public class ModoSimulador {
     }
     
     private void configurarTLB(Long qtdEntry, String tlbAlg) {
-        criarAlgoritmoSubstituicao(qtdEntry, tlbAlg);
-        this.montaTLB(algoritmo);
-    }    
+        AlgoritmoSubstituicaoI<TlbEntry> algoritmoTLB = criarAlgoritmoSubstituicao(qtdEntry, "TLB", tlbAlg);
+        this.montaTLB(algoritmoTLB);
+    }
 
-    private void criarAlgoritmoSubstituicao(Long qtdEntries, String tlbAlg) {
-        switch (tlbAlg) {
+    private void montaTLB(AlgoritmoSubstituicaoI<TlbEntry> algoritmo) {
+        this.tlb = new TLB(algoritmo);
+    }
+
+    private <T> AlgoritmoSubstituicaoI<T> criarAlgoritmoSubstituicao(Long qtdEntries, String componente, String algName) {
+        if (algName == null) {
+            System.out.println("\nSelecionando o algoritmo de substituição para a " + componente + ":");
+            System.out.println("[1] FIFO");
+            System.out.println("[2] LFU");
+            System.out.println("[3] LRU");
+            System.out.println("[4] Second Chance");
+            System.out.print("Escolha uma opção: ");
+            algName = sc.nextLine();
+        }
+
+        AlgoritmoSubstituicaoI<T> algoritmo = null;
+
+        switch (algName.toLowerCase()) {
             case "1":
             case "fifo":
                 algoritmo = new FIFO<>(qtdEntries);
@@ -87,23 +113,10 @@ public class ModoSimulador {
                 algoritmo = new SecondChance<>(qtdEntries);
                 break;
             default:
-                System.out.println("\nOpção inválida. Tente novamente.\n");
-                this.tlbSetUp();
-                break;
+                System.out.println("\nOpção inválida para " + componente + ". Tente novamente.");
+                return criarAlgoritmoSubstituicao(qtdEntries, componente, null);
         }
-    }
-
-    private void montaTLB(AlgoritmoSubstituicaoI<TlbEntry> algoritmo) {
-        this.tlb = new TLB(algoritmo);
-    }
-
-    private void montaMaquina(Long bits, Long pageSize) {
-        this.maquina = new Maquina(bits, pageSize, tlb, memoriaFisica);
-    }
-
-    private void montaMemoriaFisicaDefault(Long bits, Long pageSize) {
-        Long qtdPages = (long) Math.pow(2, bits) / pageSize;
-        this.memoriaFisica = new MemoriaFisica(bits, pageSize, new FIFO<>(qtdPages));
+        return algoritmo;
     }
 
     public void imprimeMaquina() {
@@ -131,7 +144,7 @@ public class ModoSimulador {
         System.out.println("Atenção: durante o processo, se quiser maiores explicações para etapa, digite '?'");
         System.out.println("Digite '.' para continuar a tradução ou '!' para parar:");
         String option = sc.nextLine();
-        while (option != "!" && maquina.getEmOperacao()) {
+        while (!option.equals("!") && maquina.getEmOperacao()) {
             switch (option) {
                 case ".":
                     explicacao = maquina.getEstado().explicacao();
@@ -178,6 +191,4 @@ public class ModoSimulador {
                 reiniciarTraducao();
         }
     }
-
-
 }
