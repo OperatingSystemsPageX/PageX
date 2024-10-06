@@ -97,20 +97,26 @@ public class ModoSimulador {
     }
 
     public void iniciarSimulacao() throws Interruption {
+        String explicacao = "";
         System.out.println(
                 "\n🔄 Iniciando a simulação de traduções de endereço!\n"
-                        + "Ao longo da simulação, você receberá uma pergunta como abaixo\n"
+                        + "a simulação avança mediante sua interação\n"
                         + "=> Qual Endereço Virtual gostaria de traduzir?\n");
 
         Long traducaoInicial = Long.parseLong(sc.nextLine());
         maquina.iniciarTraducaoDeEndereco(traducaoInicial);
 
+        System.out.println("Atenção: durante o processo, se quiser maiores explicações para etapa, digite '?'");
         System.out.println("Digite '.' para continuar a tradução ou '!' para parar:");
         String option = sc.nextLine();
         while (option != "!" && maquina.getEmOperacao()) {
             switch (option) {
                 case ".":
+                    explicacao = maquina.getEstado().explicacao();
                     maquina.executarEstadoAtual();
+                    break;
+                case "?":
+                    System.out.println(explicacao);
                     break;
                 case "!":
                     return;
@@ -150,4 +156,6 @@ public class ModoSimulador {
                 reiniciarTraducao();
         }
     }
+
+
 }

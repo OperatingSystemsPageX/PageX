@@ -35,4 +35,12 @@ public class AcessarPageTableState implements TraducaoState {
         System.out.println("Registrador PTBR aponta para o final da memória.\n");
         System.out.println("Verificando se a página já foi alocada...\n");
     }
+
+    @Override
+    public String explicacao() {
+        return "Devido à ausência da informação que precisamos na TLB, no caso, o ID do page frame,\n" +
+               "é necessário que acessemos a Page Table no índice correspondente ao VPN, essa PTE\n" +
+               "(Page Table Entry) contém esse valor e alguns outros bits de utilidade.";
+    }
+
 }
