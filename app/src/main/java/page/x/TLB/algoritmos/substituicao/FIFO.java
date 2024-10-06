@@ -46,8 +46,4 @@ public class FIFO<T> implements AlgoritmoSubstituicaoI<T> {
         return this.quantidadeEntries;
     }
 
-    @Override
-    public void reset() {
-        this.entries = new LinkedList<>();
-    }
 }

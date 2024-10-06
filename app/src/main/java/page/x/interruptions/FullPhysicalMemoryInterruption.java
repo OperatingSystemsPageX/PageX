@@ -10,7 +10,6 @@ public class FullPhysicalMemoryInterruption extends Interruption {
 
     @Override
     public void processar(Maquina maquina) {
-        maquina.reset();
     }
 
 }

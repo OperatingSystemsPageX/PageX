@@ -51,8 +51,4 @@ public class LRU<T> implements AlgoritmoSubstituicaoI<T> {
         return this.quantidadeEntries;
     }
 
-    @Override
-    public void reset() {
-        this.entries = new LinkedList<>();
-    }
 }

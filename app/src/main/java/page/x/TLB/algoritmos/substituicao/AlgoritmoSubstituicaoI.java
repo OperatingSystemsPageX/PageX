@@ -11,5 +11,4 @@ public interface AlgoritmoSubstituicaoI<T> {
 
     public Long getQtdEntries();
 
-    public void reset();
 }

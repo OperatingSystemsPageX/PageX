@@ -95,10 +95,4 @@ public class Maquina {
         return emOperacao;
     }
 
-    public void reset() {
-        this.memoriaFisica = new MemoriaFisica(this.qtdBits, this.tamanhoDaPaginaEmKB, new FIFO<Long>(100000L));
-        this.traducaoState = new AguardarTraducao(this);
-        this.interruptHandler = new InterruptHandler(this);
-        this.tlb.reset();
-    }
 }

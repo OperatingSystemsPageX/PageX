@@ -53,9 +53,4 @@ public class TLB {
         return this.algoritmo.getQtdEntries();
     }
 
-    public void reset() {
-        this.quantidadeDeHit = 0;
-        this.quantidadeDeMiss = 0;
-        this.algoritmo.reset();
-    }
 }
