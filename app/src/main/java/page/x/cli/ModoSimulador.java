@@ -30,7 +30,7 @@ public class ModoSimulador {
         System.out.println("Escolha a quantidade de bits de endereçamento para sua máquina (máx 64):");
         Long bits = Long.parseLong(sc.nextLine());
     
-        System.out.println("\nEscolha o tamanho de uma página em KB:");
+        System.out.println("\nEscolha o tamanho de uma página em B:");
         Long pageSize = Long.parseLong(sc.nextLine());
     
         configurarMaquina(bits, pageSize);
@@ -64,27 +64,27 @@ public class ModoSimulador {
     }
     
     private void configurarTLB(Long qtdEntry, String tlbAlg) {
-        criarAlgoritmoSubstuicao(qtdEntry, tlbAlg);
+        criarAlgoritmoSubstituicao(qtdEntry, tlbAlg);
         this.montaTLB(algoritmo);
     }    
 
-    private void criarAlgoritmoSubstuicao(Long tlbEntries, String tlbAlg) {
+    private void criarAlgoritmoSubstituicao(Long qtdEntries, String tlbAlg) {
         switch (tlbAlg) {
             case "1":
             case "fifo":
-                algoritmo = new FIFO<>(tlbEntries);
+                algoritmo = new FIFO<>(qtdEntries);
                 break;
             case "2":
             case "lfu":
-                algoritmo = new LFU<>(tlbEntries);
+                algoritmo = new LFU<>(qtdEntries);
                 break;
             case "3":
             case "lru":
-                algoritmo = new LRU<>(tlbEntries);
+                algoritmo = new LRU<>(qtdEntries);
                 break;
             case "4":
             case "secondchance":
-                algoritmo = new SecondChance<>(tlbEntries);
+                algoritmo = new SecondChance<>(qtdEntries);
                 break;
             default:
                 System.out.println("\nOpção inválida. Tente novamente.\n");
@@ -102,7 +102,7 @@ public class ModoSimulador {
     }
 
     private void montaMemoriaFisicaDefault(Long bits, Long pageSize) {
-        Long qtdPages = (long) Math.pow(2, bits) / (pageSize * 1024);
+        Long qtdPages = (long) Math.pow(2, bits) / pageSize;
         this.memoriaFisica = new MemoriaFisica(bits, pageSize, new FIFO<>(qtdPages));
     }
 

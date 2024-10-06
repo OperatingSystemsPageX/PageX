@@ -13,12 +13,12 @@ class TestMemoriaFisica {
 
     private MemoriaFisica memoriaFisica;
     private final static Long TAMANHO_DA_MAQUINA_EM_BITS = 14L;
-    private final static Long TAMANHO_DA_PAGE_EM_KBS = 4L;
+    private final static Long TAMANHO_DA_PAGE_EM_BYTES = 4096L;
     private final static Long QUANTIDADE_DE_PAGE_FRAMES = 4L;
 
     @BeforeEach
     void setup() {
-        this.memoriaFisica = new MemoriaFisica(TAMANHO_DA_MAQUINA_EM_BITS, TAMANHO_DA_PAGE_EM_KBS, new FIFO<Long>(QUANTIDADE_DE_PAGE_FRAMES));
+        this.memoriaFisica = new MemoriaFisica(TAMANHO_DA_MAQUINA_EM_BITS, TAMANHO_DA_PAGE_EM_BYTES, new FIFO<Long>(QUANTIDADE_DE_PAGE_FRAMES));
     }
 
     @Test

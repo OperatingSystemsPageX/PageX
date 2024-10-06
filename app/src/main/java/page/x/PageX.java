@@ -11,7 +11,7 @@ import java.util.Scanner;
 @Command(name = "PageX", mixinStandardHelpOptions = true, description = "Simulador de tradução de páginas")
 public class PageX {
 
-    @Option(names = "--page-size", description = "Tamanho da página", defaultValue = Option.NULL_VALUE)
+    @Option(names = "--page-size", description = "Tamanho da página em Bytes", defaultValue = Option.NULL_VALUE)
     private Long pageSize;
 
     @Option(names = "--maquina", description = "Número de bits da máquina", defaultValue = Option.NULL_VALUE)

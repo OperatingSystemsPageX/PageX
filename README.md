@@ -76,7 +76,7 @@ Os valores passados no exemplo são ilustrativos. Substitua-os pelos valores que
 
 Aqui estão as descrições de cada uma das flags que você pode configurar ao rodar o simulador:
 
-- **`--page-size`**: Define o tamanho da página de memória. Exemplo: `--page-size 4` (onde o tamanho da página é 4 KB).
+- **`--page-size`**: Define o tamanho da página de memória. Exemplo: `--page-size 4` (onde o tamanho da página é 4 B).
 - **`--maquina`**: Define o número de bits da máquina (largura de endereços). Exemplo: `--maquina 32` (máquina com arquitetura de 32 bits).
 - **`--tlb-entry`**: Define o número de entradas na TLB (Translation Lookaside Buffer), que armazena mapeamentos recentes de endereços virtuais para endereços físicos. Exemplo: `--tlb-entry 8`.
 - **`--tlb-alg`**: Define o algoritmo de substituição da TLB. Exemplo: `--tlb-alg fifo`.
@@ -87,6 +87,6 @@ Aqui estão as descrições de cada uma das flags que você pode configurar ao r
 make run -- --maquina 64 --page-size 8 --tlb-entry 16 --tlb-alg lru
 ```
 
-Neste exemplo, o simulador será configurado para rodar em uma máquina de 64 bits, com páginas de 8 KB, 16 entradas na TLB, e utilizando o algoritmo de substituição **LRU (Least Recently Used)**.
+Neste exemplo, o simulador será configurado para rodar em uma máquina de 64 bits, com páginas de 8B, 16 entradas na TLB, e utilizando o algoritmo de substituição **LRU (Least Recently Used)**.
 
 ---
