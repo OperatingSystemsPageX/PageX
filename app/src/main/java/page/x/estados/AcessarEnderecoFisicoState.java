@@ -30,6 +30,12 @@ public class AcessarEnderecoFisicoState implements TraducaoState {
         this.maquina.setTraducaoState(proximoEstado);
     }
 
+    @Override
+    public String explicacao() {
+        return "Soma-se o valor do offset (deslocamento) ao endereço de início do Page Frame em que nosso\n" +
+        "endereço está. Essa soma resulta no endereço físico.";
+    }
+
     private void logicaAcessarEndereco(MemoriaFisica memoriaFisica, Long PFN, Long offset) {
         memoriaFisica.acessarEndereco(PFN, offset);
     }

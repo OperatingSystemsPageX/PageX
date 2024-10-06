@@ -43,4 +43,14 @@ public class VerificarTLBState implements TraducaoState {
         System.out.println("Página encontrada na TLB! PFN: " + PFN + "\n");
         System.out.println("Hit Ratio Atual: " + maquina.getTlb().getHitRatio() + "%");
     }
+
+    @Override
+    public String explicacao() {
+        return "A TLB é um registrador cache da sua máquina que opera baseado em localidade temporal.\n" +
+               "Por isso, a primeira consulta para uma tradução é nesse pedaço do hardware, pois agiliza\n" +
+               "consideravelmente o processo. Se o VPN do nosso endereço estiver mapeado para um ID de Page Frame\n" +
+               "nessa estrutura de dados, obtemos um Hit, caso contrário, um Miss (e ai seguimos todo fluxo de tradução).";
+    }
+
+
 }
