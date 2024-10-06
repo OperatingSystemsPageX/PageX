@@ -2,6 +2,7 @@
 package page.x.estados;
 
 import page.x.Maquina;
+import page.x.memoriafisica.MemoriaFisica;
 
 public class AcessarEnderecoFisicoState implements TraducaoState {
     private Maquina maquina;
@@ -18,6 +19,7 @@ public class AcessarEnderecoFisicoState implements TraducaoState {
     public void efetuarOperacao() {
         Long offset = enderecoVirtual.getOffset();
         Long enderecoFisico = (this.PFN * maquina.getTamanhoDaPaginaEmBytes()) + offset;
+        this.logicaAcessarEndereco(maquina.getMemoriaFisica(), PFN, offset);
         this.toStringState(enderecoFisico);
         this.avancaEstado();
     }
@@ -34,7 +36,10 @@ public class AcessarEnderecoFisicoState implements TraducaoState {
         "endereço está. Essa soma resulta no endereço físico.";
     }
 
-
+    private void logicaAcessarEndereco(MemoriaFisica memoriaFisica, Long PFN, Long offset) {
+        memoriaFisica.acessarEndereco(PFN, offset);
+    }
+    
     private void toStringState(Long enderecoFisico) {        
         System.out.println("\n=============================");
         System.out.println("        ENDEREÇO FÍSICO:        ");
