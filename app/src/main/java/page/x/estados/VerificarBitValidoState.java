@@ -32,7 +32,7 @@ public class VerificarBitValidoState implements TraducaoState {
     
     private void avancaEstadoValido() {
         System.out.println("Página válida! Acessando o endereço físico...\n");
-        TraducaoState proximoEstado = new AcessarEnderecoFisicoState(maquina, pageTableEntry.getPageFrameNumber(), enderecoVirtual);
+        TraducaoState proximoEstado = new AcessarEnderecoFisicoState(maquina, pageTableEntry.getPageFrameNumber(), enderecoVirtual, false);
         this.maquina.setTraducaoState(proximoEstado);
     }
     

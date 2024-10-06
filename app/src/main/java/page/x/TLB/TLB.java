@@ -4,13 +4,13 @@ import page.x.TLB.algoritmos.substituicao.AlgoritmoSubstituicaoI;
 import page.x.interruptions.MissInterruption;
 
 public class TLB {
-    private AlgoritmoSubstituicaoI algoritmo;
+    private AlgoritmoSubstituicaoI<TlbEntry> algoritmo;
 
     private int quantidadeDeMiss;
 
     private int quantidadeDeHit;
 
-    public TLB(AlgoritmoSubstituicaoI algoritmo) {
+    public TLB(AlgoritmoSubstituicaoI<TlbEntry> algoritmo) {
         this.algoritmo = algoritmo;
         this.quantidadeDeMiss = 0;
         this.quantidadeDeHit = 0;
@@ -31,7 +31,7 @@ public class TLB {
 
     public Long mapearPagina(Long page) throws MissInterruption {
         try {
-            Long result = this.algoritmo.mapearPagina(page);
+            Long result = this.algoritmo.acessEntry(page).getPageFrameNumber();
             this.quantidadeDeHit++;
             return result;
         } catch (MissInterruption miss) {
@@ -41,20 +41,16 @@ public class TLB {
     }
 
     public void addPaginaMapeada(Long vpn, Long pfn) {
-        this.algoritmo.addPaginaMapeada(vpn, pfn);
+        TlbEntry tlbEntry = new TlbEntry(vpn, pfn);
+        this.algoritmo.addEntry(tlbEntry);
     }
 
     public String nomeAlgoritmo() {
         return this.algoritmo.nomeToString();
     }
 
-    public int getQtdEntries() {
+    public Long getQtdEntries() {
         return this.algoritmo.getQtdEntries();
     }
 
-    public void reset() {
-        this.quantidadeDeHit = 0;
-        this.quantidadeDeMiss = 0;
-        this.algoritmo.reset();
-    }
 }

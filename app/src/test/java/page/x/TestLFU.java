@@ -14,13 +14,13 @@ import org.junit.jupiter.api.DisplayName;
 
 class TestLFU {
 
-    private final static int SIZE_LFU = 5;
+    private final static Long SIZE_LFU = 5L;
     private final static int QTD_PAIR = 10;
-    private LFU lfu1;
+    private LFU<TlbEntry> lfu1;
     private TLB tlb1;
     private TlbEntry[] entries;
     
-    void preencheTLB(TLB tlb, TlbEntry[] entries, Integer size) throws MissInterruption{
+    void preencheTLB(TLB tlb, TlbEntry[] entries, Long size) throws MissInterruption{
         for (int i = 0; i < size; i++) {
             tlb.addPaginaMapeada(entries[i].getVirtualPageNumber(), entries[i].getPageFrameNumber());
         }
@@ -28,7 +28,7 @@ class TestLFU {
 
     @BeforeEach
     void setup() {
-        this.lfu1 = new LFU(SIZE_LFU);
+        this.lfu1 = new LFU<TlbEntry>(SIZE_LFU);
         this.tlb1 = new TLB(lfu1);
         this.entries = new TlbEntry[QTD_PAIR];
         for (int i = 0; i < QTD_PAIR; i++) {

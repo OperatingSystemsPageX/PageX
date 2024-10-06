@@ -18,13 +18,13 @@ public class Maquina {
     private MemoriaFisica memoriaFisica;
     private InterruptHandler interruptHandler;
 
-    public Maquina (Long qtdBits, Long tamanhoDaPaginaEmKB, TLB tlb) {
+    public Maquina (Long qtdBits, Long tamanhoDaPaginaEmKB, TLB tlb, MemoriaFisica memoriaFisica) {
         this.qtdBits = qtdBits;
         this.tamanhoDaPaginaEmKB = tamanhoDaPaginaEmKB;
         this.tlb = tlb;
+        this.memoriaFisica = memoriaFisica;
         this.traducaoState = new AguardarTraducao(this);
         this.interruptHandler = new InterruptHandler(this);
-        this.memoriaFisica = new MemoriaFisica(this.qtdBits, this.tamanhoDaPaginaEmKB);
     }
 
     public void setTraducaoState(TraducaoState traducaoState) {
@@ -94,10 +94,4 @@ public class Maquina {
         return emOperacao;
     }
 
-    public void reset() {
-        this.memoriaFisica = new MemoriaFisica(this.qtdBits, this.tamanhoDaPaginaEmKB);
-        this.traducaoState = new AguardarTraducao(this);
-        this.interruptHandler = new InterruptHandler(this);
-        this.tlb.reset();
-    }
 }
