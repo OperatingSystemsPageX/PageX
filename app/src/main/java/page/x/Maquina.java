@@ -13,14 +13,14 @@ public class Maquina {
     private TraducaoState traducaoState;
     private boolean emOperacao;
     private Long qtdBits;
-    private Long tamanhoDaPaginaEmKB;
+    private Long tamanhoDaPaginaEmBytes;
     private TLB tlb;
     private MemoriaFisica memoriaFisica;
     private InterruptHandler interruptHandler;
 
-    public Maquina (Long qtdBits, Long tamanhoDaPaginaEmKB, TLB tlb, MemoriaFisica memoriaFisica) {
+    public Maquina (Long qtdBits, Long tamanhoDaPaginaEmBytes, TLB tlb, MemoriaFisica memoriaFisica) {
         this.qtdBits = qtdBits;
-        this.tamanhoDaPaginaEmKB = tamanhoDaPaginaEmKB;
+        this.tamanhoDaPaginaEmBytes = tamanhoDaPaginaEmBytes;
         this.tlb = tlb;
         this.memoriaFisica = memoriaFisica;
         this.traducaoState = new AguardarTraducao(this);
@@ -54,12 +54,8 @@ public class Maquina {
         return qtdBits;
     }
 
-    public Long getTamanhoDaPaginaEmKB() {
-        return tamanhoDaPaginaEmKB;
-    }
-
     public Long getTamanhoDaPaginaEmBytes() {
-        return this.memoriaFisica.getPageTable().getPageEmBytes();
+        return tamanhoDaPaginaEmBytes;
     }
 
     public TLB getTlb() {

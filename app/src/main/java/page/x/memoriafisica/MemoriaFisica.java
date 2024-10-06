@@ -14,20 +14,20 @@ public class MemoriaFisica {
     private HashMap<Long, PageFrameContent> memoriaFisica;
     private AlgoritmoSubstituicaoI<Long> algoritmoSubstituicao;
     private Sorteador sorteador;
-    private Long tamanhoPaginaEmKB;
+    private Long tamanhoDaPaginaEmBytes;
 
-    public MemoriaFisica (Long qtdBits, Long tamanhoPaginaEmKB, AlgoritmoSubstituicaoI<Long> algoritmoSubstituicao) {
-        this.tamanhoPaginaEmKB = tamanhoPaginaEmKB;
+    public MemoriaFisica (Long qtdBits, Long tamanhoDaPaginaEmBytes, AlgoritmoSubstituicaoI<Long> algoritmoSubstituicao) {
+        this.tamanhoDaPaginaEmBytes = tamanhoDaPaginaEmBytes;
         this.algoritmoSubstituicao = algoritmoSubstituicao;
-        this.bitsParaRepresentarPageFrame = this.bitsParaRepresentarPageFrame(qtdBits, tamanhoPaginaEmKB);
-        this.pageTable = new PageTable(qtdBits, tamanhoPaginaEmKB);
+        this.bitsParaRepresentarPageFrame = this.bitsParaRepresentarPageFrame(qtdBits, tamanhoDaPaginaEmBytes);
+        this.pageTable = new PageTable(qtdBits, tamanhoDaPaginaEmBytes);
         this.memoriaFisica = new HashMap<>();
         this.sorteador = new Sorteador(bitsParaRepresentarPageFrame);
     }
 
     public Long alocarPageFrame () {
         Long pageFrameAleatorio = sorteador.sortearNumero(memoriaFisica);
-        memoriaFisica.put(pageFrameAleatorio, new PageFrameContent(this.tamanhoPaginaEmKB));
+        memoriaFisica.put(pageFrameAleatorio, new PageFrameContent(this.tamanhoDaPaginaEmBytes));
         Long removedPage = algoritmoSubstituicao.addEntry(pageFrameAleatorio);
         if (removedPage != null) {
             memoriaFisica.remove(removedPage);
@@ -39,8 +39,8 @@ public class MemoriaFisica {
         return memoriaFisica.size();
     }
 
-    private Long bitsParaRepresentarPageFrame(Long qtdBits, Long tamanhoPaginaEmKB) {
-        int tamanhoPaginaEmBits = 10 + (int)(Math.log(tamanhoPaginaEmKB) / Math.log(2));
+    private Long bitsParaRepresentarPageFrame(Long qtdBits, Long tamanhoDaPaginaEmBytes) {
+        int tamanhoPaginaEmBits = (int)(Math.log(tamanhoDaPaginaEmBytes) / Math.log(2));
         return qtdBits - tamanhoPaginaEmBits;
     }
 

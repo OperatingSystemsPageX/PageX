@@ -20,7 +20,7 @@ public class SepararBitsState implements TraducaoState {
     }
 
     private EnderecoVirtual criarEnderecoVirtual(Long enderecoVirtualCompleto) {
-        Long tamanhoPagina = maquina.getTamanhoDaPaginaEmKB() * 1024L;
+        Long tamanhoPagina = maquina.getTamanhoDaPaginaEmBytes();
         Long VPN = enderecoVirtualCompleto / tamanhoPagina;
         Long offset = enderecoVirtualCompleto % tamanhoPagina;
         return new EnderecoVirtual(VPN, offset);

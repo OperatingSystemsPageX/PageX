@@ -4,11 +4,11 @@ import java.util.HashMap;
 public class PageTable {
     private HashMap<Long, PageTableEntry> pageTable; // a key, no caso, Long é o vpn = id da page = indice da pte
     private Long tamanhoPte; // considerar o tamanhoPte em bytes
-    private Long tamanhoPaginaEmKB;
+    private Long tamanhoDaPaginaEmBytes;
     private Long tamanhoEnderecoEmBits;
-    public PageTable(Long qtdBits, Long tamanhoPaginaEmKB) {
+    public PageTable(Long qtdBits, Long tamanhoDaPaginaEmBytes) {
         this.pageTable = new HashMap<>();
-        this.tamanhoPaginaEmKB = tamanhoPaginaEmKB;
+        this.tamanhoDaPaginaEmBytes = tamanhoDaPaginaEmBytes;
         this.tamanhoEnderecoEmBits = qtdBits;
         tamanhoPteBytes();
     }
@@ -33,7 +33,7 @@ public class PageTable {
     }
 
     public Long getQtdDePaginas() {
-        long qtdPaginas = (long) Math.pow(2, tamanhoEnderecoEmBits) / (tamanhoPaginaEmKB * 1024);
+        long qtdPaginas = (long) Math.pow(2, tamanhoEnderecoEmBits) / tamanhoDaPaginaEmBytes;
         return qtdPaginas;
     }
 
@@ -42,11 +42,11 @@ public class PageTable {
     }
 
     private void tamanhoPteBytes() {
-        long bitsParaRepresentarPage = (int) (Math.log(tamanhoPaginaEmKB) / Math.log(2));
+        long bitsParaRepresentarPage = (int) (Math.log(tamanhoDaPaginaEmBytes) / Math.log(2));
         this.tamanhoPte = ((bitsParaRepresentarPage + 7) / 8) + 1;
     }
 
-    public Long getPageEmBytes() {
-        return tamanhoPaginaEmKB * 1024;
+    public Long getTamanhoDaPaginaEmBytes() {
+        return tamanhoDaPaginaEmBytes;
     }
 }

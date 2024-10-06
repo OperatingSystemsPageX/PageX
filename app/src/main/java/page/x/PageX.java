@@ -11,7 +11,7 @@ import java.util.Scanner;
 @Command(name = "PageX", mixinStandardHelpOptions = true, description = "Simulador de tradução de páginas")
 public class PageX {
 
-    @Option(names = "--page-size", description = "Tamanho da página", defaultValue = Option.NULL_VALUE)
+    @Option(names = "--page-size", description = "Tamanho da página em Bytes", defaultValue = Option.NULL_VALUE)
     private Long pageSize;
 
     @Option(names = "--maquina", description = "Número de bits da máquina", defaultValue = Option.NULL_VALUE)
@@ -20,8 +20,14 @@ public class PageX {
     @Option(names = "--tlb-entry", description = "Número de entradas da TLB", defaultValue = "10")
     private Long tlbEntries;
 
-    @Option(names = "--tlb-alg", description = "Algoritmo da TLB", defaultValue = "lru")
+    @Option(names = "--tlb-alg", description = "Algoritmo de substituição da TLB", defaultValue = "lru")
     private String tlbAlg;
+
+    @Option(names = "--memoria-fisica", description = "Tamanho da memória física em B", defaultValue = Option.NULL_VALUE)
+    private Long tamanhoMemoriaFisicaB;
+
+    @Option(names = "--memoria-alg", description = "Algoritmo de substituição de páginas da Memória Fisica", defaultValue = "fifo")
+    private String memoriaFisicaAlg;
 
     ModoSimulador modoSimulador = new ModoSimulador(this);
     Scanner sc = new Scanner(System.in);
@@ -63,7 +69,7 @@ public class PageX {
             modoSimulador.maquinaSetUp();
         } else {
             modoSimulador.tlbSetUp(tlbEntries, tlbAlg);
-            modoSimulador.maquinaSetUp(maquinaBits, pageSize);
+            modoSimulador.maquinaSetUp(maquinaBits, pageSize, tamanhoMemoriaFisicaB, memoriaFisicaAlg);
         }
         modoSimulador.imprimeMaquina();
         modoSimulador.iniciarSimulacao();

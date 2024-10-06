@@ -5,10 +5,10 @@ import java.util.HashMap;
 public class PageFrameContent {
     private Map<Long, String> enderecos;
 
-    private Long tamanhoPaginaEmKB;
+    private Long tamanhoDaPaginaEmBytes;
 
-    public PageFrameContent (Long tamanhoPaginaEmKB) {
-        this.tamanhoPaginaEmKB = tamanhoPaginaEmKB;
+    public PageFrameContent (Long tamanhoDaPaginaEmBytes) {
+        this.tamanhoDaPaginaEmBytes = tamanhoDaPaginaEmBytes;
         this.enderecos = new HashMap<>();
     }
 
@@ -17,8 +17,7 @@ public class PageFrameContent {
     }
 
     public double getPercentualDeUso() {
-        double tamanhoPaginaBytes = (double) tamanhoPaginaEmKB * 1024;
-        double percentual = ( (double) enderecos.size() / tamanhoPaginaBytes);
+        double percentual = ( (double) enderecos.size() / tamanhoDaPaginaEmBytes);
         return percentual * 100;
     }
 
