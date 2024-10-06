@@ -65,11 +65,29 @@ public class ModoSimulador {
         this.montaTLB(algoritmo);
     }
 
+    public void montaTlb(int tlbEntries, String tlbAlg) {
+        switch (tlbAlg) {
+            case "fifo":
+                algoritmo = new FIFO(tlbEntries);
+                break;
+            case "lfu":
+                algoritmo = new LFU(tlbEntries);
+                break;
+            case "lru":
+                algoritmo = new LRU(tlbEntries);
+                break;
+            case "secondchance":
+                algoritmo = new SecondChance(tlbEntries);
+                break;
+        }
+        this.montaTLB(algoritmo);
+    }
+
     private void montaTLB(AlgoritmoSubstituicaoI algoritmo) {
         this.tlb = new TLB(algoritmo);
     }
 
-    private void montaMaquina(int bits, int pageSize) {
+    public void montaMaquina(int bits, int pageSize) {
         this.maquina = new Maquina((long) bits, (long) pageSize, tlb);
     }
 
@@ -139,4 +157,6 @@ public class ModoSimulador {
                 reiniciarTraducao();
         }
     }
+
+
 }
