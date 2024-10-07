@@ -40,9 +40,9 @@ public class TLB {
         }
     }
 
-    public void addPaginaMapeada(Long vpn, Long pfn) {
+    public TlbEntry addPaginaMapeada(Long vpn, Long pfn) {
         TlbEntry tlbEntry = new TlbEntry(vpn, pfn);
-        this.algoritmo.addEntry(tlbEntry);
+        return this.algoritmo.addEntry(tlbEntry);
     }
 
     public String nomeAlgoritmo() {

@@ -62,7 +62,22 @@ public class ModoSimulador {
         this.maquina = new Maquina(bits, pageSize, tlb, memoriaFisica);
     }
 
-    public void tlbSetUp() {
+
+    public void tlbMaquina() {
+        System.out.println("Máquina com TLB?");
+        System.out.println("[S] - Sim");
+        System.out.println("[N] - Não");
+        String option = sc.nextLine();
+        switch (option.toLowerCase()) {
+            case "s":
+                this.tlbSetUp();
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void tlbSetUp() {
         System.out.println("\nDefina a quantidade de entradas da sua TLB (máx 64):");
         Long qtdEntry = Long.parseLong(sc.nextLine());
     
@@ -79,6 +94,7 @@ public class ModoSimulador {
     }
 
     private void montaTLB(AlgoritmoSubstituicaoI<TlbEntry> algoritmo) {
+        if (algoritmo == null) return;
         this.tlb = new TLB(algoritmo);
     }
 
@@ -123,16 +139,14 @@ public class ModoSimulador {
         System.out.println("\n=================================");
         System.out.println("       MÁQUINA CONFIGURADA!       ");
         System.out.println("=================================\n");
-
-        System.out.println(
-                "TLB configurada com o algoritmo " + tlb.nomeAlgoritmo() + " e " + tlb.getQtdEntries() + " entradas.");
+        if (tlb != null)
+            System.out.println("TLB configurada com o algoritmo " + tlb.nomeAlgoritmo() + " e " + tlb.getQtdEntries() + " entradas.");
         System.out.println("Tamanho da Page Table: " + maquina.pageTableSizeBytes() + "B");
         System.out.println("Tamanho da PTE: " + maquina.getTamanhoPTE() + "B");
         System.out.println("Quantidade de Pages/PageFrames: " + maquina.qtdPages() + "\n");
     }
 
     public void iniciarSimulacao() throws Interruption {
-        String explicacao = "";
         System.out.println(
                 "\n🔄 Iniciando a simulação de traduções de endereço!\n"
                         + "a simulação avança mediante sua interação\n"
@@ -147,11 +161,10 @@ public class ModoSimulador {
         while (!option.equals("!") && maquina.getEmOperacao()) {
             switch (option) {
                 case ".":
-                    explicacao = maquina.getEstado().explicacao();
                     maquina.executarEstadoAtual();
                     break;
                 case "?":
-                    System.out.println(explicacao);
+                    System.out.println(maquina.getEstado().explicacao());
                     break;
                 case "!":
                     return;

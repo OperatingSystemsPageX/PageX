@@ -17,10 +17,10 @@ public class PageX {
     @Option(names = "--maquina", description = "Número de bits da máquina", defaultValue = Option.NULL_VALUE)
     private Long maquinaBits;
 
-    @Option(names = "--tlb-entry", description = "Número de entradas da TLB", defaultValue = "10")
+    @Option(names = "--tlb-entry", description = "Número de entradas da TLB", defaultValue = Option.NULL_VALUE)
     private Long tlbEntries;
 
-    @Option(names = "--tlb-alg", description = "Algoritmo de substituição da TLB", defaultValue = "lru")
+    @Option(names = "--tlb-alg", description = "Algoritmo de substituição da TLB", defaultValue = Option.NULL_VALUE)
     private String tlbAlg;
 
     @Option(names = "--memoria-fisica", description = "Tamanho da memória física em B", defaultValue = Option.NULL_VALUE)
@@ -65,10 +65,11 @@ public class PageX {
 
     private void iniciarModoSimulador() throws Interruption {
         if (maquinaBits == null || pageSize == null) {
-            modoSimulador.tlbSetUp();
+            modoSimulador.tlbMaquina();
             modoSimulador.maquinaSetUp();
         } else {
-            modoSimulador.tlbSetUp(tlbEntries, tlbAlg);
+            if (tlbAlg != null && tlbEntries != null)
+                modoSimulador.tlbSetUp(tlbEntries, tlbAlg);
             modoSimulador.maquinaSetUp(maquinaBits, pageSize, tamanhoMemoriaFisicaB, memoriaFisicaAlg);
         }
         modoSimulador.imprimeMaquina();

@@ -31,7 +31,10 @@ public class SepararBitsState implements TraducaoState {
     
     @Override
     public void avancaEstado() {
-        TraducaoState proximoEstado = new VerificarTLBState(maquina, enderecoVirtual);
+        TraducaoState proximoEstado = new AcessarPageTableState(maquina, enderecoVirtual);
+        if (maquina.getTlb() != null) {
+            proximoEstado = new VerificarTLBState(maquina, enderecoVirtual);
+        }
         this.maquina.setTraducaoState(proximoEstado);
     }
     

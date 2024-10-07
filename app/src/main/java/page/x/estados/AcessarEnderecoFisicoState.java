@@ -32,7 +32,7 @@ public class AcessarEnderecoFisicoState implements TraducaoState {
     @Override
     public void avancaEstado() {
         TraducaoState proximoEstado = new AtualizarTLBState(maquina, enderecoVirtual.getVPN() , this.PFN);
-        if (tlbTraducao) {
+        if (tlbTraducao || maquina.getTlb() == null) {
             proximoEstado = new AguardarTraducao(maquina);
         }
         this.maquina.setTraducaoState(proximoEstado);
