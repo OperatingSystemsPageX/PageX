@@ -95,8 +95,4 @@ public class Maquina {
         return emOperacao;
     }
 
-    public Long rangeEnderecosVirtuais() {
-        return (long) Math.pow(2, this.qtdBits) - 1;
-    }
-
 }
