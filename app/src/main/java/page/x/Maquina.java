@@ -13,18 +13,18 @@ public class Maquina {
     private TraducaoState traducaoState;
     private boolean emOperacao;
     private Long qtdBits;
-    private Long tamanhoDaPaginaEmKB;
+    private Long tamanhoDaPaginaEmBytes;
     private TLB tlb;
     private MemoriaFisica memoriaFisica;
     private InterruptHandler interruptHandler;
 
-    public Maquina (Long qtdBits, Long tamanhoDaPaginaEmKB, TLB tlb) {
+    public Maquina (Long qtdBits, Long tamanhoDaPaginaEmBytes, TLB tlb, MemoriaFisica memoriaFisica) {
         this.qtdBits = qtdBits;
-        this.tamanhoDaPaginaEmKB = tamanhoDaPaginaEmKB;
+        this.tamanhoDaPaginaEmBytes = tamanhoDaPaginaEmBytes;
         this.tlb = tlb;
+        this.memoriaFisica = memoriaFisica;
         this.traducaoState = new AguardarTraducao(this);
         this.interruptHandler = new InterruptHandler(this);
-        this.memoriaFisica = new MemoriaFisica(this.qtdBits, this.tamanhoDaPaginaEmKB);
     }
 
     public void setTraducaoState(TraducaoState traducaoState) {
@@ -50,16 +50,8 @@ public class Maquina {
         return this.traducaoState;
     }
 
-    public Long getQtdBits() {
-        return qtdBits;
-    }
-
-    public Long getTamanhoDaPaginaEmKB() {
-        return tamanhoDaPaginaEmKB;
-    }
-
     public Long getTamanhoDaPaginaEmBytes() {
-        return this.memoriaFisica.getPageTable().getPageEmBytes();
+        return tamanhoDaPaginaEmBytes;
     }
 
     public TLB getTlb() {
@@ -94,10 +86,8 @@ public class Maquina {
         return emOperacao;
     }
 
-    public void reset() {
-        this.memoriaFisica = new MemoriaFisica(this.qtdBits, this.tamanhoDaPaginaEmKB);
-        this.traducaoState = new AguardarTraducao(this);
-        this.interruptHandler = new InterruptHandler(this);
-        this.tlb.reset();
+    public Long rangeEnderecosVirtuais() {
+        return (long) Math.pow(2, this.qtdBits) - 1;
     }
+
 }

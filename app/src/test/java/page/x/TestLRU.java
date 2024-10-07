@@ -14,13 +14,13 @@ import org.junit.jupiter.api.DisplayName;
 
 class TestLRU {
 
-    private final static int SIZE_LRU = 5;
+    private final static Long SIZE_LRU = 5L;
     private final static int QTD_PAIR = 10;
-    private LRU lru1;
+    private LRU<TlbEntry> lru1;
     private TLB tlb1;
     private TlbEntry[] entries;
     
-    void preencheTLB(TLB tlb, TlbEntry[] entries, Integer size) throws MissInterruption{
+    void preencheTLB(TLB tlb, TlbEntry[] entries, Long size) throws MissInterruption{
         for (int i = 0; i < size; i++) {
             tlb.addPaginaMapeada(entries[i].getVirtualPageNumber(), entries[i].getPageFrameNumber());
         }
@@ -28,7 +28,7 @@ class TestLRU {
 
     @BeforeEach
     void setup() {
-        this.lru1 = new LRU(SIZE_LRU);
+        this.lru1 = new LRU<TlbEntry>(SIZE_LRU);
         this.tlb1 = new TLB(lru1) ;
         this.entries = new TlbEntry[QTD_PAIR];
         for (int i = 0; i < QTD_PAIR; i++) {
@@ -87,7 +87,7 @@ class TestLRU {
     @DisplayName("Verificando a lógica da LRU-02")
     void preenchendoTLBeVerificandoLRU02() throws MissInterruption {
         this.preencheTLB(this.tlb1, this.entries, SIZE_LRU);
-        for (int i = SIZE_LRU; i < QTD_PAIR-1; i++) {
+        for (int i = SIZE_LRU.intValue(); i < QTD_PAIR-1; i++) {
             this.tlb1.addPaginaMapeada(entries[i].getVirtualPageNumber(), entries[i].getPageFrameNumber());
         }
         this.tlb1.mapearPagina(5L);

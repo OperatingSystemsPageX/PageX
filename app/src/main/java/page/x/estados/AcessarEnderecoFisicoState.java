@@ -8,11 +8,13 @@ public class AcessarEnderecoFisicoState implements TraducaoState {
     private Maquina maquina;
     private EnderecoVirtual enderecoVirtual;
     private Long PFN;
+    private boolean tlbTraducao;
 
-    public AcessarEnderecoFisicoState(Maquina maquina, Long PFN, EnderecoVirtual enderecoVirtual) {
+    public AcessarEnderecoFisicoState(Maquina maquina, Long PFN, EnderecoVirtual enderecoVirtual, boolean tlbTraducao) {
         this.maquina = maquina;
         this.enderecoVirtual = enderecoVirtual;
         this.PFN = PFN;
+        this.tlbTraducao = tlbTraducao;
     }
     
     @Override
@@ -27,7 +29,16 @@ public class AcessarEnderecoFisicoState implements TraducaoState {
     @Override
     public void avancaEstado() {
         TraducaoState proximoEstado = new AtualizarTLBState(maquina, enderecoVirtual.getVPN() , this.PFN);
+        if (tlbTraducao) {
+            proximoEstado = new AguardarTraducao(maquina);
+        }
         this.maquina.setTraducaoState(proximoEstado);
+    }
+
+    @Override
+    public String explicacao() {
+        return "Soma-se o valor do offset (deslocamento) ao endereço de início do Page Frame em que nosso\n" +
+        "endereço está. Essa soma resulta no endereço físico.";
     }
 
     private void logicaAcessarEndereco(MemoriaFisica memoriaFisica, Long PFN, Long offset) {

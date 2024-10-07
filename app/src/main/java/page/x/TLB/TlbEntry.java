@@ -18,5 +18,21 @@ public class TlbEntry {
     public Long getPageFrameNumber() {
         return pageFrameNumber;
     }
-    
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj instanceof TlbEntry) {
+            TlbEntry other = (TlbEntry) obj;
+            return virtualPageNumber.equals(other.virtualPageNumber)
+                    && pageFrameNumber.equals(other.pageFrameNumber);
+        } else if (obj instanceof Long) {
+            Long other = (Long) obj;
+            return virtualPageNumber.equals(other);
+        }
+        return false;
+    }
+
 }

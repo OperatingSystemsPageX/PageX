@@ -2,7 +2,8 @@ package page.x.memoriafisica;
 
 import java.util.HashMap;
 
-import page.x.interruptions.FullPhysicalMemoryInterruption;
+import page.x.TLB.algoritmos.substituicao.AlgoritmoSubstituicaoI;
+import page.x.interruptions.Interruption;
 import page.x.pagetable.PageTable;
 import page.x.utils.Sorteador;
 
@@ -11,23 +12,26 @@ public class MemoriaFisica {
     private PageTable pageTable;
     private Long bitsParaRepresentarPageFrame;
     private HashMap<Long, PageFrameContent> memoriaFisica;
+    private AlgoritmoSubstituicaoI<Long> algoritmoSubstituicao;
     private Sorteador sorteador;
-    private Long tamanhoPaginaEmKB;
+    private Long tamanhoDaPaginaEmBytes;
 
-    public MemoriaFisica (Long qtdBits, Long tamanhoPaginaEmKB) {
-        this.tamanhoPaginaEmKB = tamanhoPaginaEmKB;
-        this.bitsParaRepresentarPageFrame = bitsParaRepresentarPageFrame(qtdBits, tamanhoPaginaEmKB);
-        this.pageTable = new PageTable(qtdBits, tamanhoPaginaEmKB);
+    public MemoriaFisica (Long qtdBits, Long tamanhoDaPaginaEmBytes, AlgoritmoSubstituicaoI<Long> algoritmoSubstituicao) {
+        this.tamanhoDaPaginaEmBytes = tamanhoDaPaginaEmBytes;
+        this.algoritmoSubstituicao = algoritmoSubstituicao;
+        this.bitsParaRepresentarPageFrame = this.bitsParaRepresentarPageFrame(qtdBits, tamanhoDaPaginaEmBytes);
+        this.pageTable = new PageTable(qtdBits, tamanhoDaPaginaEmBytes);
         this.memoriaFisica = new HashMap<>();
         this.sorteador = new Sorteador(bitsParaRepresentarPageFrame);
     }
 
-    public Long alocarPageFrame () throws FullPhysicalMemoryInterruption {
-        if (getUtilizacaoMemoriaFisica() >= Math.pow(2, bitsParaRepresentarPageFrame)) {
-            throw new FullPhysicalMemoryInterruption();
-        }
+    public Long alocarPageFrame () {
         Long pageFrameAleatorio = sorteador.sortearNumero(memoriaFisica);
-        memoriaFisica.put(pageFrameAleatorio, new PageFrameContent(this.tamanhoPaginaEmKB));
+        memoriaFisica.put(pageFrameAleatorio, new PageFrameContent(this.tamanhoDaPaginaEmBytes));
+        Long removedPage = algoritmoSubstituicao.addEntry(pageFrameAleatorio);
+        if (removedPage != null) {
+            memoriaFisica.remove(removedPage);
+        }
         return pageFrameAleatorio;
     }
 
@@ -35,13 +39,18 @@ public class MemoriaFisica {
         return memoriaFisica.size();
     }
 
-    private Long bitsParaRepresentarPageFrame(Long qtdBits, Long tamanhoPaginaEmKB) {
-        int tamanhoPaginaEmBits = 10 + (int)(Math.log(tamanhoPaginaEmKB) / Math.log(2));
+    private Long bitsParaRepresentarPageFrame(Long qtdBits, Long tamanhoDaPaginaEmBytes) {
+        int tamanhoPaginaEmBits = (int)(Math.log(tamanhoDaPaginaEmBytes) / Math.log(2));
         return qtdBits - tamanhoPaginaEmBits;
     }
 
     public void acessarEndereco(Long PFN, Long offset) {
         this.memoriaFisica.get(PFN).acessarEndereco(offset);
+        try {
+            this.algoritmoSubstituicao.acessEntry(PFN);
+        } catch (Interruption e) {
+            e.printStackTrace();
+        }
         System.out.printf("%.5f", this.memoriaFisica.get(PFN).getPercentualDeUso());
     }
 

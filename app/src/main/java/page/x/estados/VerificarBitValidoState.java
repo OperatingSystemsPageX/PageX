@@ -32,7 +32,7 @@ public class VerificarBitValidoState implements TraducaoState {
     
     private void avancaEstadoValido() {
         System.out.println("Página válida! Acessando o endereço físico...\n");
-        TraducaoState proximoEstado = new AcessarEnderecoFisicoState(maquina, pageTableEntry.getPageFrameNumber(), enderecoVirtual);
+        TraducaoState proximoEstado = new AcessarEnderecoFisicoState(maquina, pageTableEntry.getPageFrameNumber(), enderecoVirtual, false);
         this.maquina.setTraducaoState(proximoEstado);
     }
     
@@ -41,7 +41,13 @@ public class VerificarBitValidoState implements TraducaoState {
         TraducaoState proximoEstado = new RecuperarVirtualPageDoDisco(maquina, pageTableEntry, enderecoVirtual);
         this.maquina.setTraducaoState(proximoEstado);
     }
-    
+
+    @Override
+    public String explicacao() {
+        return "Na Page Table Entry, além do ID do Page Frame, vamos encontrar alguns outros bits de utilidade,\n" +
+               "dentre eles, o 'mapped bit', que indica se a página que buscamos já foi mapeada ou se houve um page fault.\n";
+    }
+
     private void toStringState() {
         System.out.println("\n==============================");
         System.out.println("  VERIFICAÇÃO DO BIT VÁLIDO  ");

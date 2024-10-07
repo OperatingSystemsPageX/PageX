@@ -35,7 +35,13 @@ public class RecuperarVirtualPageDoDisco implements TraducaoState {
         TraducaoState proximoEstado = new AtualizarBitValido(maquina, pageTableEntry, enderecoVirtual);
         this.maquina.setTraducaoState(proximoEstado);
     }
-    
+
+    @Override
+    public String explicacao() {
+        return "Nesse caso, a página virtual ainda não havia sido trazida para memória, por isso houve um Page Fault.\n" +
+               "Agora houve o tratamento e assim a tradução tem continuidade.";
+    }
+
     private void toStringState() {
         System.out.println("\n===============================");
         System.out.println(" RECUPERANDO PÁGINA DO DISCO ");

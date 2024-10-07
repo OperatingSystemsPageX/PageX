@@ -3,51 +3,51 @@ package page.x.TLB.algoritmos.substituicao;
 import java.util.Queue;
 import java.util.LinkedList;
 
-import page.x.TLB.TlbEntry;
 import page.x.interruptions.MissInterruption;
 import page.x.utils.Pair;
 
-public class SecondChance implements AlgoritmoSubstituicaoI {
+public class SecondChance<T> implements AlgoritmoSubstituicaoI<T> {
 
-    private int quantidadeEntries;
+    private Long quantidadeEntries;
 
-    private Queue<Pair<Boolean, TlbEntry>> entries;
+    private Queue<Pair<Boolean, T>> entries;
 
-    public SecondChance(int quantidadeEntries) {
+    public SecondChance(Long quantidadeEntries) {
         this.quantidadeEntries = quantidadeEntries;
         this.entries = new LinkedList<>();
     }
 
     @Override
-    public Long mapearPagina(Long vpn) throws MissInterruption {
-        for (Pair<Boolean, TlbEntry> pairAtual : entries) {
-            TlbEntry entryAtual = pairAtual.getPair2();
-            if (entryAtual.getVirtualPageNumber().equals(vpn)) {
+    public T acessEntry(Long accessID) throws MissInterruption {
+        for (Pair<Boolean, T> pairAtual : entries) {
+            T entryAtual = pairAtual.getPair2();
+            if (entryAtual.equals(accessID)) {
                 pairAtual.setPair1(true);
-                return entryAtual.getPageFrameNumber();
+                return entryAtual;
             }
         }
         throw new MissInterruption();
     }
 
     @Override
-    public void addPaginaMapeada(Long vpn, Long pfn) {
-        TlbEntry tlbEntry = new TlbEntry(vpn, pfn);
-        Pair<Boolean, TlbEntry> tlbEntryPair = new Pair<Boolean,TlbEntry>(false, tlbEntry);
+    public T addEntry(T entry) {
+        T result = null;
+        Pair<Boolean, T> tlbEntryPair = new Pair<Boolean,T>(false, entry);
         if (entries.size() == quantidadeEntries) {
-            this.removePagina();
+            result = this.removePagina().getPair2();
         }
         this.entries.add(tlbEntryPair);
-        
+        return result;
     }
 
-    private void removePagina() {
-        Pair<Boolean, TlbEntry> tlbEntryPair = this.entries.poll();
-        while(tlbEntryPair.getPair1()) {
-            tlbEntryPair.setPair1(false);
-            this.entries.add(tlbEntryPair);
-            tlbEntryPair = this.entries.remove();
+    private Pair<Boolean, T> removePagina() {
+        Pair<Boolean, T> entryPair = this.entries.poll();
+        while(entryPair.getPair1()) {
+            entryPair.setPair1(false);
+            this.entries.add(entryPair);
+            entryPair = this.entries.remove();
         }
+        return entryPair;
     }
 
     @Override
@@ -56,12 +56,8 @@ public class SecondChance implements AlgoritmoSubstituicaoI {
     }
 
     @Override
-    public int getQtdEntries() {
+    public Long getQtdEntries() {
         return this.quantidadeEntries;
     }
 
-    @Override
-    public void reset() {
-        this.entries = new LinkedList<>();
-    }
 }
