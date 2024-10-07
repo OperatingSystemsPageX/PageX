@@ -6,6 +6,9 @@ public class SepararBitsState implements TraducaoState {
     private Maquina maquina;
     private Long enderecoVirtualCompleto;
     private EnderecoVirtual enderecoVirtual;
+    public static final String RESET = "\u001B[0m";   
+    public static final String RED = "\u001B[31m";    
+    public static final String GREEN = "\u001B[32m";  
 
     public SepararBitsState(Maquina maquina, Long enderecoVirtualCompleto) {
         this.maquina = maquina;
@@ -33,12 +36,19 @@ public class SepararBitsState implements TraducaoState {
     }
     
     private void toStringState() {
+        String enderecoVirtualString = Long.toBinaryString(enderecoVirtualCompleto);
+        Integer vpnBits = enderecoVirtualString.length() - maquina.getQtdBitsOffset().intValue();
+        String vpn = enderecoVirtualString.substring(0, Math.min(vpnBits, enderecoVirtualString.length()));
+        String offset = enderecoVirtualString.substring(enderecoVirtualString.length() - maquina.getQtdBitsOffset().intValue());
         System.out.println("\n=========================");
         System.out.println(" SEPARAÇÃO DOS BITS ");
         System.out.println("=========================\n");
         System.out.println("Endereço Virtual Completo: " + enderecoVirtualCompleto);
-        System.out.println("VPN: " + enderecoVirtual.getVPN());
-        System.out.println("Offset: " + enderecoVirtual.getOffset());
+        System.out.print("Representação Binária: " );
+        System.out.print(GREEN + vpn + RESET);
+        System.out.println(RED + offset + RESET);
+        System.out.println("VPN (Verde): " + enderecoVirtual.getVPN());
+        System.out.println("Offset (Vermelho): " + enderecoVirtual.getOffset());
     }
     @Override
     public String explicacao() {

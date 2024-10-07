@@ -54,6 +54,10 @@ public class Maquina {
         return qtdBits;
     }
 
+    public Long getQtdBitsOffset() {
+        return (long) (Math.log(tamanhoDaPaginaEmBytes) / Math.log(2));
+    }
+
     public Long getTamanhoDaPaginaEmBytes() {
         return tamanhoDaPaginaEmBytes;
     }
