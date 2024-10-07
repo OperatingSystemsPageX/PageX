@@ -50,6 +50,7 @@ public class Maquina {
         return this.traducaoState;
     }
 
+
     public Long getQtdBits() {
         return qtdBits;
     }
@@ -92,6 +93,10 @@ public class Maquina {
 
     public boolean getEmOperacao() {
         return emOperacao;
+    }
+
+    public Long rangeEnderecosVirtuais() {
+        return (long) Math.pow(2, this.qtdBits) - 1;
     }
 
 }

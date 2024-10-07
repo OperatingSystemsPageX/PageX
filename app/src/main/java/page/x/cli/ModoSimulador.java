@@ -22,19 +22,23 @@ public class ModoSimulador {
     }
 
     public void maquinaSetUp() {
-        System.out.println("\n===============================");
+        System.out.println("\n===================================");
         System.out.println(" CONFIGURAÇÃO DA MÁQUINA INICIADA");
-        System.out.println("===============================\n");
+        System.out.println("===================================\n");
     
         System.out.println("Escolha a quantidade de bits de endereçamento para sua máquina (máx 64):");
         Long bits = Long.parseLong(sc.nextLine());
-    
-        System.out.println("\nEscolha o tamanho de uma página em B:");
-        Long pageSize = Long.parseLong(sc.nextLine());
 
-        System.out.println("\nDefina o tamanho da sua memória física em B:");
-        Long tamanhoMemoriaFisicaB = Long.parseLong(sc.nextLine());
-    
+
+        System.out.println("\nEscolha o tamanho de uma página (especifique se a unidade é B ou KB):");
+        String input = sc.nextLine();
+        Long pageSize = validaEntrada(input);
+
+        System.out.println("\nDefina o tamanho da sua memória física em B (especifique se a unidade é B ou KB):");
+        String input2 = sc.nextLine();
+        Long tamanhoMemoriaFisicaB = validaEntrada(input2);
+
+        verificaEntradas(bits, pageSize, tamanhoMemoriaFisicaB);
         configurarMaquina(bits, pageSize, tamanhoMemoriaFisicaB, null);
     }
     
@@ -80,7 +84,7 @@ public class ModoSimulador {
     private void tlbSetUp() {
         System.out.println("\nDefina a quantidade de entradas da sua TLB (máx 64):");
         Long qtdEntry = Long.parseLong(sc.nextLine());
-    
+        verificaEntradas(qtdEntry);
         configurarTLB(qtdEntry, null);
     }
     
@@ -153,6 +157,7 @@ public class ModoSimulador {
                         + "=> Qual Endereço Virtual gostaria de traduzir?\n");
 
         Long traducaoInicial = Long.parseLong(sc.nextLine());
+        rangeEnderecamento(traducaoInicial);
         maquina.iniciarTraducaoDeEndereco(traducaoInicial);
 
         System.out.println("Atenção: durante o processo, se quiser maiores explicações para etapa, digite '?'");
@@ -202,6 +207,54 @@ public class ModoSimulador {
             default:
                 System.out.println("\nOpção inválida. Tente novamente.\n");
                 reiniciarTraducao();
+        }
+    }
+
+    private Long validaEntrada(String input) {
+        Long valorNumerico = 0L;
+        input.trim();
+
+        String[] parts = input.split("(?<=\\d)(?=\\D)");
+
+        if (parts.length == 2) {
+            valorNumerico = Long.parseLong(parts[0].trim());
+            String unidade = parts[1].trim().toUpperCase();
+
+            if (unidade.equals("KB")) {
+                valorNumerico *= 1024;
+            } else if (!unidade.equals("B")) {
+                System.out.println("Unidade inválida. Use 'B' para bytes ou 'KB' para kilobytes.");
+            }
+
+        } else {
+            System.out.println("Entrada inválida. Certifique-se de passar um valor numérico seguido de 'B' ou 'KB'.");
+        }
+        return valorNumerico;
+    }
+
+    private void verificaEntradas(Long bits, Long pageSize, Long tamanhoMemoriaFisicaB) {
+        if (bits > 64 || bits <= 0) {
+            System.out.println("Entrada inválida. Certifique-se de passar um valor numérico maior que 0 e menor ou igual 64.");
+            maquinaSetUp();
+        }
+        if (pageSize > tamanhoMemoriaFisicaB) {
+            System.out.println("Impossível configurar uma página maior que a memória.");
+            maquinaSetUp();
+        }
+    }
+
+    private void verificaEntradas(Long bits) {
+        if (bits > 64 || bits < 0) {
+            System.out.println("Entrada inválida. Certifique-se de passar um valor numérico positivo e menor ou igual 64.");
+            tlbSetUp();
+        }
+    }
+
+    private void rangeEnderecamento(Long enderecoVirtual) throws Interruption {
+        if (enderecoVirtual > maquina.rangeEnderecosVirtuais()) {
+            System.out.println("O endereço está fora do range de endereçamento.\n" +
+                    "Tente novamente com um valor até " + maquina.rangeEnderecosVirtuais());
+            iniciarSimulacao();
         }
     }
 }
