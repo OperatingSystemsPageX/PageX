@@ -25,6 +25,8 @@ public class ValidacaoCLI {
     }
 
     public Long validStringToLong(String input) {
+        if (input == null)
+            return null;
         Long valorNumerico = 0L;
         input.trim();
         String[] parts = input.split("(?<=\\d)(?=\\D)");

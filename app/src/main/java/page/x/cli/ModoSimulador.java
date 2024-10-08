@@ -55,7 +55,7 @@ public class ModoSimulador {
         Long pageSize = validacaoCli.validStringToLong(inputPageSize);
         Long tamanhoMemoriaFisicaB = validacaoCli.validStringToLong(inputTamanhoMemoriaFisicaB);
 
-        if (!validacaoCli.verificaPage(pageSize, tamanhoMemoriaFisicaB)){ 
+        if (tamanhoMemoriaFisicaB != null && !validacaoCli.verificaPage(pageSize, tamanhoMemoriaFisicaB)){ 
             System.out.println("Saindo da aplicação!");
             System.exit(0);
             return;

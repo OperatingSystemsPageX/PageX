@@ -2,8 +2,8 @@ package page.x.pagetable;
 import java.util.HashMap;
 
 public class PageTable {
-    private HashMap<Long, PageTableEntry> pageTable; // a key, no caso, Long é o vpn = id da page = indice da pte
-    private Long tamanhoPte; // considerar o tamanhoPte em bytes
+    private HashMap<Long, PageTableEntry> pageTable; 
+    private Long tamanhoPte;
     private Long tamanhoDaPaginaEmBytes;
     private Long tamanhoEnderecoEmBits;
     public PageTable(Long qtdBits, Long tamanhoDaPaginaEmBytes) {
@@ -14,13 +14,12 @@ public class PageTable {
     }
 
     public void addPage(Long virtualPageNumber, Long pageFrameId) {
-        pageTable.put(virtualPageNumber, new PageTableEntry(pageFrameId, true)); // vpn = virtual page number
+        pageTable.put(virtualPageNumber, new PageTableEntry(pageFrameId, true));
     }
 
     public PageTableEntry mapearPagina(Long vpn) {
         PageTableEntry pageTableEntryExistente = pageTable.get(vpn);
         if (pageTableEntryExistente == null) {
-            // Simula o estado de uma PTE quando o VPN nunca foi utilizado antes
             PageTableEntry pageTableEntryNova = new PageTableEntry(0L, false);
             pageTable.put(vpn, pageTableEntryNova);
             return pageTableEntryNova;
