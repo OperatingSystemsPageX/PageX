@@ -40,18 +40,27 @@ public class ModoSimulador {
         String input = sc.nextLine();
         Long pageSize = validacaoCli.validStringToLong(input);
 
-        System.out.println("\nDefina o tamanho da sua memória física em B (especifique se a unidade é B ou KB):");
+        System.out.println("\nDefina o tamanho da sua memória física (especifique se a unidade é B ou KB):");
         String input2 = sc.nextLine();
         Long tamanhoMemoriaFisicaB = validacaoCli.validStringToLong(input2);
 
-        if (!validacaoCli.verficaPage(pageSize, tamanhoMemoriaFisicaB)){ 
+        if (!validacaoCli.verificaPage(pageSize, tamanhoMemoriaFisicaB)){ 
             this.maquinaSetUp();
             return;
         }
         configurarMaquina(bits, pageSize, tamanhoMemoriaFisicaB, null);
     }
     
-    public void maquinaSetUp(Long maquinaBits, Long pageSize, Long tamanhoMemoriaFisicaB, String memoriaFisicaAlg) {
+    public void maquinaSetUp(Long maquinaBits, String inputPageSize, String inputTamanhoMemoriaFisicaB, String memoriaFisicaAlg) {
+        Long pageSize = validacaoCli.validStringToLong(inputPageSize);
+        Long tamanhoMemoriaFisicaB = validacaoCli.validStringToLong(inputTamanhoMemoriaFisicaB);
+
+        if (!validacaoCli.verificaPage(pageSize, tamanhoMemoriaFisicaB)){ 
+            System.out.println("Saindo da aplicação!");
+            System.exit(0);
+            return;
+        }
+
         if (tamanhoMemoriaFisicaB == null) {
             tamanhoMemoriaFisicaB = (long) Math.pow(2, maquinaBits);
         }
@@ -64,7 +73,7 @@ public class ModoSimulador {
     }
 
     private void montaMemoriaFisica(Long bits, Long pageSize, Long tamanhoMemoriaFisicaB, String memoriaFisicaAlg) {
-        Long qtdPages = (long) Math.pow(2, bits) / pageSize;
+        Long qtdPages = (long) tamanhoMemoriaFisicaB / pageSize;
     
         AlgoritmoSubstituicaoI<Long> algoritmoMemoriaFisica = criarAlgoritmoSubstituicao(qtdPages, "Memória Física", memoriaFisicaAlg);
     
@@ -206,16 +215,16 @@ public class ModoSimulador {
         System.out.println("[1] Traduzir novo endereço");
         System.out.println("[2] Voltar ao menu inicial");
         System.out.println("[3] Sair");
-        int option = Integer.parseInt(sc.nextLine());
+        String option = sc.nextLine();
 
         switch (option) {
-            case 1:
+            case "1":
                 iniciarSimulacao();
                 break;
-            case 2:
+            case "2":
                 pagex.menuInicial();
                 return;
-            case 3:
+            case "3":
                 System.out.println("\n👋 Obrigado por usar o PageX! Até mais!\n");
                 System.exit(0);
                 break;

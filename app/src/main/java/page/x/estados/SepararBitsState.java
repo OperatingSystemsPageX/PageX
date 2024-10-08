@@ -40,9 +40,10 @@ public class SepararBitsState implements TraducaoState {
     
     private void toStringState() {
         String enderecoVirtualString = Long.toBinaryString(enderecoVirtualCompleto);
-        Integer vpnBits = enderecoVirtualString.length() - maquina.getQtdBitsOffset().intValue();
+        int vpnBits = Math.max(0, enderecoVirtualString.length() - maquina.getQtdBitsOffset().intValue());
         String vpn = enderecoVirtualString.substring(0, Math.min(vpnBits, enderecoVirtualString.length()));
-        String offset = enderecoVirtualString.substring(enderecoVirtualString.length() - maquina.getQtdBitsOffset().intValue());
+        vpn = vpn.length() == 0 ? "0" : vpn;
+        String offset = enderecoVirtualString.substring(Math.max(0, enderecoVirtualString.length() - maquina.getQtdBitsOffset().intValue()));
         System.out.println("\n=========================");
         System.out.println(" SEPARAÇÃO DOS BITS ");
         System.out.println("=========================\n");

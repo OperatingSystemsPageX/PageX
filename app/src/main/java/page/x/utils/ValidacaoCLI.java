@@ -8,7 +8,7 @@ public class ValidacaoCLI {
         this.ceilBits = ceilBits;
     }
 
-    public boolean verficaPage(Long pageSize, Long tamanhoMemoriaFisica) {
+    public boolean verificaPage(Long pageSize, Long tamanhoMemoriaFisica) {
         if (pageSize.compareTo(tamanhoMemoriaFisica) > 0) {
             this.printInvalidPage();
             return false;

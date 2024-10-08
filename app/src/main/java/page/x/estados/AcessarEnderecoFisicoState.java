@@ -49,12 +49,12 @@ public class AcessarEnderecoFisicoState implements TraducaoState {
     }
     
     private void toStringState(Long enderecoFisico) {
-        String enderecoFisicoString = Long.toBinaryString(enderecoFisico);
+        String enderecoFisicoString = Long.toUnsignedString(enderecoFisico, 2);
         String offset = enderecoFisicoString.substring(enderecoFisicoString.length() - maquina.getQtdBitsOffset().intValue());        
         System.out.println("\n=============================");
         System.out.println("        ENDEREÇO FÍSICO:        ");
         System.out.println("==============================\n");
-        System.out.println("Endereço Físico Traduzido: " + enderecoFisico);
+        System.out.println("Endereço Físico Traduzido: " + Long.toUnsignedString(enderecoFisico, 10));
         System.out.print("Representação em binário: ");
         System.out.print(GREEN + Long.toBinaryString(PFN) + RESET);
         System.out.println(RED + offset + RESET);
