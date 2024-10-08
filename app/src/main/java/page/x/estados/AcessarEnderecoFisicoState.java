@@ -9,6 +9,9 @@ public class AcessarEnderecoFisicoState implements TraducaoState {
     private EnderecoVirtual enderecoVirtual;
     private Long PFN;
     private boolean tlbTraducao;
+    public static final String RESET = "\u001B[0m";   
+    public static final String RED = "\u001B[31m";    
+    public static final String GREEN = "\u001B[32m";  
 
     public AcessarEnderecoFisicoState(Maquina maquina, Long PFN, EnderecoVirtual enderecoVirtual, boolean tlbTraducao) {
         this.maquina = maquina;
@@ -29,7 +32,7 @@ public class AcessarEnderecoFisicoState implements TraducaoState {
     @Override
     public void avancaEstado() {
         TraducaoState proximoEstado = new AtualizarTLBState(maquina, enderecoVirtual.getVPN() , this.PFN);
-        if (tlbTraducao) {
+        if (tlbTraducao || maquina.getTlb() == null) {
             proximoEstado = new AguardarTraducao(maquina);
         }
         this.maquina.setTraducaoState(proximoEstado);
@@ -45,11 +48,18 @@ public class AcessarEnderecoFisicoState implements TraducaoState {
         memoriaFisica.acessarEndereco(PFN, offset);
     }
     
-    private void toStringState(Long enderecoFisico) {        
+    private void toStringState(Long enderecoFisico) {
+        String enderecoFisicoString = Long.toUnsignedString(enderecoFisico, 2);
+        String offset = enderecoFisicoString.substring(enderecoFisicoString.length() - maquina.getQtdBitsOffset().intValue());        
         System.out.println("\n=============================");
         System.out.println("        ENDEREÇO FÍSICO:        ");
         System.out.println("==============================\n");
-        System.out.println(enderecoFisico);
+        System.out.println("Endereço Físico Traduzido: " + Long.toUnsignedString(enderecoFisico, 10));
+        System.out.print("Representação em binário: ");
+        System.out.print(GREEN + Long.toBinaryString(PFN) + RESET);
+        System.out.println(RED + offset + RESET);
+        System.out.println("PageFrameNumber (Verde): " + PFN);
+        System.out.println("Offset (Vermelho): " + enderecoVirtual.getOffset());
     }
 }
 

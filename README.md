@@ -67,7 +67,13 @@ Essa execução solicitará que você insira as informações da máquina e da T
 Se você deseja passar uma configuração inicial personalizada, execute o comando abaixo, onde você pode definir parâmetros como o número de bits da máquina, o tamanho da página, o número de entradas na TLB, e o algoritmo da TLB:
 
 ```bash
-make run -- --maquina 32 --page-size 4 --tlb-entry 8 --tlb-alg fifo
+make run -- --maquina 32 --page-size 4B --tlb-entry 8 --tlb-alg fifo
+```
+
+Caso queira que a sua máquina NÃO tenha a TLB, basta omitir as flags dela:
+
+```bash
+make run -- --maquina 32 --page-size 4B 
 ```
 
 Os valores passados no exemplo são ilustrativos. Substitua-os pelos valores que você deseja testar na simulação.
@@ -76,17 +82,18 @@ Os valores passados no exemplo são ilustrativos. Substitua-os pelos valores que
 
 Aqui estão as descrições de cada uma das flags que você pode configurar ao rodar o simulador:
 
-- **`--page-size`**: Define o tamanho da página de memória. Exemplo: `--page-size 4` (onde o tamanho da página é 4 B).
+- **`--page-size`**: Define o tamanho da página de memória. Exemplo: `--page-size 4B` (onde o tamanho da página é 4 Bytes).
 - **`--maquina`**: Define o número de bits da máquina (largura de endereços). Exemplo: `--maquina 32` (máquina com arquitetura de 32 bits).
-- **`--tlb-entry`**: Define o número de entradas na TLB (Translation Lookaside Buffer), que armazena mapeamentos recentes de endereços virtuais para endereços físicos. Exemplo: `--tlb-entry 8`.
-- **`--tlb-alg`**: Define o algoritmo de substituição da TLB. Exemplo: `--tlb-alg fifo`.
+- **`--tlb-entry`**: Define o número de entradas na TLB (Translation Lookaside Buffer), que armazena mapeamentos recentes de endereços virtuais para endereços físicos. Exemplo: `--tlb-entry 8` (opcional).
+- **`--tlb-alg`**: Define o algoritmo de substituição da TLB. Exemplo: `--tlb-alg fifo` (opcional).
+- **`--memoria-fisica`**: Define o tamanho da sua memória física. Exemplo `--memoria-fisica 16KB` (máquina com memória física de 16KB) (opcional).
 
 ### Exemplo Completo de Execução
 
 ```bash
-make run -- --maquina 64 --page-size 8 --tlb-entry 16 --tlb-alg lru
+make run -- --maquina 64 --page-size 8B --tlb-entry 16 --tlb-alg lru
 ```
 
-Neste exemplo, o simulador será configurado para rodar em uma máquina de 64 bits, com páginas de 8B, 16 entradas na TLB, e utilizando o algoritmo de substituição **LRU (Least Recently Used)**.
+Neste exemplo, o simulador será configurado para rodar em uma máquina de 64 bits, com páginas de 8 Bytes, 16 entradas na TLB, e utilizando o algoritmo de substituição **LRU (Least Recently Used)**.
 
 ---
