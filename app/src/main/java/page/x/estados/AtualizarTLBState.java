@@ -1,10 +1,12 @@
 package page.x.estados;
 
 import page.x.Maquina;
+import page.x.TLB.TlbEntry;
 
 public class AtualizarTLBState implements TraducaoState {
     private Maquina maquina;
     private Long VPN, PFN;
+    private TlbEntry oldEntry;
 
     public AtualizarTLBState(Maquina maquina, Long VPN, Long PFN) {
         this.maquina = maquina;
@@ -14,8 +16,8 @@ public class AtualizarTLBState implements TraducaoState {
     
     @Override
     public void efetuarOperacao() {
+        oldEntry = this.maquina.getTlb().addPaginaMapeada(VPN, PFN);
         this.toStringState();
-        this.maquina.getTlb().addPaginaMapeada(VPN, PFN);
         this.avancaEstado();
     }
     
@@ -37,6 +39,8 @@ public class AtualizarTLBState implements TraducaoState {
         System.out.println("\n=============================");
         System.out.println("        ATUALIZANDO TLB        ");
         System.out.println("==============================\n");
-        System.out.println("Seu processo de tradução chegou ao fim!");
+        if (oldEntry != null)
+            System.out.println("O endereço " + oldEntry.getVirtualPageNumber() + " foi expulso e a ");
+        System.out.println("TLB foi atualizado com o VPN: " + VPN);
     }
 }

@@ -51,7 +51,6 @@ public class MemoriaFisica {
         } catch (Interruption e) {
             e.printStackTrace();
         }
-        System.out.printf("%.5f", this.memoriaFisica.get(PFN).getPercentualDeUso());
     }
 
     public PageTable getPageTable() {

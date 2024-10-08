@@ -49,7 +49,8 @@ public class RecuperarVirtualPageDoDisco implements TraducaoState {
     }
     
     private void toStringMapeamento() {
-        System.out.println("Página alocada em Page Frame Number: " + pageTableEntry.getPageFrameNumber() + "\n");
+        System.out.println("Página alocada em Page Frame Number: " + pageTableEntry.getPageFrameNumber());
+        System.out.println("Representação em Binário: " + Long.toBinaryString(pageTableEntry.getPageFrameNumber()));
     }
 
 }
