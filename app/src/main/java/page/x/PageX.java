@@ -41,7 +41,7 @@ public class PageX {
     public void menuInicial() throws Interruption {
         System.out.println( "======================================="  + "\n" +
                             "     🌟 Olá! Bem vindo ao PageX! 🌟     " + "\n" +
-                            "=======================================\n");
+                            "=======================================");
 
         iniciarModoSimulador();
     }
